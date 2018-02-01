@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KeyPhase.Models\KeyPhase.Models.csproj" />
+    <ProjectReference Include="..\KeyPhase.Repository.Interface\KeyPhase.Repository.Interface.csproj" />
+    <ProjectReference Include="..\KeyPhase.Service.Interface\KeyPhase.Service.Interface.csproj" />
+  </ItemGroup>
+
+</Project>

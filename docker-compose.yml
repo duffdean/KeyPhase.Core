@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  keyphase.core:
+    image: keyphase.core
+    build:
+      context: .
+      dockerfile: KeyPhase.Core\Dockerfile

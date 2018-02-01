@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KeyPhase.Models\KeyPhase.Models.csproj" />
+    <ProjectReference Include="..\KeyPhase.Repository.Interface\KeyPhase.Repository.Interface.csproj" />
+    <ProjectReference Include="..\KeyPhase.Repository\KeyPhase.Repository.csproj" />
+    <ProjectReference Include="..\KeyPhase.Service.Interface\KeyPhase.Service.Interface.csproj" />
+    <ProjectReference Include="..\KeyPhase.Service\KeyPhase.Service.csproj" />
+  </ItemGroup>
+
+</Project>

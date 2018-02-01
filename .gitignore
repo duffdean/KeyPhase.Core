@@ -1,0 +1,14 @@
+KeyPhase.Core/bin/
+KeyPhase.Core/obj
+KeyPhase.DTO/bin/
+KeyPhase.DTO/obj/
+KeyPhase.Models/bin/
+KeyPhase.Models/obj/
+KeyPhase.Repository/bin/
+KeyPhase.Repository/obj/
+KeyPhase.Repository.Interfaces/bin/
+KeyPhase.Repository.Interfaces/obj/
+KeyPhase.Service/bin/
+KeyPhase.Service/obj/
+KeyPhase.Service.Interfaces/bin/
+KeyPhase.Service.Interfaces/obj/
