@@ -6,7 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="jquery.cookie" Version="1.4.1" />
+    <PackageReference Include="knockoutjs" Version="3.4.2" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +22,10 @@
     <ProjectReference Include="..\KeyPhase.Repository\KeyPhase.Repository.csproj" />
     <ProjectReference Include="..\KeyPhase.Service.Interface\KeyPhase.Service.Interface.csproj" />
     <ProjectReference Include="..\KeyPhase.Service\KeyPhase.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\scripts\controllers\" />
   </ItemGroup>
 
 </Project>

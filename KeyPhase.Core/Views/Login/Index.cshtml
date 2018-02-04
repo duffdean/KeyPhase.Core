@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+<div class="container body-content background">
+    <div class="card card-container">
+        <img id="profile-img" class="profile-img-card" src="~/images/KeyPhaseLogo_Sml.jpg" />
+        <p id="profile-name" class="profile-name-card" data-bind="text: errorMessage"></p>
+        <form class="form-signin">
+            <span id="reauth-email" class="reauth-email"></span>
+            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" data-bind="value: email, click: clearError" required autofocus>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Password" data-bind="value: password, click: clearError" required>
+
+            <!-- ko if: register -->
+            <input type="password" class="form-control" id="repeatPassword" placeholder="Repeat Password" data-bind="value: repeatPassword, click: clearError" required>
+            <!-- /ko -->
+
+            <div id="remember" class="checkbox">
+                @*<label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                    </label>*@
+            </div>
+            <!-- ko ifnot: register -->
+            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" data-bind="click: login">Sign in</button>
+            <!-- /ko -->
+            <!-- ko if: register -->
+            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" data-bind="click: registerUser">Register</button>
+            <!-- /ko -->
+        </form><!-- /form -->
+        <!-- ko ifnot: register -->
+        <div>
+            Not registered?
+            <a href="#" class="forgot-password" data-bind="click: registerToggle">
+                Create an account
+            </a>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: register -->
+        <div>
+            Already have an account?
+            <a href="#" class="forgot-password" data-bind="click: registerToggle">
+                Sign in
+            </a>
+        </div>
+        <!-- /ko -->
+
+    </div><!-- /card-container -->
+</div>
