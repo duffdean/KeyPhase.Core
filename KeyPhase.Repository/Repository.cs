@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using KeyPhase.Models;
+using System.Linq.Expressions;
 
 namespace KeyPhase.Repository
 {
@@ -22,6 +23,11 @@ namespace KeyPhase.Repository
         {
             var a = _context.Set<T>();
             return a;   
+        }
+
+        public ICollection<T> FindAll(Expression<Func<T, bool>> match)
+        {
+            return _context.Set<T>().Where(match).ToList();
         }
     }
 }

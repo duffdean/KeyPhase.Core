@@ -11,11 +11,15 @@ namespace KeyPhase.Models
         public KeyPhaseDbContext(DbContextOptions<KeyPhaseDbContext> options) : base(options) { }
 
         public virtual DbSet<Project> Project { get; set; }
+        public virtual DbSet<UserProject> UserProject { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Project>()
                 .HasKey(b => b.ID);
+
+            modelBuilder.Entity<UserProject>()
+                .HasKey(x => new { x.UserID, x.ProjectID });
         }
     }
 }

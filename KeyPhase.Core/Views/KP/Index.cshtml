@@ -1,0 +1,77 @@
+﻿@model IEnumerable<KeyPhase.Models.Models.Project>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+@*<div class="container" style="
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 9999;
+">
+    <div class="row">
+        <div class="col-xs-2">
+            <div class="row">
+            <div class="col-xs-11" style="    height: 51px;    background: #323641;    border-color: #080808;    border-width: 0 0 1px;     padding: 0px;">
+                <div class="row">
+                    <div class="col-xs-8">
+                        <img class="pull-left"style="    height: 45px;
+    width: 45px;
+    border-radius: 50px;
+    margin-top: 2px;"src="~/images/Untitled-3.png" />
+                    </div>
+                    <div class="col-xs-4">vvvvvv</div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-2">
+            <div class="row">
+                <div class="col-xs-11" style="
+    height: 50px;
+    background: red;
+"></div>
+            </div>
+        </div>
+
+
+    </div>
+</div>*@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <img style="    height: 45px;
+    width: 45px;
+    border-radius: 50px;
+    margin-top: 2px;"src="~/images/Untitled-3.png" />
+            <a asp-area="" class="navbar-brand">KeyPhase</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a>Dashboard</a></li>
+                <li><a>My Projects</a></li>
+                <li><a>My Tasks</a></li>
+                <li><a>Reports</a></li>
+                <li><a asp-area="" >Stream</a></li>
+            </ul>
+            <div class="hidden-xs" style="position: fixed;
+    right: 0px;
+    margin: 15px;">
+                <div>DD</div>
+                <div>Dean</div>
+            </div>
+        </div>
+    
+</nav>
+<span class="lnr lnr-menu"></span>

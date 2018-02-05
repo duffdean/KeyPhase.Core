@@ -20,6 +20,7 @@ namespace KeyPhase.Core.Controllers
 
         public IActionResult Index()
         {
+            var test2 = _testService.FindAll();
             var test = _testService.GetAll();
             return View();
         }
