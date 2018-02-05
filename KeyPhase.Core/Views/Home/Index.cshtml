@@ -2,105 +2,153 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-        <li data-target="#myCarousel" data-slide-to="3"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="~/images/banner1.svg" alt="ASP.NET" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Learn how to build ASP.NET apps that can run anywhere.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner2.svg" alt="Visual Studio" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    There are powerful new features in Visual Studio for building modern web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner3.svg" alt="Package Management" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Bring in libraries from NuGet and npm, and automate tasks using Grunt or Gulp.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525029&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner4.svg" alt="Microsoft Azure" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Learn how Microsoft's Azure cloud platform allows you to build, deploy, and scale web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
+    <!-- custom css -->
+    <link rel="stylesheet" href="css/templatemo-style.css">
 
-<div class="row">
-    <div class="col-md-3">
-        <h2>Application uses</h2>
-        <ul>
-            <li>Sample pages using ASP.NET Core MVC</li>
-            <li>Theming using <a href="https://go.microsoft.com/fwlink/?LinkID=398939">Bootstrap</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>How to</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398600">Add a Controller and View</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699315">Manage User Secrets using Secret Manager.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699316">Use logging to log a message.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699317">Add packages using NuGet.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699319">Target development, staging or production environment.</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>Overview</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699320">Fundamentals of ASP.NET Core such as Startup and middleware.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398602">Working with Data</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398603">Security</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699321">Client side development</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699322">Develop on different platforms</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699323">Read more on the documentation site</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>Run &amp; Deploy</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517853">Run tools such as EF migrations and more</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
-        </ul>
-    </div>
-</div>
+    <!-- start navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top templatemo-nav" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon icon-bar"></span>
+                    <span class="icon icon-bar"></span>
+                    <span class="icon icon-bar"></span>
+                </button>
+                <img style="    height: 45px;
+    width: 45px;
+    border-radius: 50px;
+    margin-top: 10px;" src="~/images/Untitled-3.png" />
+                <a href="#" class="navbar-brand" style="    position: relative;
+    top: 15px;     color: #28a7e9 !important;">KeyPhase</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right text-uppercase" style="    margin-right: 50px !important;">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#feature">Features</a></li>
+                    @*<li><a href="#pricing">Pricing</a></li>*@
+                    <li><a>Login</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class=" hidden-xs" style="
+       background: blueviolet;
+       position: absolute;
+       right: 20px;
+       top: 17px;
+       height: 35px;
+       width: 100px;
+">
+                    <span class="lnr lnr-enter" style="
+    font-size: 25px;
+    line-height: 35px;
+    padding: 5px;
+"></span><div style="
+    display: inline-block;
+    padding: 0px 0px 0px 5px;
+    position: relative;
+    bottom: 5px;
+">Login</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- end navigation -->
+    <!-- start home -->
+    <section id="home">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10 wow fadeIn" data-wow-delay="0.3s">
+                        <h1 class="text-upper">Software Landing Page</h1>
+                        <p class="tm-white">Boxer is a fully Responsive, Clean Design, Modern, and Flexible Software Landing Page for startups, businesses and agencies. It is built with HTML5 &amp; CSS3, Bootstrap 3.3.4, Font Awesome 4.3.0, and much more. Designed by <a rel="nofollow" href="http://www.facebook.com/templatemo" target="_parent">templatemo</a>. Images by <a rel="nofollow" href="http://pixabay.com" target="_blank">Pixabay</a></p>
+                        <img src="images/software-img.png" class="img-responsive" alt="home img">
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end home -->
+
+    <!-- start divider -->
+    <section id="divider">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 wow fadeInUp templatemo-box" data-wow-delay="0.3s">
+                    <i class="fa fa-laptop"></i>
+                    <h3 class="text-uppercase">RESPONSIVE LAYOUT</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. </p>
+                </div>
+                <div class="col-md-4 wow fadeInUp templatemo-box" data-wow-delay="0.3s">
+                    <i class="fa fa-twitter"></i>
+                    <h3 class="text-uppercase">BOOTSTRAP 3.3.4</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. </p>
+                </div>
+                <div class="col-md-4 wow fadeInUp templatemo-box" data-wow-delay="0.3s">
+                    <i class="fa fa-font"></i>
+                    <h3 class="text-uppercase">GOOGLE FONT</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end divider -->
+    <!-- start feature -->
+    <section id="feature">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="text-uppercase">Our Software Features</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p><span><i class="fa fa-mobile"></i></span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p><i class="fa fa-code"></i>Quis autem velis reprehenderit et quis voluptate velit esse quam.</p>
+                </div>
+                <div class="col-md-6">
+                    <img src="images/software-img.png" class="img-responsive" alt="feature img">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end feature -->
+
+    <!-- start contact -->
+    <section id="contact">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2 class="text-uppercase">Contact Us</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. </p>
+                        <address>
+                            <p><i class="fa fa-map-marker"></i>36 Street Name, City Name, United States</p>
+                            <p><i class="fa fa-phone"></i> 010-010-0110 or 020-020-0220</p>
+                            <p><i class="fa fa-envelope-o"></i> info@company.com</p>
+                        </address>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="contact-form">
+                            <form action="#" method="post">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="Name">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control" placeholder="Email">
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" placeholder="Subject">
+                                </div>
+                                <div class="col-md-12">
+                                    <textarea class="form-control" placeholder="Message" rows="4"></textarea>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="submit" class="form-control text-uppercase" value="Send">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end contact -->
+    <!-- start footer -->
