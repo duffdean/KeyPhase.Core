@@ -11,8 +11,6 @@ app.View = app.View || {};
         vm.register = ko.observable(false);
         vm.registerUser = vmFunctions.events.register;
         vm.login = vmFunctions.events.login;
-        //vm.processStarting = ko.observable(false);
-        //vm.loadingProcesses = ko.observable(false);
         vm.registerToggle = vmFunctions.events.registerToggle;
         vm.email = ko.observable("");
         vm.password = ko.observable("");
@@ -46,6 +44,10 @@ app.View = app.View || {};
                     if (viewModel.password().length <= 0) {
                         viewModel.errorMessage("Please enter a password")
                     }
+                    else {
+                        window.location.href = "/kp";
+                    }
+                    
                 }
                 else {
                     viewModel.errorMessage("Invalid email entered")

@@ -1,4 +1,35 @@
-﻿.nopadding {
+﻿.loader {
+    border: 16px solid #1bb9e1;
+    border-radius: 50%;
+    border-top: 16px solid #0a4361;
+    width: 160px;
+    height: 160px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 1.5s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.nopadding {
     padding: 0 !important;
     margin: 0 !important;
 }

@@ -24,9 +24,9 @@ namespace KeyPhase.Core.Controllers.Api
 
         // GET: api/Projects
         [HttpGet]
-        public IEnumerable<Project> GetAllProjects()
+        public IEnumerable<Project> GetUserProjects(int UserID)
         {
-            return _projectService.GetAll();
+            return _projectService.GetAllForUser(UserID);
         }
 
         //// GET: api/Projects/5

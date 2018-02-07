@@ -11,27 +11,27 @@ namespace KeyPhase.Service
 {
     public class ProjectService : IProjectService
     {
-        private readonly IRepository<Project> _testRepository;
+        private readonly IRepository<Project> _projRepository;
         private readonly IRepository<UserProject> _userProjRepository;
 
-        public ProjectService(IRepository<Project> testRepository, IRepository<UserProject> userProjRepository)
+        public ProjectService(IRepository<Project> ProjRepository, IRepository<UserProject> userProjRepository)
         {
-            _testRepository = testRepository;
+            _projRepository = ProjRepository;
             _userProjRepository = userProjRepository;
         }
 
         public IEnumerable<Project> GetAll()
         {
-            var a = _testRepository.GetAll();
+            var a = _projRepository.GetAll();
 
             return a;
         }
 
-        public IEnumerable<Project> FindAll()
+        public IEnumerable<Project> GetAllForUser(int UserID)
         {
-            var b = _userProjRepository.FindAll(c => c.UserID == 1);
+            var b = _userProjRepository.FindAll(c => c.UserID == UserID);
             //var a = _testRepository.FindAll(c => c.Name == "test project");
-            IEnumerable<Project> a = _testRepository.GetAll().Where(p => b.Any(cb => cb.ProjectID == p.ID));
+            IEnumerable<Project> a = _projRepository.GetAll().Where(p => b.Any(cb => cb.ProjectID == p.ID));
            
             return a;
         }

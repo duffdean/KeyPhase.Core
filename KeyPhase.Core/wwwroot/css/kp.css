@@ -1,0 +1,33 @@
+﻿/*Dashboard Sidebar*/
+.project-title {
+    /*background-color: #1c3542;*/
+    height: 30px;
+    line-height: 30px;
+    border-radius: 0px 10px 10px 0px;
+}
+
+    .project-title:hover {        
+        background-color: #474d5d;
+        -webkit-transition: background-color 0.5s ease-out;
+        -moz-transition: background-color 0.5s ease-out;
+        -o-transition: background-color 0.5s ease-out;
+        transition: background-color 0.5s ease-out;
+    }
+        .project-title:hover > .project-fav {
+            opacity: 1;
+        }
+
+.project-fav {
+    float: right;
+    line-height: 30px;
+    padding-right: 5px;
+    opacity: 0;
+    transition: opacity 0.3s linear;
+}
+    /*.project-fav:hover {
+        display: inline-block;
+        -webkit-transition: background-color 0.5s ease-out;
+        -moz-transition: background-color 0.5s ease-out;
+        -o-transition: background-color 0.5s ease-out;
+        transition: background-color 0.5s ease-out;
+    }*/
