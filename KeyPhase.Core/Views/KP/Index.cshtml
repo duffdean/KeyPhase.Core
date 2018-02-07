@@ -24,11 +24,11 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a>Dashboard</a></li>
-                    <li><a>My Projects</a></li>
-                    <li><a>My Tasks</a></li>
-                    <li><a>Reports</a></li>
-                    <li><a asp-area="">Stream</a></li>
+                    <li><a data-bind="click: updateUI">Dashboard</a></li>
+                    <li><a data-bind="click: updateUI">My Projects</a></li>
+                    <li><a data-bind="click: updateUI">My Tasks</a></li>
+                    <li><a data-bind="click: updateUI">Reports</a></li>
+                    <li><a data-bind="click: updateUI">Stream</a></li>
                 </ul>
                 <div class="hidden-xs" style="position: fixed;
     right: 0px;
@@ -40,37 +40,38 @@
 
         </nav>
     </div>
-    <div class="row contentArea" style="    background-color: #1b1e23;
+    <div class="row contentArea ca ca-dash" style="    background-color: #1b1e23;
     height: 100%;">
         @*dash-sidebar*@
-        <div class="col-xs-2 nopadding" style="background-color: rgb(50, 54, 65); top: 0px; height: 100%; border-right: #3a4258;
+        <div class="col-xs-2 nopadding dash-sidebar" style="background-color: rgb(50, 54, 65); top: 0px; height: 100%; border-right: #3a4258;
     border-right-width: 1px;
     border-right-style: solid;">
-            fdgdfgdgf<span class="lnr lnr-chevron-left" style="
+            fdgdfgdgf<span class="lnr lnr-chevron-left sideChev" style="
     position: relative;
     float: right;
     padding-right: 5px;
     top: 50vh;
     font-size: 10px;
     cursor: pointer;
-"></span>
+" data-bind="click: dashSideSlide"></span>
             <div style="
     position: relative;
     top: 30px;
-"><div class="row" style="margin-top: 15px;">
-      <div class="col-xs-12" style="
+" class="dashSidebarContent">
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-xs-12" style="
     /* margin-right: -8px; */
 ">
-          <span class="lnr lnr-funnel" style="
+                        <span class="lnr lnr-funnel" style="
     display: inline-block;
-    padding-left: 15px;
-    font-size: 18px;
+    padding-left: 10px;
+    font-size: 15px;
     /* line-height: 13px; */
     position: relative;
     top: 3px;
 "></span>
-          <input type="text" name="projFilter" placeholder="Filter" style="
-    border: none;
+                        <input type="text" name="projFilter" placeholder="Filter" style="
+        border: none;
     margin: 0;
     padding: 0;
     display: table-cell;
@@ -83,19 +84,22 @@
     background-color: transparent;
     border: none;
     border-bottom: 1px solid rgba(255,255,255,.5);
+    font-size: 15px;
 ">
-      </div>
-    </div>
-  <div class="row" style="
+                    </div>
+                </div>
+                <div class="row" style="
     margin-top: 15px;
 ">
-      <div class="col-xs-11 nopadding project-title">
-          <span style="
+                    <!-- ko foreach: { data: userProjects, as: 'userProjects' } -->
+                    <div class="col-xs-11 nopadding project-title">
+                        <span style="
     margin-left: 35px;
-">Project Name</span>
-          <span class="lnr lnr-star-empty project-fav"></span>
-      </div>
-  </div>
+" data-bind="text: userProjects.Name"></span>
+                        <span class="lnr lnr-star-empty project-fav"></span>
+                    </div>
+                    <!-- /ko -->
+                </div>
             </div>
         </div>
         <div class="col-xs-10">

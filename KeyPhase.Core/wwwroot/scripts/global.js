@@ -5,5 +5,4 @@ app.Global = app.Global || {};
     'use strict';
 
     app.Global.BaseAddress = "http://localhost:61238/api/";
-
 })();

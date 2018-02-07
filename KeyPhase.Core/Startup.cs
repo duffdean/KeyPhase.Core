@@ -17,6 +17,7 @@ using KeyPhase.Repository.Interface;
 using KeyPhase.Repository;
 using KeyPhase.Service.Interface;
 using KeyPhase.Service;
+using Newtonsoft.Json.Serialization;
 
 namespace KeyPhase.Core
 {
@@ -33,8 +34,14 @@ namespace KeyPhase.Core
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            //Had issue with json properties being defaulted to camelCase by .Net Core
+            //Found solution at https://stackoverflow.com/questions/38202039/json-properties-now-lower-case-on-swap-from-asp-net-core-1-0-0-rc2-final-to-1-0
+            services.AddMvc()
+            .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+
             services.AddDbContext<KeyPhaseDbContext>(options =>
-         options.UseSqlServer(Configuration.GetConnectionString("KeyPhaseDB")));
+            options.UseSqlServer(Configuration.GetConnectionString("KeyPhaseDB")));
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IProjectService, ProjectService>();

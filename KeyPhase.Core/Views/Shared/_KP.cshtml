@@ -48,14 +48,20 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
+    <!--LIBRARIES-->
     <script type="text/javascript" src="~/lib/knockout/dist/knockout.js"></script>
     <script type="text/javascript" src="~/lib/jquery.cookie/jquery.cookie.js"></script>
+    <script src="~/lib/underscore-min.js"></script>
+
     <!--GLOBALS-->
     <script src="~/scripts/global.js"></script>
+
     <!--VIEWS-->
     <script src="~/scripts/views/kp.view.js"></script>
+
     <!--CONTROLLERS-->
     <script src="~/scripts/controllers/projects.js"></script>
+
     @RenderBody()
     @RenderSection("Scripts", required: false)
 </body>

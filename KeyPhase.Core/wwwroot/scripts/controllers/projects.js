@@ -11,12 +11,12 @@ app.Controllers = app.Controllers || {};
                 type: "GET",
                 data: {
                     UserID: id,
-                },
-                success: function (response) {
-                },
-                error: function (xhr) {
                 }
-            });
+            })
+                .done(function (obj) {
+            })
+                .fail(function (obj) {
+                });
         },
 
         Get: function (options, id) {
