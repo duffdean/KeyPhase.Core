@@ -35,6 +35,5 @@ namespace KeyPhase.Service
            
             return a;
         }
-        
     }
 }
