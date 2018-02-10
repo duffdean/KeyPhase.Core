@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\KeyPhase.Models\KeyPhase.Models.csproj" />
     <ProjectReference Include="..\KeyPhase.Repository.Interface\KeyPhase.Repository.Interface.csproj" />
     <ProjectReference Include="..\KeyPhase.Service.Interface\KeyPhase.Service.Interface.csproj" />
