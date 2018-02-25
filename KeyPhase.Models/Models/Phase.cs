@@ -13,5 +13,6 @@ namespace KeyPhase.Models.Models
         public string Name { get; set; }
         public int Position { get; set; }
         public bool? Active { get; set; }
+        public List<Task> Tasks { get; set; }
     }
 }

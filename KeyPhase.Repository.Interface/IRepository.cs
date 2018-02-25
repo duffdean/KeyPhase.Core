@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace KeyPhase.Repository.Interface
 {
     public interface IRepository<T> where T : class
     {
+        T Get(int ID);
         IQueryable<T> GetAll();
-        ICollection<T> FindAll(Expression<Func<T, bool>> match);
+        Task<ICollection<T>> GetAllAsync();
+        ICollection<T> FindAll(Expression<Func<T, bool>> Match);
     }
 }

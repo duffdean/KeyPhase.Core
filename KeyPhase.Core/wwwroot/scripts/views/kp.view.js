@@ -11,7 +11,9 @@ app.View = app.View || {};
 
         vm.userProjects = ko.observableArray([]);
         vm.projectTasks = ko.observableArray([]);
+        vm.currentProject = ko.observable(null);
 
+        vm.dragPhase = page.events.DragPhase;
         vm.login = page.helpers.loginRedirect;
         vm.dashSideSlide = page.helpers.dashSideSlide;
         vm.updateUI = page.helpers.updateUI;
@@ -21,6 +23,8 @@ app.View = app.View || {};
         vm.KPSettings = ko.observableArray();
         vm.contentLoading = ko.observable(false);
 
+        
+
         return vm;
     }
 
@@ -29,7 +33,7 @@ app.View = app.View || {};
         },
 
         events: {
-            GetProjectData: function () {
+            GetProjects: function () {
                 var requests = [];
                 
                 requests.push(page.getters.GetUserProjects());
@@ -37,6 +41,15 @@ app.View = app.View || {};
                 $.when.apply(undefined, requests).then(function () {
                     viewModel.contentLoading(false);
                 });                
+            },
+            GetProjectData: function () {
+                var requests = [];
+
+                requests.push(page.getters.GetProjectData());
+
+                $.when.apply(undefined, requests).then(function () {
+                    viewModel.contentLoading(false);
+                });
             },
             GetTaskData: function () {
 
@@ -108,23 +121,62 @@ app.View = app.View || {};
         viewModel: null,
 
         events: {
+            DragPhase: function (event) {
+                event.dataTransfer.setData
+                    ('target_id', ev.target.id);
+            },
             LoadProjectData: function (proj) {
                 var requests = [];
                 //show loader while getting data 
-                requests.push(page.getters.GetProjectTasks(proj.ID));
+                requests.push(page.getters.GetProjectData(proj.ID));
 
                 $.when.apply(undefined, requests).then(function () {
                     //remove loader
                 });
+            },
+            EnableDraggable: function () {
+                $(".tasktest").draggable({ cursor: "crosshair", revert: "invalid"});
+
+$(".tester").droppable({ accept: ".tasktest", 
+           drop: function(event, ui) {
+                    console.log("drop");                   
+             var dropped = ui.draggable;
+            var droppedOn = $(this);
+            $(dropped).detach().css({top: 0,left: 0}).appendTo(droppedOn);      
+             
+             
+                }, 
+          over: function(event, elem) {
+                  $(this).addClass("over");
+                   console.log("over");
+          }
+                ,
+                  out: function(event, elem) {
+                    $(this).removeClass("over");
+                  }
+                     });
+$(".tester").sortable();
             }
         },
 
         getters: {
+            GetProjectData: function (ProjID) {
+
+                return app.Controllers.Projects.GetProjectDetailed(ProjID)
+                    .done(function (obj) {
+                        viewModel.currentProject(ko.mapping.fromJS(obj));
+                        //viewModel.currentProject(obj);
+                    })
+                    .always(function () {
+
+                    });
+            },
             GetUserProjects: function () {
 
                 return app.Controllers.Projects.GetUserProjects(1)
                     .done(function (obj) {
-                        viewModel.userProjects(_.map(obj, vmFunctions.mappers.MapProject));
+                        viewModel.userProjects(ko.mapping.fromJS(obj));
+                        //viewModel.userProjects(_.map(obj, vmFunctions.mappers.MapProject));
                     })
                     .always(function () {
 
@@ -147,8 +199,8 @@ app.View = app.View || {};
                 viewModel.KPSettings({
                     Pages: {
                         Dash: 'dashboard',
-                        Projects: 'my projects',
-                        Tasks: 'my tasks',
+                        Projects: 'projects',
+                        Tasks: 'workload',
                         Stream: 'stream',
                         Reports: 'reports'
                     }
@@ -161,7 +213,7 @@ app.View = app.View || {};
                 
                 curTab = event.currentTarget.text.toLowerCase();
 
-                if (curTab != viewModel.currentPage()) {
+                if (curTab !== viewModel.currentPage()) {
                     viewModel.contentLoading(true);
                     viewModel.currentPage(curTab);
 
@@ -170,7 +222,7 @@ app.View = app.View || {};
                             vmFunctions.events.GetDashboardData();
                             break;
                         case viewModel.KPSettings().Pages.Projects:
-                            vmFunctions.events.GetProjectData();
+                            vmFunctions.events.GetProjects();
                             break;
                         case viewModel.KPSettings().Pages.Tasks:
                             break;

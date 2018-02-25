@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using KeyPhase.Models;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace KeyPhase.Repository
 {
@@ -19,10 +20,20 @@ namespace KeyPhase.Repository
             _context = context;
         }
 
+        public T Get(int ID)
+        {
+            return _context.Set<T>().Find(ID);
+        }
+
         public IQueryable<T> GetAll()
         {
             var a = _context.Set<T>();
             return a;   
+        }
+
+        public async Task<ICollection<T>> GetAllAsync()
+        {
+            return await _context.Set<T>().ToListAsync();
         }
 
         public ICollection<T> FindAll(Expression<Func<T, bool>> match)

@@ -26,16 +26,33 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a data-bind="click: updateUI">Dashboard</a></li>
-                    <li><a data-bind="click: updateUI">My Projects</a></li>
-                    <li><a data-bind="click: updateUI">My Tasks</a></li>
+                    <li><a data-bind="click: updateUI">Projects</a></li>
+                    <li><a data-bind="click: updateUI">Workload</a></li>
                     <li><a data-bind="click: updateUI">Reports</a></li>
                     <li><a data-bind="click: updateUI">Stream</a></li>
                 </ul>
                 <div class="hidden-xs" style="position: fixed;
     right: 0px;
     margin: 15px;">
-                    <div>DD</div>
-                    <div>Dean</div>
+                    <div style="
+    content: attr(data-letters);
+    display:inline-block;
+    font-size: 1em;
+    width: 2.5em;
+    height:2.5em;
+    line-height:2.5em;
+    text-align:center;
+    border-radius:50%;
+    background: #d23b65;
+    /* vertical-align:middle; */
+    /* margin-right: 1em; */
+    color:white;
+    /* top: 0px; */
+    /* position: relative; */
+">DD</div>
+                    <div style="
+    display: inline-block;
+">Dean</div>
                 </div>
             </div>
 
@@ -93,7 +110,7 @@
     </div>
 
 
-    <!--ko if: currentPage() == 'my projects'-->
+    <!--ko if: currentPage() == 'projects'-->
     <!--ko ifnot: contentLoading-->
     <div class="row contentArea ca ca-dash" style="    background-color: #1b1e23;
     height: 100%;">
@@ -147,7 +164,7 @@
                 <div class="row" style="
     margin-top: 15px;
 ">
-                    <!-- ko foreach: { data: userProjects, as: 'userProjects' } -->
+                    <!-- ko foreach: { data: userProjects(), as: 'userProjects' } -->
                     <div class="col-xs-11 nopadding project-title">
                         <span style="
     margin-left: 35px;
@@ -167,12 +184,41 @@
     border-right-width: 1px;
     border-right-style: solid;
     overflow: auto;">
-            <div class="row">cvbnvn</div>
-            <div class="row">vbnvcn</div>
+            <div class="row" style="
+    height: 51px;
+">cvbnvn</div>
+            <!--ko with: currentProject()-->
+            <div class="row">
+                <!-- ko foreach: { data: $data.PhaseTasks, as: 's' } -->
+                <div class="tester" style="
+       width: 275px;
+    background: #323641;
+    display: inline-block;
+    min-height: 150px;
+        float: left;
+    margin: 15px;
+">
+                    <div style="
+    cursor: pointer;" data-bind="text: s.Name">
+
+                    </div>
+                    <!-- ko foreach: { data: s.Tasks, as: 'tasks' } -->
+                    <div class="tasktest" style="    height: 45px;
+    background: #3e424d;
+    border-radius: 5px;
+    width: 95%;
+    margin: auto;" data-bind="text: tasks.Name"></div>
+                    <!-- /ko -->
+                </div>
+                <!-- /ko -->
+            </div>
+            
+            <!-- /ko -->
         </div>
 
     </div>
-    <!--/ko--><!--/ko-->
+    <!--/ko-->
+    <!--/ko-->
     <!--ko if: currentPage() == 'dashboard' -->
     <div class="row contentArea ca ca-dash" style="    background-color: #1b1e23;
     height: 100%;">
@@ -185,8 +231,12 @@
     border-right-width: 1px;
     border-right-style: solid;
     overflow: auto;">
-            <div class="row">cvbnvn</div>
-            <div class="row">vbnvcn</div>
+            <div class="row" style="
+    height: 52px;
+">cvbnvn</div>
+
+            <div class="row">
+            </div>
         </div>
 
     </div>

@@ -46,6 +46,7 @@ namespace KeyPhase.Core
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IProjectService, ProjectService>();
             services.AddTransient<ITaskService, TaskService>();
+            services.AddTransient<IKPCombinedService, KPCombinedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

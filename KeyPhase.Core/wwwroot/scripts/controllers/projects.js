@@ -5,6 +5,20 @@ app.Controllers = app.Controllers || {};
     'use strict';
 
     app.Controllers.Projects = {
+        GetProjectDetailed: function (id) {
+            return $.ajax({
+                url: app.Global.BaseAddress + app.Global.Controllers.Compound,
+                type: "GET",
+                data: {
+                    ProjectID: id,
+                }
+            })
+                .done(function (obj) {
+                })
+                .fail(function (obj) {
+                });
+        },
+
         GetUserProjects: function (id) {
             return $.ajax({
                 url: app.Global.BaseAddress + "projects/",
@@ -21,7 +35,7 @@ app.Controllers = app.Controllers || {};
 
         Get: function (options, id) {
             return $.ajax({
-                url: app.Global.BaseAddress + "projects/",
+                url: app.Global.BaseAddress + "projects",
                 type: "GET",
                 data: {
                     UserID: id,

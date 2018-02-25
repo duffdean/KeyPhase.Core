@@ -14,6 +14,7 @@ namespace KeyPhase.Models
         public virtual DbSet<UserProject> UserProject { get; set; }
         public virtual DbSet<Task> Task { get; set; }
         public virtual DbSet<ProjectTask> ProjectTask{ get; set; }
+        public virtual DbSet<Phase> Phase { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +29,9 @@ namespace KeyPhase.Models
 
             modelBuilder.Entity<ProjectTask>()
                 .HasKey(x => new { x.ProjectID, x.TaskID});
+
+            modelBuilder.Entity<Phase>()
+                .HasKey(b => b.ID);
         }
     }
 }
