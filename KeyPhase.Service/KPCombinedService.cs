@@ -38,5 +38,14 @@ namespace KeyPhase.Service
 
             return Mapper.MapCustomerDetails(project, phases);
         }
+
+        public ProjectOverview UserProjectsOverview(int UserID)
+        {
+            IEnumerable<UserProject> userProjects = _userProjectRepository.FindAll(c => c.UserID == UserID);
+            List<Project> projects = _projRepository.GetAll().Where(p => userProjects.Any(cb => cb.ProjectID == p.ID)).ToList();
+            List<Phase> phases = _phaseRepository.GetAll().Where(t => projects.Any(cb => cb.PhaseID == t.ID)).ToList();
+
+            return Mapper.MapProjectOverview(projects, phases);
+        }
     }
 }

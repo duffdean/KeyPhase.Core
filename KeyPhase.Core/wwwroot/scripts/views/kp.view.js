@@ -9,15 +9,18 @@ app.View = app.View || {};
     function VM() {
         var vm = this;
 
-        vm.userProjects = ko.observableArray([]);
+        vm.userProjects = ko.observable([]);
+        vm.projectOverview = ko.observable(null);
         vm.projectTasks = ko.observableArray([]);
         vm.currentProject = ko.observable(null);
+
 
         vm.dragPhase = page.events.DragPhase;
         vm.login = page.helpers.loginRedirect;
         vm.dashSideSlide = page.helpers.dashSideSlide;
         vm.updateUI = page.helpers.updateUI;
         vm.loadProjectData = page.events.LoadProjectData;
+
 
         vm.currentPage = ko.observable('');
         vm.KPSettings = ko.observableArray();
@@ -37,6 +40,7 @@ app.View = app.View || {};
                 var requests = [];
                 
                 requests.push(page.getters.GetUserProjects());
+                requests.push(page.getters.GetProjectsOverview());
 
                 $.when.apply(undefined, requests).then(function () {
                     viewModel.contentLoading(false);
@@ -58,7 +62,7 @@ app.View = app.View || {};
                 
             }
         },
-
+        //May not need any mappers now, as data is retruned as json by default. So can probably get away with ko.fromJS mapping.
         mappers: {
             MapProject: function (project) {
                 project = $.extend({
@@ -160,6 +164,16 @@ $(".tester").sortable();
         },
 
         getters: {
+            GetProjectsOverview: function () {
+                return app.Controllers.Projects.GetProjectsOverview(1) //replace with userid
+                    .done(function (obj) {
+                        viewModel.projectOverview(ko.mapping.fromJS(obj));
+                        //viewModel.currentProject(obj);
+                    })
+                    .always(function () {
+
+                    });
+            },
             GetProjectData: function (ProjID) {
 
                 return app.Controllers.Projects.GetProjectDetailed(ProjID)
@@ -175,7 +189,10 @@ $(".tester").sortable();
 
                 return app.Controllers.Projects.GetUserProjects(1)
                     .done(function (obj) {
-                        viewModel.userProjects(ko.mapping.fromJS(obj));
+                        for (var i = 0; i < obj.length; i++) {
+                            viewModel.userProjects().push(ko.mapping.fromJS(obj[i]));
+                        }
+                        //viewModel.userProjects(ko.mapping.fromJS(obj));
                         //viewModel.userProjects(_.map(obj, vmFunctions.mappers.MapProject));
                     })
                     .always(function () {
@@ -243,12 +260,12 @@ $(".tester").sortable();
                 var content, sideBar, spacer, dashContent;
 
                 content = $('.dashSidebarContent');
-                sideBar = $('.dash-sidebar');
+                sideBar = $('.projSidebar');
                 spacer = $('.ca-dash-spacer');
                 dashContent = $('.ca-dash-content');
 
                 if (content.is(':visible')) {
-                    $('.sideChev').removeClass('lnr-chevron-left').addClass('lnr-chevron-right');
+                    $('.projSidebar-chevron').removeClass('lnr-chevron-left').addClass('lnr-chevron-right');
                     spacer.removeClass('col-xs-2');
                     dashContent.removeClass('col-xs-10');
                     dashContent.addClass('col-xs-12');
@@ -256,7 +273,7 @@ $(".tester").sortable();
                     sideBar.width(20);
                 }
                 else {
-                    $('.sideChev').removeClass('lnr-chevron-right').addClass('lnr-chevron-left');
+                    $('.projSidebar-chevron').removeClass('lnr-chevron-right').addClass('lnr-chevron-left');
                     spacer.addClass('col-xs-2');
                     dashContent.removeClass('col-xs-12');
                     dashContent.addClass('col-xs-10');
@@ -283,7 +300,7 @@ $(".tester").sortable();
             ko.applyBindings(viewModel);
             //page.helpers.fillHeight();
             page.helpers.KPSettings()
-            requests.push(page.getters.GetUserProjects());
+            //requests.push(page.getters.GetUserProjects());
             //requests.push(gets.GetProjects());
             $.when.apply(undefined, requests).then(function () {
                 page.helpers.removeLoader();

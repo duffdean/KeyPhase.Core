@@ -14,5 +14,6 @@ namespace KeyPhase.Models.Models
         public int Position { get; set; }
         public bool? Active { get; set; }
         public List<Task> Tasks { get; set; }
+        public List<Project> Projects { get; set; }
     }
 }

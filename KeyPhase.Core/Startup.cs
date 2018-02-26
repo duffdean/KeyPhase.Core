@@ -38,7 +38,10 @@ namespace KeyPhase.Core
             //Had issue with json properties being defaulted to camelCase by .Net Core
             //Found solution at https://stackoverflow.com/questions/38202039/json-properties-now-lower-case-on-swap-from-asp-net-core-1-0-0-rc2-final-to-1-0
             services.AddMvc()
-            .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())
+            .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            //Second issue was with lazy loading in .net core 2
+            //Solution found here : https://stackoverflow.com/questions/41489674/net-core-web-api-call-err-connection-reset-only-on-iis-other-calls-working
 
             services.AddDbContext<KeyPhaseDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("KeyPhaseDB")));

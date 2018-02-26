@@ -10,6 +10,7 @@ namespace KeyPhase.Service.Interface
     public interface IKPCombinedService
     {
         ProjectDetailed SelectedProject(int ProjectID);
+        ProjectOverview UserProjectsOverview(int UserID);
         //IEnumerable<Task> GetAll();
         //IEnumerable<Task> GetAllForProject(int ProjectID);
     }

@@ -6,8 +6,8 @@ app.Global = app.Global || {};
 
     app.Global.BaseAddress = "http://localhost:61238/api/";
     app.Global.Controllers = {
-        Compound: "compound",
-        Project: "projects",
-        Task: "tasks"
+        Compound: "compound/",
+        Project: "projects/",
+        Task: "tasks/"
     };
 })();
