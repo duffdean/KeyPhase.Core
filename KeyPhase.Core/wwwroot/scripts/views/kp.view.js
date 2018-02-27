@@ -131,6 +131,9 @@ app.View = app.View || {};
             },
             LoadProjectData: function (proj) {
                 var requests = [];
+
+                $('.proj-overview').fadeOut();
+
                 //show loader while getting data 
                 requests.push(page.getters.GetProjectData(proj.ID));
 
@@ -189,6 +192,10 @@ $(".tester").sortable();
 
                 return app.Controllers.Projects.GetUserProjects(1)
                     .done(function (obj) {
+                        if (viewModel.userProjects().length) {
+                            viewModel.userProjects([]);
+                        }
+
                         for (var i = 0; i < obj.length; i++) {
                             viewModel.userProjects().push(ko.mapping.fromJS(obj[i]));
                         }

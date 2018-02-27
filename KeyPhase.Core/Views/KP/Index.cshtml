@@ -82,22 +82,22 @@
     height: 51px;
 ">cvbnvn</div>
 
-
-            <div class="row">
-                <!-- ko foreach: { data: $data.PhaseTasks, as: 's' } -->
+            <!--ko with: projectOverview()-->
+            <div class="row proj-overview">
+                <!-- ko foreach: { data: $data.ProjectPhases, as: 'p' } -->
                 <div class="tester projPhase">
-                    <div style="cursor: pointer;" data-bind="text: s.Name">
+                    <div style="cursor: pointer;" data-bind="text: p.Name">
                     </div>
-                    <!-- ko foreach: { data: s.Tasks, as: 'tasks' } -->
-                    <div class="tasktest projPhase-item" data-bind="text: tasks.Name"></div>
+                    <!-- ko foreach: { data: p.Projects, as: 'projects' } -->
+                    <div class="tasktest projPhase-item" data-bind="text: projects.Name"></div>
                     <!-- /ko -->
                 </div>
                 <!-- /ko -->
             </div>
-
+            <!-- /ko -->
 
             <!--ko with: currentProject()-->
-            <div class="row">
+            <div class="row proj-detailed">
                 <!-- ko foreach: { data: $data.PhaseTasks, as: 's' } -->
                 <div class="tester projPhase">
                     <div style="cursor: pointer;" data-bind="text: s.Name">
