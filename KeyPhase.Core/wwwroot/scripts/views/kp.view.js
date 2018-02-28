@@ -14,7 +14,7 @@ app.View = app.View || {};
         vm.projectTasks = ko.observableArray([]);
         vm.currentProject = ko.observable(null);
 
-
+        vm.taskPopup = page.helpers.TaskPopup;
         vm.dragPhase = page.events.DragPhase;
         vm.login = page.helpers.loginRedirect;
         vm.dashSideSlide = page.helpers.dashSideSlide;
@@ -26,7 +26,7 @@ app.View = app.View || {};
         vm.KPSettings = ko.observableArray();
         vm.contentLoading = ko.observable(false);
 
-        
+
 
         return vm;
     }
@@ -38,13 +38,13 @@ app.View = app.View || {};
         events: {
             GetProjects: function () {
                 var requests = [];
-                
+
                 requests.push(page.getters.GetUserProjects());
                 requests.push(page.getters.GetProjectsOverview());
 
                 $.when.apply(undefined, requests).then(function () {
                     viewModel.contentLoading(false);
-                });                
+                });
             },
             GetProjectData: function () {
                 var requests = [];
@@ -59,7 +59,10 @@ app.View = app.View || {};
 
             },
             GetDashboardData: function () {
-                
+
+            },
+            UpdateTaskPhase: function (phaseID, taskID) {
+                app.Controllers.Tasks.UpdateTaskPhase(phaseID, taskID);
             }
         },
         //May not need any mappers now, as data is retruned as json by default. So can probably get away with ko.fromJS mapping.
@@ -139,30 +142,36 @@ app.View = app.View || {};
 
                 $.when.apply(undefined, requests).then(function () {
                     //remove loader
+                    page.events.DragDrop();
                 });
             },
-            EnableDraggable: function () {
-                $(".tasktest").draggable({ cursor: "crosshair", revert: "invalid"});
+            DragDrop: function () {
+                $(".tasktest").draggable({ cursor: "crosshair", revert: "invalid" });
 
-$(".tester").droppable({ accept: ".tasktest", 
-           drop: function(event, ui) {
-                    console.log("drop");                   
-             var dropped = ui.draggable;
-            var droppedOn = $(this);
-            $(dropped).detach().css({top: 0,left: 0}).appendTo(droppedOn);      
-             
-             
-                }, 
-          over: function(event, elem) {
-                  $(this).addClass("over");
-                   console.log("over");
-          }
-                ,
-                  out: function(event, elem) {
-                    $(this).removeClass("over");
-                  }
-                     });
-$(".tester").sortable();
+                $(".tester").droppable({
+                    accept: ".tasktest",
+                    drop: function (event, ui, a, b) {
+                        //Figure out what is being dropped first then perform some actions
+                        vmFunctions.events.UpdateTaskPhase(ko.dataFor(event.target).ID(), ko.dataFor(ui.draggable[0]).ID());
+                        ko.dataFor(ui.draggable[0]).ID(); //ID of dropped task.
+                        ko.dataFor(event.target).ID(); //ID of the location task was dropped.
+                        console.log("drop");
+                        var dropped = ui.draggable;
+                        var droppedOn = $(this);
+                        $(dropped).detach().css({ top: 0, left: 0 }).appendTo(droppedOn);
+
+
+                    },
+                    over: function (event, elem) {
+                        $(this).addClass("over");
+                        console.log("over");
+                    }
+                    ,
+                    out: function (event, elem) {
+                        $(this).removeClass("over");
+                    }
+                });
+                $(".tester").sortable();
             }
         },
 
@@ -218,7 +227,7 @@ $(".tester").sortable();
             },
         },
 
-        helpers: {     
+        helpers: {
             KPSettings: function () {
                 viewModel.KPSettings({
                     Pages: {
@@ -233,8 +242,8 @@ $(".tester").sortable();
                 viewModel.currentPage(viewModel.KPSettings().Pages.Dash);
             },
             updateUI: function () {
-                var curTab;                
-                
+                var curTab;
+
                 curTab = event.currentTarget.text.toLowerCase();
 
                 if (curTab !== viewModel.currentPage()) {
@@ -256,6 +265,16 @@ $(".tester").sortable();
                             break;
                     }
                 }
+            },
+            TaskPopup: function () {
+                var page, taskPop;
+
+                page = $('.kp');
+                taskPop = $('.proj-popup');
+                taskPop.show();
+                page.addClass('kp-main-blur');
+                page.addClass('kp-main-blurTrans');
+                
             },
 
             fillHeight: function () {

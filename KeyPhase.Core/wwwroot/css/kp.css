@@ -6,6 +6,28 @@
     height: 100vh;
     width: 100vw;
 }
+.kp-main-blur {
+    filter: blur(3px);
+    overflow: hidden !important;
+    
+    /* height: 99vh; */
+    /* width: 99vw; */
+    /* position: absolute; */
+}
+.kp-main-blurTrans {
+    transform: scale(1.03);
+}
+.proj-popup {
+    height: 100vh;
+    width: 100vw;
+    background: #353535;
+    z-index: 1050;
+    position: absolute;
+    display: none;
+    opacity: 0.2;
+    /* overflow: hidden; */
+}
+
 .kp-loader {
     position: fixed;
     top: 0;

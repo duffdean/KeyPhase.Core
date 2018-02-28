@@ -103,7 +103,7 @@
                     <div style="cursor: pointer;" data-bind="text: s.Name">
                     </div>
                     <!-- ko foreach: { data: s.Tasks, as: 'tasks' } -->
-                    <div class="tasktest projPhase-item" data-bind="text: tasks.Name"></div>
+                    <div class="tasktest projPhase-item" data-bind="text: tasks.Name, click: $root.taskPopup"></div>
                     <!-- /ko -->
                 </div>
                 <!-- /ko -->
@@ -137,9 +137,10 @@
     </div>
     <!--/ko-->
 </div>
-<div id="kploader" class="kp-loader">
+<div class="container-fluid proj-popup">fncfncbn</div>
+    <div id="kploader" class="kp-loader">
 
-    <div class="kp-loader-container">
-        <div class="loader kp-loader-spinner"></div><img class="kp-loader-logo" src="/images/Untitled-3.png">
+        <div class="kp-loader-container">
+            <div class="loader kp-loader-spinner"></div><img class="kp-loader-logo" src="/images/Untitled-3.png">
+        </div>
     </div>
-</div>

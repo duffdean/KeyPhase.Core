@@ -40,5 +40,18 @@ namespace KeyPhase.Repository
         {
             return _context.Set<T>().Where(match).ToList();
         }
+
+        public virtual T Update(T t, object key)
+        {
+            if (t == null)
+                return null;
+            T exist = _context.Set<T>().Find(key);
+            if (exist != null)
+            {
+                _context.Entry(exist).CurrentValues.SetValues(t);
+                _context.SaveChanges();
+            }
+            return exist;
+        }
     }
 }

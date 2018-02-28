@@ -13,5 +13,6 @@ namespace KeyPhase.Repository.Interface
         IQueryable<T> GetAll();
         Task<ICollection<T>> GetAllAsync();
         ICollection<T> FindAll(Expression<Func<T, bool>> Match);
+        T Update(T t, object key);
     }
 }

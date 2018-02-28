@@ -28,5 +28,14 @@ namespace KeyPhase.Core.Controllers.Api
         {
             return _taskService.GetAllForProject(ProjectID);
         }
+        
+        [HttpPost("UpdateTaskPhase")]
+        public void UpdateTaskPhase(int PhaseID, int TaskID)
+        {
+            KeyPhase.Models.Models.Task task = _taskService.GetTask(TaskID);
+            task.PhaseID = PhaseID;
+
+            _taskService.UpdateTaskPhase(PhaseID, TaskID);
+        }
     }
 }

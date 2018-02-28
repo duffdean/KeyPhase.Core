@@ -20,6 +20,11 @@ namespace KeyPhase.Service
             _projTaskRepository = ProjTaskRepository;
         }
 
+        public Task GetTask(int TaskID)
+        {
+            return _taskRepository.Get(TaskID);
+        }
+
         public IEnumerable<Task> GetAll()
         {
             var a = _taskRepository.GetAll();
@@ -34,6 +39,13 @@ namespace KeyPhase.Service
             IEnumerable<Task> a = _taskRepository.GetAll().Where(t => b.Any(cb => cb.TaskID == t.ID));
 
             return a;
+        }
+
+        public void UpdateTaskPhase(int PhaseID, int TaskID)
+        {
+            Task task = _taskRepository.Get(TaskID);
+            task.PhaseID = PhaseID;
+            _taskRepository.Update(task, TaskID);
         }
     }
 }
