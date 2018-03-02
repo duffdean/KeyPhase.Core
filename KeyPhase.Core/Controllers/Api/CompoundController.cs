@@ -23,18 +23,19 @@ namespace KeyPhase.Core.Controllers.Api
         [HttpGet("GetProjectData")]
         public ProjectDetailed GetProjectData([FromQuery]int ProjectID)
         {
-            ProjectDetailed projDetailed;
-            projDetailed = _combinedService.SelectedProject(ProjectID);
-            return projDetailed;
+            return _combinedService.SelectedProject(ProjectID);
         }
 
         [HttpGet("GetProjectsOverview")]
         public ProjectOverview GetProjectsOverview(int UserID)
         {
-            ProjectOverview projOverview;
-            projOverview = _combinedService.UserProjectsOverview(UserID);
+            return _combinedService.UserProjectsOverview(UserID);
+        }
 
-            return projOverview;
+        [HttpGet("GetTaskDetailed")]
+        public TaskDetailed GetTaskDetailed(int TaskID)
+        {
+            return _combinedService.TaskDetailed(TaskID);
         }
     }
 }

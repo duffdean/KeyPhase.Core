@@ -18,10 +18,15 @@ namespace KeyPhase.Service
         private readonly IRepository<UserProject> _userProjectRepository;
         private readonly IRepository<Phase> _phaseRepository;
         private readonly IRepository<ProjectTaskPhase> _projTaskPhaseRepository;
+        private readonly IRepository<ProjectHistory> _projHistoryRepository;
+        private readonly IRepository<TaskHistory> _taskHistoryRepository;
+        private readonly IRepository<User> _userRepository;
 
         public KPCombinedService(IRepository<Task> TaskRepository, IRepository<Project> ProjRepository, 
             IRepository<ProjectTask> ProjTaskRepository, IRepository<UserProject> userProjRepository, 
-            IRepository<Phase> PhaseRepository, IRepository<ProjectTaskPhase> ProjTaskPhaseRepository)
+            IRepository<Phase> PhaseRepository, IRepository<ProjectTaskPhase> ProjTaskPhaseRepository,
+            IRepository<ProjectHistory> ProjHistoryRepository, IRepository<TaskHistory> TaskHistoryRepository,
+            IRepository<User> UserRepository)
         {
             _taskRepository = TaskRepository;
             _projTaskRepository = ProjTaskRepository;
@@ -29,6 +34,9 @@ namespace KeyPhase.Service
             _projRepository = ProjRepository;
             _userProjectRepository = userProjRepository;
             _projTaskPhaseRepository = ProjTaskPhaseRepository;
+            _projHistoryRepository = ProjHistoryRepository;
+            _taskHistoryRepository = TaskHistoryRepository;
+            _userRepository = UserRepository;
         }
 
         public ProjectDetailed SelectedProject(int ProjectID)
@@ -49,6 +57,19 @@ namespace KeyPhase.Service
             List<Phase> phases = _phaseRepository.GetAll().Where(t => projects.Any(cb => cb.PhaseID == t.ID)).ToList();
 
             return Mapper.MapProjectOverview(projects, phases);
+        }
+
+        public TaskDetailed TaskDetailed(int TaskID)
+        {
+            Task task = _taskRepository.Get(TaskID);
+            List<TaskHistory> taskHistory = _taskHistoryRepository.FindAll(t => t.TaskID == task.ID).ToList();
+
+            foreach (TaskHistory th in taskHistory)
+            {
+                th.User = _userRepository.Get(th.UserID);
+            }
+
+            return Mapper.MapTaskDetailed(task, taskHistory);
         }
     }
 }

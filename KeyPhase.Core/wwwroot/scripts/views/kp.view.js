@@ -13,6 +13,7 @@ app.View = app.View || {};
         vm.projectOverview = ko.observable(null);
         vm.projectTasks = ko.observableArray([]);
         vm.currentProject = ko.observable(null);
+        vm.currentTask = ko.observable(null);
 
         vm.taskPopup = page.helpers.TaskPopup;
         vm.dragPhase = page.events.DragPhase;
@@ -225,6 +226,17 @@ app.View = app.View || {};
 
                     });
             },
+            GetTaskDetailed: function (taskID) {
+
+                return app.Controllers.Tasks.GetTaskDetailed(taskID)
+                    .done(function (obj) {
+                        viewModel.currentTask(ko.mapping.fromJS(obj));
+                        //viewModel.currentTask(_.map(obj, vmFunctions.mappers.MapTask));
+                    })
+                    .always(function () {
+
+                    });
+            },
         },
 
         helpers: {
@@ -267,13 +279,16 @@ app.View = app.View || {};
                 }
             },
             TaskPopup: function () {
-                var page, taskPop;
+                //var page, taskPop;
 
-                page = $('.kp');
-                taskPop = $('.proj-popup');
-                taskPop.show();
-                page.addClass('kp-main-blur');
-                page.addClass('kp-main-blurTrans');
+                //viewModel.currentTask(this);
+                page.getters.GetTaskDetailed(this.ID);
+                $('.bg-overlay').fadeIn();
+                //page = $('.kp');
+                //taskPop = $('.proj-popup');
+                //taskPop.fadeIn();
+                //page.addClass('kp-main-blur');
+                //page.addClass('kp-main-blurTrans');
                 
             },
 

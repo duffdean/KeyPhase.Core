@@ -32,5 +32,13 @@ namespace KeyPhase.Service
 
             return projOverview;
         }
+
+        public static TaskDetailed MapTaskDetailed(Task task, List<TaskHistory> taskHistory)
+        {
+            return new TaskDetailed(){
+                Task = task,
+                TaskHistory = taskHistory
+            };  
+        }
     }
 }

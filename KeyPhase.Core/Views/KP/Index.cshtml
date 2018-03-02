@@ -95,7 +95,6 @@
                 <!-- /ko -->
             </div>
             <!-- /ko -->
-
             <!--ko with: currentProject()-->
             <div class="row proj-detailed">
                 <!-- ko foreach: { data: $data.PhaseTasks, as: 's' } -->
@@ -113,7 +112,6 @@
     </div>
     <!--/ko-->
     <!--/ko-->
-
     <!--ko if: currentPage() == 'dashboard' -->
     <div class="row contentArea ca ca-dash" style="    background-color: #1b1e23;
     height: 100%;">
@@ -131,16 +129,93 @@
 ">cvbnvn</div>
 
             <div class="row">
+
             </div>
         </div>
 
     </div>
     <!--/ko-->
 </div>
-<div class="container-fluid proj-popup">fncfncbn</div>
-    <div id="kploader" class="kp-loader">
 
-        <div class="kp-loader-container">
-            <div class="loader kp-loader-spinner"></div><img class="kp-loader-logo" src="/images/Untitled-3.png">
-        </div>
+<div class="bg-overlay">
+</div>
+<!--ko with: currentTask()-->
+<div class="col-xs-8 popup-task" style="
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    height: 80%;
+    background: rgb(50, 54, 65);
+    z-index: 1051;
+        border-radius: 5px
+">
+    <div style="
+    position: relative;
+    float: right;
+    top: -7px;
+    right: -23px;
+    width: 20px;
+    height: 21px;
+    background: #3a4258;
+    /* box-shadow: -3px 3px 8px #636363; */
+    border-radius: 5px;
+    border-color: white;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 5px;
+">X</div>
+    <div class="row" style="    background: #3a4258;
+    margin: 10px 10px 10px 10px;
+    border-radius: 5px;
+    height: 30px;">
+        <input class="col-xs-8 popup-task-title" type="text" name="taskChat" data-bind="value: $data.Task.Name" />
+        @*<div class="col-xs-2" data-bind="text: $data.Task.Name"></div>*@
+        <div class="col-xs-3">OTHER STUFF HERE</div>
     </div>
+
+    <div class="row" style="    background: #3a4258;
+    margin: 10px 10px 10px 10px;border-radius: 5px; height:75px">
+        <div data-bind="text: $data.Task.Name"></div>
+        <div data-bind="text: $data.Task.Cost"></div>
+        <div data-bind="text: $data.Task.Complete"></div>
+        <div data-bind="text: $data.Task.ActEndDate"></div>
+    </div>
+    <div class="row" style="    background: #3a4258;
+    margin: 10px 10px 10px 10px;border-radius: 5px; overflow-y: auto;     height: 350px;">
+        <!-- ko foreach: { data: $data.TaskHistory, as: 'history' } -->
+        <div class="tasktest projPhase-item" data-bind="text: history.User.FirstName"></div>
+        <div class="tasktest projPhase-item" data-bind="text: history.Value"></div>
+        <!-- /ko -->
+    </div>
+    <div class="row" style="    background: #3a4258;
+    margin: 10px 10px 10px 10px;border-radius: 5px; height: 40px;">
+        <span class="col-xs-1 lnr lnr-paperclip" style="font-size: 28px;
+    line-height: 38px;"></span>
+        <input class="col-xs-10 popup-task-chat" type="text" name="taskChat" placeholder="Add Comment" />
+        <span class="col-xs-1" style="height: 30px;
+    line-height: 30px;
+    border-radius: 2px;
+    background-color: #2f5aa5;
+    font-size: 14px;
+    /* font-weight: 600; */
+    /* letter-spacing: .5px; */
+    color: #fff;
+    /* padding: 0 16px; */
+    /* display: block; */
+    cursor: pointer;
+    /* opacity: 1; */
+    /* box-sizing: border-box; */
+    /* white-space: nowrap; */
+    text-align: center;
+    margin: 5px 0px 0px 5px;">Send</span>
+    </div>
+
+</div>
+<!--/ko-->
+
+<div id="kploader" class="kp-loader">
+
+    <div class="kp-loader-container">
+        <div class="loader kp-loader-spinner"></div><img class="kp-loader-logo" src="/images/Untitled-3.png">
+    </div>
+</div>
