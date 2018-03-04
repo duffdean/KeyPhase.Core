@@ -10,7 +10,7 @@ namespace KeyPhase.Models.Models
         public int TaskID { get; set; }
         public int UserID { get; set; }
         public String Value { get; set; }
-        public DateTime DateSubmitted { get; set; }
+        public DateTime? DateSubmitted { get; set; }
         public bool Active { get; set; }
         public User User { get; set; }
     }

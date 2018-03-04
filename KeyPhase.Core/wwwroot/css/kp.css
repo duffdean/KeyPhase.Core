@@ -202,10 +202,24 @@
     /* padding-bottom: 11px; */
     float: right;
 }
-.projSidebar-itemName {
-    margin-left: 35px;
-    cursor: pointer;
+.projectSidebar-headerAdd-content {
+    position: absolute;
+    height: 140px;
+    width: 100px;
+    background: #323641;
+    top: 17px;
+    right: -90px;
+    box-shadow: -2px 8px 20px 2px #232323;
+    z-index: 1055;
+    display: none;
 }
+.projectSidebar-headerAdd:hover .projectSidebar-headerAdd-content {
+    display: block;
+}
+.projSidebar-itemName {
+        margin-left: 35px;
+        cursor: pointer;
+    }
 .projSidebar-filterIcon {
     display: inline-block;
     padding-left: 10px;
@@ -271,6 +285,13 @@
         border: 1px solid rgba(255,255,255,255);
         padding: 0px 0px 0px 0px;
     }
+.popup-task-split {
+    width: 100%;
+    position: absolute;
+    height: 1px;
+    background: radial-gradient(#20212282, #1e1e1f59, #3a4258);
+    left: 0px;
+}
 .popup-task-chat {
     border: none;
     margin: 5px 8px 0px 0px;

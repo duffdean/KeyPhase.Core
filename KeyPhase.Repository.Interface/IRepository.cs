@@ -9,6 +9,7 @@ namespace KeyPhase.Repository.Interface
 {
     public interface IRepository<T> where T : class
     {
+        T Add(T t);
         T Get(int ID);
         IQueryable<T> GetAll();
         Task<ICollection<T>> GetAllAsync();

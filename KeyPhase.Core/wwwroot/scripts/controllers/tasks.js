@@ -5,6 +5,22 @@ app.Controllers = app.Controllers || {};
     'use strict';
     
     app.Controllers.Tasks = {
+        AddTaskHistory: function (userID, taskID, value) {
+            return $.ajax({
+                url: app.Global.BaseAddress + app.Global.Controllers.Compound + "AddTaskHistory",
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    UserID: userID,
+                    TaskID: taskID,
+                    Value: value
+                }
+            }).done(function (obj) {
+
+            }).fail(function (obj) {
+
+            });
+        },
         GetTaskDetailed: function (taskID) {
             return $.ajax({
                 url: app.Global.BaseAddress + app.Global.Controllers.Compound + "GetTaskDetailed",

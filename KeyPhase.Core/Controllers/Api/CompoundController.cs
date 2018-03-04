@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KeyPhase.Models.DTO;
+using KeyPhase.Models.Models;
 using KeyPhase.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,6 +37,12 @@ namespace KeyPhase.Core.Controllers.Api
         public TaskDetailed GetTaskDetailed(int TaskID)
         {
             return _combinedService.TaskDetailed(TaskID);
+        }
+
+        [HttpPost("AddTaskHistory")]
+        public TaskHistory AddTaskHistory(int TaskID, int UserID, string Value)
+        {
+            return _combinedService.AddTaskHistory(TaskID, UserID, Value);
         }
     }
 }

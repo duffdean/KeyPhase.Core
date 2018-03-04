@@ -12,6 +12,7 @@ namespace KeyPhase.Service.Interface
         ProjectDetailed SelectedProject(int ProjectID);
         ProjectOverview UserProjectsOverview(int UserID);
         TaskDetailed TaskDetailed(int TaskID);
+        TaskHistory AddTaskHistory(int TaskID, int UserID, string Value);
         //IEnumerable<Task> GetAll();
         //IEnumerable<Task> GetAllForProject(int ProjectID);
     }

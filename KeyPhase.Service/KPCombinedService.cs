@@ -71,5 +71,17 @@ namespace KeyPhase.Service
 
             return Mapper.MapTaskDetailed(task, taskHistory);
         }
+
+        public TaskHistory AddTaskHistory(int TaskID, int UserID, string Value)
+        {
+            return _taskHistoryRepository.Add(new TaskHistory()
+            {
+                UserID = UserID,
+                Value = Value,
+                TaskID = TaskID,
+                DateSubmitted = DateTime.Now,
+                Active = true
+            });
+        }
     }
 }

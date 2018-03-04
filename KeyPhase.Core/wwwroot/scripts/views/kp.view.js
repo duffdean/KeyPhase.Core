@@ -15,12 +15,14 @@ app.View = app.View || {};
         vm.currentProject = ko.observable(null);
         vm.currentTask = ko.observable(null);
 
+        vm.closePopup = page.helpers.ClosePopup;
         vm.taskPopup = page.helpers.TaskPopup;
         vm.dragPhase = page.events.DragPhase;
         vm.login = page.helpers.loginRedirect;
         vm.dashSideSlide = page.helpers.dashSideSlide;
         vm.updateUI = page.helpers.updateUI;
         vm.loadProjectData = page.events.LoadProjectData;
+        vm.postComment = page.helpers.PostComment;
 
 
         vm.currentPage = ko.observable('');
@@ -240,6 +242,31 @@ app.View = app.View || {};
         },
 
         helpers: {
+            PostComment: function (item, event) {
+                var comment = $('.popup-task-chat').val();
+
+                if (comment.length) {
+                    return app.Controllers.Tasks.AddTaskHistory(
+                        1,
+                        viewModel.currentTask().Task.ID(),
+                        comment
+                    )
+                        .done(function (obj) {
+                            viewModel.currentTask().TaskHistory.push(ko.mapping.fromJS(obj));
+                            $('.popup-task-chat').val("");
+                        })
+                        .always(function () {
+
+                        });
+                }
+                
+
+            },
+            ClosePopup: function () {
+                $('.bg-overlay').fadeOut();
+                $('.popup-task').fadeOut();
+                viewModel.currentTask(null);
+            },
             KPSettings: function () {
                 viewModel.KPSettings({
                     Pages: {
@@ -284,6 +311,7 @@ app.View = app.View || {};
                 //viewModel.currentTask(this);
                 page.getters.GetTaskDetailed(this.ID);
                 $('.bg-overlay').fadeIn();
+                $('.popup-task').fadeIn();
                 //page = $('.kp');
                 //taskPop = $('.proj-popup');
                 //taskPop.fadeIn();
