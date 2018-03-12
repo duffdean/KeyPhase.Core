@@ -61,9 +61,9 @@
                         <span class="projSiderbar-headerTitle">Projects</span>
                         <div class="lnr lnr-plus-circle projectSidebar-headerAdd">
                             <div class="projectSidebar-headerAdd-content">
-                                <p style="    padding: 10px 0px 0px 25px;">Phase</p>
-                                <p style="    padding: 10px 0px 0px 25px;">Task</p>
-                                <p style="    padding: 10px 0px 0px 25px;">Bleh</p>
+                                <p style="padding: 10px 0px 0px 25px;">Project</p>
+                                <p style="padding: 10px 0px 0px 25px;">Phase</p>
+                                <p style="padding: 10px 0px 0px 25px;">Task</p>
                             </div>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
             </div>
         </div>
         <div class="col-xs-2 ca ca-dash-spacer"></div>
-        <div class="col-xs-10 ca ca-dash-content" style="
+        <div class="dragscroll col-xs-10 ca ca-dash-content" style="
     top: 0px;
     height: 100%;
     border-right: #3a4258;
@@ -89,11 +89,18 @@
 ">cvbnvn</div>
 
             <!--ko with: projectOverview()-->
-            <div class="row proj-overview">
+            @*<div class="proj-overview" style="    margin-left: 5px;">*@
+            <div class="proj-overview" style="display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+                height: 100px;">
+
                 <!-- ko foreach: { data: $data.ProjectPhases, as: 'p' } -->
                 <div class="tester projPhase">
-                    <div style="cursor: pointer;" data-bind="text: p.Name">
-                    </div>
+                    <span style="cursor: pointer;" data-bind="text: p.Name">
+                    </span>
+                    @*<span data-bind="text: '(' + p.Projects().length + ')'">
+                </span>*@
                     <!-- ko foreach: { data: p.Projects, as: 'projects' } -->
                     <div class="tasktest projPhase-item" data-bind="text: projects.Name"></div>
                     <!-- /ko -->
@@ -101,8 +108,50 @@
                 <!-- /ko -->
             </div>
             <!-- /ko -->
+           
             <!--ko with: currentProject()-->
             <div class="row proj-detailed">
+                <!--ko ifnot: $data.PhaseTasks().length -->
+                <div class="col-xs-4" style="margin-left: 25%" data-bind="click: $root.createDefault">
+                    <div style="
+    height: 75vh;
+    position: absolute;
+">
+                        <i class="material-icons" style="font-size: 158px;top: 89px;left: 8px;z-index: 2;color: #1e8ab7;position: absolute;">desktop_windows</i>
+
+                        <i class="material-icons" style="font-size: 170px;color: #1bb9e1;position: absolute;top: 75px;left: -1px;z-index: 1;">view_quilt</i>
+                        <i class="material-icons" style="position: absolute;top: 114px;left: 49px;font-size: 75px;z-index: 3;">grade</i>
+
+                    </div>
+                    
+                <span style="
+    position: absolute;
+    top: 250px;
+    font-size: 18px;
+    font-weight: bold;
+    left: 35px;
+">Default Layout</span></div>
+                <div class="col-xs-4" data-bind="click: $root.createCustom">
+                    <div style="
+    height: 75vh;
+    position: absolute;
+">
+                        <i class="material-icons" style="font-size: 158px;top: 89px;left: 8px;z-index: 2;color: #1e8ab7;position: absolute;">desktop_windows</i>
+
+                        <i class="material-icons" style="font-size: 170px;color: #1bb9e1;position: absolute;top: 75px;left: -1px;z-index: 1;">view_quilt</i>
+                        <i class="material-icons" style="position: absolute;top: 114px;left: 49px;font-size: 75px;z-index: 3;">build</i>
+
+                    </div>
+
+                    <span style="
+    position: absolute;
+    top: 250px;
+    font-size: 18px;
+    font-weight: bold;
+    left: 35px;
+">Custom Layout</span>
+                </div>
+                <!-- /ko -->
                 <!-- ko foreach: { data: $data.PhaseTasks, as: 's' } -->
                 <div class="tester projPhase">
                     <div style="cursor: pointer;" data-bind="text: s.Name">
@@ -145,6 +194,7 @@
 
 <div class="bg-overlay" data-bind="click: $root.closePopup">
 </div>
+
 <!--ko with: currentTask-->
 <div class="col-xs-8 popup-task" style="
     position: absolute;
@@ -187,7 +237,7 @@
         <span data-bind="text: $data.Task.ActEndDate"></span>
     </div>
     <span class="popup-task-split"></span>
-    <div class="row" style="    background: #3a4258;
+    <div class="row popup-task-history" style="    background: #3a4258;
     margin: 10px 10px 10px 10px;border-radius: 5px; overflow-y: auto;     height: 350px;">
         <!-- ko foreach: { data: $data.TaskHistory, as: 'history' } -->
         <div class="tasktest projPhase-item" data-bind="text: history.User.FirstName"></div>

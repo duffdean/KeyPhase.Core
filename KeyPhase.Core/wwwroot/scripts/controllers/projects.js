@@ -5,6 +5,21 @@ app.Controllers = app.Controllers || {};
     'use strict';
 
     app.Controllers.Projects = {
+        CreateDefaultLayout: function (id) {
+            return $.ajax({
+                url: app.Global.BaseAddress + app.Global.Controllers.Compound + "CreateDefaultLayout",
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: {
+                    ProjectID: id,
+                }
+            })
+                .done(function (obj) {
+                })
+                .fail(function (obj) {
+                });
+        },
         GetProjectsOverview: function (id) {
             return $.ajax({
                 url: app.Global.BaseAddress + app.Global.Controllers.Compound + "GetProjectsOverview",

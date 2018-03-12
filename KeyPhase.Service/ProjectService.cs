@@ -13,6 +13,7 @@ namespace KeyPhase.Service
     {
         private readonly IRepository<Project> _projRepository;
         private readonly IRepository<UserProject> _userProjRepository;
+        
 
         public ProjectService(IRepository<Project> ProjRepository, IRepository<UserProject> userProjRepository)
         {
@@ -32,7 +33,7 @@ namespace KeyPhase.Service
             var b = _userProjRepository.FindAll(c => c.UserID == UserID);
             //var a = _testRepository.FindAll(c => c.Name == "test project");
             IEnumerable<Project> a = _projRepository.GetAll().Where(p => b.Any(cb => cb.ProjectID == p.ID));
-           
+            
             return a;
         }
     }

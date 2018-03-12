@@ -27,6 +27,13 @@ namespace KeyPhase.Core.Controllers.Api
             return _combinedService.SelectedProject(ProjectID);
         }
 
+        // GET: api/Projects
+        [HttpGet("CreateDefaultLayout")]
+        public ProjectDetailed CreateDefaultLayout([FromQuery]int ProjectID)
+        {
+            return _combinedService.CreateDefaultLayout(ProjectID);
+        }
+
         [HttpGet("GetProjectsOverview")]
         public ProjectOverview GetProjectsOverview(int UserID)
         {

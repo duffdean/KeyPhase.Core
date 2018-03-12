@@ -10,4 +10,11 @@ app.Global = app.Global || {};
         Project: "projects/",
         Task: "tasks/"
     };
+    app.Global.DragScrollListener = (function () {
+        $(document).on('DOMNodeInserted', function (e) {
+            if ($(e.target).hasClass('proj-overview')) {
+                dragscroll.reset();
+            }
+        });
+    });
 })();

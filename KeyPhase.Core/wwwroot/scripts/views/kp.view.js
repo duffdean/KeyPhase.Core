@@ -24,6 +24,8 @@ app.View = app.View || {};
         vm.loadProjectData = page.events.LoadProjectData;
         vm.postComment = page.helpers.PostComment;
 
+        vm.createCustom = page.events.CreateCustomLayout;
+        vm.createDefault = page.events.CreateDefaultLayout;
 
         vm.currentPage = ko.observable('');
         vm.KPSettings = ko.observableArray();
@@ -175,6 +177,18 @@ app.View = app.View || {};
                     }
                 });
                 $(".tester").sortable();
+            },
+            CreateDefaultLayout: function (Proj) {
+                return app.Controllers.Projects.CreateDefaultLayout(Proj.Project.ID())
+                    .done(function (obj) {
+                        viewModel.currentProject(ko.mapping.fromJS(obj));
+                    })
+                    .always(function () {
+
+                    });
+            },
+            CreateCustomLayout: function () {
+                debugger;
             }
         },
 
@@ -254,6 +268,7 @@ app.View = app.View || {};
                         .done(function (obj) {
                             viewModel.currentTask().TaskHistory.push(ko.mapping.fromJS(obj));
                             $('.popup-task-chat').val("");
+                            $('.popup-task-history').animate({ scrollTop: $('.popup-task-history').prop("scrollHeight") }, 1000);
                         })
                         .always(function () {
 
@@ -373,6 +388,8 @@ app.View = app.View || {};
             //requests.push(gets.GetProjects());
             $.when.apply(undefined, requests).then(function () {
                 page.helpers.removeLoader();
+                app.Global.DragScrollListener();
+
             });
         }
     };

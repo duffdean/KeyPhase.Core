@@ -21,12 +21,13 @@ namespace KeyPhase.Service
         private readonly IRepository<ProjectHistory> _projHistoryRepository;
         private readonly IRepository<TaskHistory> _taskHistoryRepository;
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<PhaseUser> _phaseUserRepository;
 
         public KPCombinedService(IRepository<Task> TaskRepository, IRepository<Project> ProjRepository, 
             IRepository<ProjectTask> ProjTaskRepository, IRepository<UserProject> userProjRepository, 
             IRepository<Phase> PhaseRepository, IRepository<ProjectTaskPhase> ProjTaskPhaseRepository,
             IRepository<ProjectHistory> ProjHistoryRepository, IRepository<TaskHistory> TaskHistoryRepository,
-            IRepository<User> UserRepository)
+            IRepository<User> UserRepository, IRepository<PhaseUser> PhaseUserRepository)
         {
             _taskRepository = TaskRepository;
             _projTaskRepository = ProjTaskRepository;
@@ -37,6 +38,8 @@ namespace KeyPhase.Service
             _projHistoryRepository = ProjHistoryRepository;
             _taskHistoryRepository = TaskHistoryRepository;
             _userRepository = UserRepository;
+            _phaseUserRepository = PhaseUserRepository;
+
         }
 
         public ProjectDetailed SelectedProject(int ProjectID)
@@ -50,11 +53,83 @@ namespace KeyPhase.Service
             return Mapper.MapCustomerDetails(project, phases);
         }
 
+        public ProjectDetailed CreateDefaultLayout(int ProjectID)
+        {
+            Phase phase; 
+
+            string[] phases = new string[] {
+                "New",
+                "In Progress",
+                "Complete",
+                "On-Hold"
+            };
+
+            for (int i = 0; i < phases.Length; i++)
+            {
+                phase = _phaseRepository.Add(new Phase
+                {
+                    Name = phases[i],
+                    Position = i + 1,
+                    Active = true
+                });
+
+                _projTaskPhaseRepository.Add(new ProjectTaskPhase
+                {
+                    ProjectID = ProjectID,
+                    PhaseID = phase.ID,
+                    Active = true
+                });
+            }
+
+            //_phaseRepository.Add(new Phase
+            //{
+            //    Name = "New",
+            //    Position = 1,
+            //    Active = true
+            //});
+
+            //_phaseRepository.Add(new Phase
+            //{
+            //    Name = "In Progress",
+            //    Position = 2,
+            //    Active = true
+            //});
+
+            //_phaseRepository.Add(new Phase
+            //{
+            //    Name = "Complete",
+            //    Position = 3,
+            //    Active = true
+            //});
+
+            //_phaseRepository.Add(new Phase
+            //{
+            //    Name = "On-Hold",
+            //    Position = 4,
+            //    Active = true
+            //});
+
+            //Project project = _projRepository.Get(ProjectID);
+            //List<ProjectTaskPhase> taskPhases = _projTaskPhaseRepository.FindAll(p => p.ProjectID == ProjectID).ToList();
+            //IEnumerable<ProjectTask> projTasks = _projTaskRepository.FindAll(c => c.ProjectID == project.ID);
+            //List<Task> tasks = _taskRepository.GetAll().Where(t => projTasks.Any(cb => cb.TaskID == t.ID)).ToList();
+            //List<Phase> phases = _phaseRepository.GetAll().Where(t => taskPhases.Any(cb => cb.PhaseID == t.ID)).ToList();
+
+            //return Mapper.MapCustomerDetails(project, phases);
+
+            return SelectedProject(ProjectID);
+        }
+
         public ProjectOverview UserProjectsOverview(int UserID)
         {
-            IEnumerable<UserProject> userProjects = _userProjectRepository.FindAll(c => c.UserID == UserID);            
+            //IEnumerable<UserProject> userProjects = _userProjectRepository.FindAll(c => c.UserID == UserID);            
+            //List<Project> projects = _projRepository.GetAll().Where(p => userProjects.Any(cb => cb.ProjectID == p.ID)).ToList();
+            //List<Phase> phases = _phaseRepository.GetAll().Where(t => projects.Any(cb => cb.PhaseID == t.ID)).ToList();
+
+            IEnumerable<UserProject> userProjects = _userProjectRepository.FindAll(c => c.UserID == UserID);
             List<Project> projects = _projRepository.GetAll().Where(p => userProjects.Any(cb => cb.ProjectID == p.ID)).ToList();
-            List<Phase> phases = _phaseRepository.GetAll().Where(t => projects.Any(cb => cb.PhaseID == t.ID)).ToList();
+            List<PhaseUser> userPhases = _phaseUserRepository.FindAll(p => p.UserID == UserID).ToList();
+            List<Phase> phases = _phaseRepository.GetAll().Where(t => userPhases.Any(cb => cb.PhaseID == t.ID)).ToList();
 
             return Mapper.MapProjectOverview(projects, phases);
         }
@@ -83,5 +158,7 @@ namespace KeyPhase.Service
                 Active = true
             });
         }
+
+
     }
 }
