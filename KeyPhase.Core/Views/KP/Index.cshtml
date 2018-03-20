@@ -43,6 +43,307 @@
     </div>
 
 
+    <div class="popup popup-addProject" style="display:none;">
+        <span class="col-xs-12 popup-title"
+              ">Create Project</span>
+        <div class="row mrg-LR-0">
+            <div class="col-xs-12 mrg-TB-10">
+                <input type="text" name="projFilter" placeholder="Project name" style="
+    margin: 0;
+    padding: 0;
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: text;
+    position: relative;
+    box-sizing: border-box;
+    background-color: transparent;
+    /* border: none; */
+    /* border-bottom: 1px solid rgba(255,255,255,.5); */
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,.5);
+    height: 35px;">
+            </div>
+            <div class="col-xs-12 mrg-TB-10">
+                <!--ko with: projectOverview()-->
+                <select data-bind="options: $root.projectOverview().ProjectPhases(), optionsText: 'Name', optionsValue: 'ID', optionsCaption: 'Select Phase'" style="    background: #3e424d;
+    font-weight: 100;
+    width: 46%;"></select>
+                <!-- /ko -->
+            </div>
+            <div class="col-xs-6 mrg-TB-10">
+                <span style="font-weight: 100;">Start date</span>
+                <i class="glyphicon glyphicon-calendar" style="float: right;
+    top: 30px;
+    padding-right: 10px;"></i>
+                <input type="text" class="kp-date" style="border: none;
+    padding: 0;
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: text;
+    position: relative;
+    box-sizing: border-box;
+    background-color: transparent;
+    /* border: none; */
+    /* border-bottom: 1px solid rgba(255,255,255,.5); */
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,.5);
+    height: 35px;
+    padding-left: 10px;
+    font-weight: 100;">
+            </div>
+            <div class="col-xs-6 mrg-TB-10">
+                <span style="font-weight: 100;">End date</span>
+                <i class="glyphicon glyphicon-calendar" style="float: right;
+    top: 30px;
+    padding-right: 10px;"></i>
+                <input type="text" class="kp-date" style="border: none;
+    padding: 0;
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: text;
+    position: relative;
+    box-sizing: border-box;
+    background-color: transparent;
+    /* border: none; */
+    /* border-bottom: 1px solid rgba(255,255,255,.5); */
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,.5);
+    height: 35px;
+    padding-left: 10px;
+    font-weight: 100;">
+            </div>
+        </div>
+        <div class="col-xs-6 col-xs-offset-4 mrg-TB-10">
+            <button style="
+    border-radius: 3px;
+    /* text-align: center; */
+    display: inline-block;
+    /* margin: auto; */
+    background-color: #1e8ab7;
+    border: none;
+    color: white;
+    /* padding: 4px 33px; */
+    /* text-align: center; */
+    /* text-decoration: none; */
+    /* display: inline-block; */
+    /* font-size: 16px; */
+    height: 30px;
+    padding: 0px 15px 0px 15px;
+    margin: 0px 10px 0px 0px;
+" data-bind="click: $root.createProject">
+                Create
+            </button>
+            <span style=" display: inline-block;" data-bind="click: $root.closePopup">Cancel</span>
+        </div>
+
+    </div>
+
+    <div class="popup popup-addTask" style="display:none;">
+        <span class="col-xs-12 popup-title">Create Task</span>
+        <div class="row mrg-LR-0">
+            <div class="col-xs-12 mrg-TB-10">
+                <input type="text" name="projFilter" placeholder="Task name" style="
+    margin: 0;
+    padding: 0;
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: text;
+    position: relative;
+    box-sizing: border-box;
+    background-color: transparent;
+    /* border: none; */
+    /* border-bottom: 1px solid rgba(255,255,255,.5); */
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,.5);
+    height: 35px;">
+            </div>
+            <div class="col-xs-12 mrg-TB-10">
+                <!--ko with: projectOverview()-->
+                <select data-bind="options: $root.projectOverview().ProjectPhases(), optionsText: 'Name', optionsValue: 'ID', optionsCaption: 'Select Task'" style="    background: #3e424d;
+    font-weight: 100;
+    width: 46%;"></select>
+                <!-- /ko -->
+            </div>
+            <div class="col-xs-6 mrg-TB-10">
+                <span style="font-weight: 100;">Start date</span>
+                <i class="glyphicon glyphicon-calendar" style="float: right;
+    top: 30px;
+    padding-right: 10px;"></i>
+                <input type="text" class="kp-date" style="border: none;
+    padding: 0;
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: text;
+    position: relative;
+    box-sizing: border-box;
+    background-color: transparent;
+    /* border: none; */
+    /* border-bottom: 1px solid rgba(255,255,255,.5); */
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,.5);
+    height: 35px;
+    padding-left: 10px;
+    font-weight: 100;">
+            </div>
+            <div class="col-xs-6 mrg-TB-10">
+                <span style="font-weight: 100;">End date</span>
+                <i class="glyphicon glyphicon-calendar" style="float: right;
+    top: 30px;
+    padding-right: 10px;"></i>
+                <input type="text" class="kp-date" style="border: none;
+    padding: 0;
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: text;
+    position: relative;
+    box-sizing: border-box;
+    background-color: transparent;
+    /* border: none; */
+    /* border-bottom: 1px solid rgba(255,255,255,.5); */
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,.5);
+    height: 35px;
+    padding-left: 10px;
+    font-weight: 100;">
+            </div>
+        </div>
+        <div class="col-xs-6 col-xs-offset-4 mrg-TB-10">
+            <button style="
+    border-radius: 3px;
+    /* text-align: center; */
+    display: inline-block;
+    /* margin: auto; */
+    background-color: #1e8ab7;
+    border: none;
+    color: white;
+    /* padding: 4px 33px; */
+    /* text-align: center; */
+    /* text-decoration: none; */
+    /* display: inline-block; */
+    /* font-size: 16px; */
+    height: 30px;
+    padding: 0px 15px 0px 15px;
+    margin: 0px 10px 0px 0px;
+" data-bind="click: $root.createTask">
+                Create
+            </button>
+            <span style=" display: inline-block;" data-bind="click: $root.closePopup">Cancel</span>
+        </div>
+
+    </div>
+
+    <div class="popup popup-addPhase" style="display:none;">
+        <span class="col-xs-12 popup-title">Create Task</span>
+        <div class="row mrg-LR-0">
+            <div class="col-xs-12 mrg-TB-10">
+                <input type="text" name="projFilter" placeholder="Task name" style="
+    margin: 0;
+    padding: 0;
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: text;
+    position: relative;
+    box-sizing: border-box;
+    background-color: transparent;
+    /* border: none; */
+    /* border-bottom: 1px solid rgba(255,255,255,.5); */
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,.5);
+    height: 35px;">
+            </div>
+            <div class="col-xs-12 mrg-TB-10">
+                <!--ko with: projectOverview()-->
+                <select data-bind="options: $root.projectOverview().ProjectPhases(), optionsText: 'Name', optionsValue: 'ID', optionsCaption: 'Select Task'" style="    background: #3e424d;
+    font-weight: 100;
+    width: 46%;"></select>
+                <!-- /ko -->
+            </div>
+            <div class="col-xs-6 mrg-TB-10">
+                <span style="font-weight: 100;">Start date</span>
+                <i class="glyphicon glyphicon-calendar" style="float: right;
+    top: 30px;
+    padding-right: 10px;"></i>
+                <input type="text" class="kp-date" style="border: none;
+    padding: 0;
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: text;
+    position: relative;
+    box-sizing: border-box;
+    background-color: transparent;
+    /* border: none; */
+    /* border-bottom: 1px solid rgba(255,255,255,.5); */
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,.5);
+    height: 35px;
+    padding-left: 10px;
+    font-weight: 100;">
+            </div>
+            <div class="col-xs-6 mrg-TB-10">
+                <span style="font-weight: 100;">End date</span>
+                <i class="glyphicon glyphicon-calendar" style="float: right;
+    top: 30px;
+    padding-right: 10px;"></i>
+                <input type="text" class="kp-date" style="border: none;
+    padding: 0;
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: text;
+    position: relative;
+    box-sizing: border-box;
+    background-color: transparent;
+    /* border: none; */
+    /* border-bottom: 1px solid rgba(255,255,255,.5); */
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,.5);
+    height: 35px;
+    padding-left: 10px;
+    font-weight: 100;">
+            </div>
+        </div>
+        <div class="col-xs-6 col-xs-offset-4 mrg-TB-10">
+            <button style="
+    border-radius: 3px;
+    /* text-align: center; */
+    display: inline-block;
+    /* margin: auto; */
+    background-color: #1e8ab7;
+    border: none;
+    color: white;
+    /* padding: 4px 33px; */
+    /* text-align: center; */
+    /* text-decoration: none; */
+    /* display: inline-block; */
+    /* font-size: 16px; */
+    height: 30px;
+    padding: 0px 15px 0px 15px;
+    margin: 0px 10px 0px 0px;
+" data-bind="click: $root.createTask">
+                Create
+            </button>
+            <span style=" display: inline-block;" data-bind="click: $root.closePopup">Cancel</span>
+        </div>
+
+    </div>
+
     <!--ko if: currentPage() == 'projects'-->
     <!--ko ifnot: contentLoading-->
     <div class="row contentArea ca ca-dash">
@@ -61,13 +362,13 @@
                         <span class="projSiderbar-headerTitle">Projects</span>
                         <div class="lnr lnr-plus-circle projectSidebar-headerAdd">
                             <div class="projectSidebar-headerAdd-content">
-                                <p style="padding: 10px 0px 0px 25px;">Project</p>
-                                <p style="padding: 10px 0px 0px 25px;">Phase</p>
-                                <p style="padding: 10px 0px 0px 25px;">Task</p>
+                                <p style="padding: 10px 0px 0px 25px;" data-bind="click :$root.createNew">Project</p>
+                                <p style="padding: 10px 0px 0px 25px;" data-bind="click :$root.createNew">Phase</p>
+                                <p style="padding: 10px 0px 0px 25px;" data-bind="click :$root.createNew">Task</p>
                             </div>
                         </div>
                     </div>
-                    <!-- ko foreach: { data: userProjects(), as: 'userProjects' } -->
+                    <!-- ko foreach: { data: userProjects, as: 'userProjects' } -->
                     <div class="col-xs-11 nopadding project-title">
                         <span class="projSidebar-itemName" data-bind="text: userProjects.Name, click: $root.loadProjectData"></span>
                         <span class="lnr lnr-star-empty project-fav"></span>
@@ -100,15 +401,28 @@
                     <span style="cursor: pointer;" data-bind="text: p.Name">
                     </span>
                     @*<span data-bind="text: '(' + p.Projects().length + ')'">
-                </span>*@
-                    <!-- ko foreach: { data: p.Projects, as: 'projects' } -->
-                    <div class="tasktest projPhase-item" data-bind="text: projects.Name"></div>
-                    <!-- /ko -->
+                        </span>*@
+                    <div style="    max-height: 515px;
+    overflow-y: auto;">
+                        <!-- ko foreach: { data: p.Projects, as: 'projects' } -->
+                        <div class="tasktest projPhase-item" data-bind="text: projects.Name"></div>
+                        <!-- /ko -->
+                    </div>
+
+                    <div style="
+    padding: 0px 0px 0px 10px;
+    font-size: 12px;
+    font-weight: 100;
+    color: #1bb9e1;
+    /* bottom: 10px; */
+    /* position: relative; */
+    height: 40px;
+    line-height: 40px;
+">Create Task</div>
                 </div>
                 <!-- /ko -->
             </div>
             <!-- /ko -->
-           
             <!--ko with: currentProject()-->
             <div class="row proj-detailed">
                 <!--ko ifnot: $data.PhaseTasks().length -->
@@ -123,14 +437,15 @@
                         <i class="material-icons" style="position: absolute;top: 114px;left: 49px;font-size: 75px;z-index: 3;">grade</i>
 
                     </div>
-                    
-                <span style="
+
+                    <span style="
     position: absolute;
     top: 250px;
     font-size: 18px;
     font-weight: bold;
     left: 35px;
-">Default Layout</span></div>
+">Default Layout</span>
+                </div>
                 <div class="col-xs-4" data-bind="click: $root.createCustom">
                     <div style="
     height: 75vh;

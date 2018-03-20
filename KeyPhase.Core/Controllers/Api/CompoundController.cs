@@ -51,5 +51,11 @@ namespace KeyPhase.Core.Controllers.Api
         {
             return _combinedService.AddTaskHistory(TaskID, UserID, Value);
         }
+
+        [HttpPost("AddProject")]
+        public bool AddProject(int UserID, string Name, DateTime EstStartDT, DateTime EstEndDT, int PhaseID)
+        {
+            return _combinedService.AddProject(UserID, Name, EstStartDT, EstEndDT, PhaseID);
+        }
     }
 }

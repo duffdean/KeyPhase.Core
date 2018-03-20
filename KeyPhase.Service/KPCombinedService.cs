@@ -159,6 +159,27 @@ namespace KeyPhase.Service
             });
         }
 
+        public bool AddProject(int UserID, string Name, DateTime EstStartDT, DateTime EstEndDT, int PhaseID)
+        {
+            Project proj;
+
+            proj = _projRepository.Add(new Project
+            {
+                Name = Name,
+                PhaseID = PhaseID,
+                EstStartDate = EstStartDT,
+                EstEndDate = EstEndDT,
+                Active = true
+            });
+
+            _userProjectRepository.Add(new UserProject
+            {
+                ProjectID = proj.ID,
+                UserID = UserID
+            });
+
+            return true;
+        }
 
     }
 }

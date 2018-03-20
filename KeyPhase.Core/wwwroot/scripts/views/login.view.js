@@ -8,6 +8,7 @@ app.View = app.View || {};
 
     function VM() {
         var vm = this;
+        vm.user = ko.observable(null);
         vm.register = ko.observable(false);
         vm.registerUser = vmFunctions.events.register;
         vm.login = vmFunctions.events.login;
@@ -45,7 +46,15 @@ app.View = app.View || {};
                         viewModel.errorMessage("Please enter a password")
                     }
                     else {
-                        window.location.href = "/kp";
+                        return app.Controllers.Auth.Login(viewModel.email(), viewModel.password())
+                            .done(function (obj) {
+                                debugger;
+                                window.location.href = "/kp";
+                            })
+                            .always(function () {
+
+                            });
+                        
                     }
                     
                 }

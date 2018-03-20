@@ -5,6 +5,24 @@ app.Controllers = app.Controllers || {};
     'use strict';
 
     app.Controllers.Projects = {
+        AddProject: function (userID, name, estStartDT, estEndDT, phaseID) {
+            return $.ajax({
+                url: app.Global.BaseAddress + app.Global.Controllers.Compound + "AddProject",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    UserID: userID,
+                    Name: name,
+                    EstStartDT: estStartDT,
+                    EstEndDT: estEndDT,
+                    PhaseID: phaseID
+                }
+            })
+                .done(function (obj) {
+                })
+                .fail(function (obj) {
+                });
+        },
         CreateDefaultLayout: function (id) {
             return $.ajax({
                 url: app.Global.BaseAddress + app.Global.Controllers.Compound + "CreateDefaultLayout",

@@ -33,6 +33,10 @@ namespace KeyPhase.Core
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Issue with Cross domain...
+            //https://docs.microsoft.com/en-us/aspnet/core/security/cors
+            services.AddCors();
+
             services.AddMvc();
 
             //Had issue with json properties being defaulted to camelCase by .Net Core

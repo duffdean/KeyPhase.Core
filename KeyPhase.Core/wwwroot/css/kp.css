@@ -1,6 +1,8 @@
 ﻿::-webkit-scrollbar {
-    width: 12px;
+    width: 5px;
+    height: 5px;
     background-color: #F5F5F5;
+
 }
 
 ::-webkit-scrollbar-thumb {
@@ -224,7 +226,7 @@
     height: 140px;
     width: 100px;
     background: #323641;
-    top: 17px;
+    top: 5px;
     right: -90px;
     box-shadow: -2px 8px 20px 2px #232323;
     z-index: 1055;
@@ -269,7 +271,7 @@
     width: 275px;
     background: #323641;
     /* display: inline-block; */
-    min-height: 150px;
+    /*min-height: 150px;*/
     float: left;
     margin: 15px;
 }
@@ -331,4 +333,68 @@
     border-bottom: 1px solid rgba(255,255,255,.5);
     font-size: 15px;
     height: 30px;
+}
+
+.mrg-LR-0 {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.mrg-TB-10 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.mrg-TB-15 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.popup-addProject {
+    position: fixed;
+    /* background: red; */
+    z-index: 1056;
+    top: 19%;
+    left: 37%;
+    width: 400px;
+    /* position: absolute; */
+    /* height: 140px; */
+    /* width: 100px; */
+    background: #3e424d;
+    /* top: 17px; */
+    /* right: -90px; */
+    box-shadow: 4px 7px 33px -3px #000000;
+    /* z-index: 1055; */
+    /* display: none; */
+        border-radius: 5px
+}
+
+.popup-addTask {
+    position: fixed;
+    z-index: 1056;
+    top: 19%;
+    left: 37%;
+    width: 400px;
+    background: #3e424d;
+    box-shadow: 4px 7px 33px -3px #000000;
+    border-radius: 5px
+}
+
+.popup-addPhase {
+    position: fixed;
+    z-index: 1056;
+    top: 19%;
+    left: 37%;
+    width: 400px;
+    background: #3e424d;
+    box-shadow: 4px 7px 33px -3px #000000;
+    border-radius: 5px
+}
+
+.popup-title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 100;
+    padding-top: 10px;
+    display: block;
 }

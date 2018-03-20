@@ -14,6 +14,7 @@ app.View = app.View || {};
         vm.projectTasks = ko.observableArray([]);
         vm.currentProject = ko.observable(null);
         vm.currentTask = ko.observable(null);
+        vm.user = ko.observable(1);
 
         vm.closePopup = page.helpers.ClosePopup;
         vm.taskPopup = page.helpers.TaskPopup;
@@ -23,9 +24,12 @@ app.View = app.View || {};
         vm.updateUI = page.helpers.updateUI;
         vm.loadProjectData = page.events.LoadProjectData;
         vm.postComment = page.helpers.PostComment;
+        vm.createNew = page.helpers.CreateNew;
 
+        vm.createProject = page.events.CreateProject;
         vm.createCustom = page.events.CreateCustomLayout;
         vm.createDefault = page.events.CreateDefaultLayout;
+
 
         vm.currentPage = ko.observable('');
         vm.KPSettings = ko.observableArray();
@@ -133,6 +137,26 @@ app.View = app.View || {};
         viewModel: null,
 
         events: {
+            CreateProject: function (a,b,c) {
+                var name, start, end, phase;
+
+                name = $('.popup-addProject').find('input').eq(0).val();
+                start = $('.popup-addProject').find('input').eq(1).val();
+                end = $('.popup-addProject').find('input').eq(2).val();
+                phase = $('.popup-addProject').find(":selected").val();
+
+                if (name.length && start < end && phase.length) {
+
+                    return app.Controllers.Projects.AddProject(viewModel.user, name, start, end, phase)
+                        .done(function (obj) {
+                            page.getters.GetUserProjects();
+                            page.helpers.ClosePopup();
+                        })
+                        .always(function () {
+
+                        });
+                }
+            },
             DragPhase: function (event) {
                 event.dataTransfer.setData
                     ('target_id', ev.target.id);
@@ -216,7 +240,7 @@ app.View = app.View || {};
             },
             GetUserProjects: function () {
 
-                return app.Controllers.Projects.GetUserProjects(1)
+                return app.Controllers.Projects.GetUserProjects(viewModel.user())
                     .done(function (obj) {
                         if (viewModel.userProjects().length) {
                             viewModel.userProjects([]);
@@ -256,6 +280,20 @@ app.View = app.View || {};
         },
 
         helpers: {
+            CreateNew: function (vm, event) {
+                $('.bg-overlay').fadeIn();
+                switch ($(event.currentTarget).text().toLowerCase()) {
+                    case 'project':
+                        $('.popup-addProject').fadeIn();
+                        break;
+                    case 'task':
+                        $('.popup-addTask').fadeIn();
+                        break;
+                    case 'phase':
+                        $('.popup-addPhase').fadeIn();
+                        break;
+                }
+            },
             PostComment: function (item, event) {
                 var comment = $('.popup-task-chat').val();
 
@@ -274,12 +312,15 @@ app.View = app.View || {};
 
                         });
                 }
-                
+
 
             },
-            ClosePopup: function () {
+            ClosePopup: function (vm, event) {
+
                 $('.bg-overlay').fadeOut();
-                $('.popup-task').fadeOut();
+                $('.popup-task').fadeOut(); //this is for task only, so make task the generic one as below.
+                //$(event.currentTarget).closest('.popup').fadeOut();
+                $('.popup').fadeOut();
                 viewModel.currentTask(null);
             },
             KPSettings: function () {
@@ -332,7 +373,7 @@ app.View = app.View || {};
                 //taskPop.fadeIn();
                 //page.addClass('kp-main-blur');
                 //page.addClass('kp-main-blurTrans');
-                
+
             },
 
             fillHeight: function () {
@@ -389,7 +430,7 @@ app.View = app.View || {};
             $.when.apply(undefined, requests).then(function () {
                 page.helpers.removeLoader();
                 app.Global.DragScrollListener();
-
+                $('.kp-date').datepicker({ dateFormat: 'dd-mm-yy' });//strip out....
             });
         }
     };

@@ -1,9 +1,0 @@
-F:\University\Year 4\Final Year Project\KeyPhase Source\KeyPhase.Core\KeyPhase.Repository.Interface\bin\Debug\netcoreapp2.0\KeyPhase.Repository.Interface.deps.json
-F:\University\Year 4\Final Year Project\KeyPhase Source\KeyPhase.Core\KeyPhase.Repository.Interface\bin\Debug\netcoreapp2.0\KeyPhase.Repository.Interface.dll
-F:\University\Year 4\Final Year Project\KeyPhase Source\KeyPhase.Core\KeyPhase.Repository.Interface\bin\Debug\netcoreapp2.0\KeyPhase.Repository.Interface.pdb
-F:\University\Year 4\Final Year Project\KeyPhase Source\KeyPhase.Core\KeyPhase.Repository.Interface\obj\Debug\netcoreapp2.0\KeyPhase.Repository.Interface.csprojResolveAssemblyReference.cache
-F:\University\Year 4\Final Year Project\KeyPhase Source\KeyPhase.Core\KeyPhase.Repository.Interface\obj\Debug\netcoreapp2.0\KeyPhase.Repository.Interface.csproj.CoreCompileInputs.cache
-F:\University\Year 4\Final Year Project\KeyPhase Source\KeyPhase.Core\KeyPhase.Repository.Interface\obj\Debug\netcoreapp2.0\KeyPhase.Repository.Interface.AssemblyInfoInputs.cache
-F:\University\Year 4\Final Year Project\KeyPhase Source\KeyPhase.Core\KeyPhase.Repository.Interface\obj\Debug\netcoreapp2.0\KeyPhase.Repository.Interface.AssemblyInfo.cs
-F:\University\Year 4\Final Year Project\KeyPhase Source\KeyPhase.Core\KeyPhase.Repository.Interface\obj\Debug\netcoreapp2.0\KeyPhase.Repository.Interface.dll
-F:\University\Year 4\Final Year Project\KeyPhase Source\KeyPhase.Core\KeyPhase.Repository.Interface\obj\Debug\netcoreapp2.0\KeyPhase.Repository.Interface.pdb

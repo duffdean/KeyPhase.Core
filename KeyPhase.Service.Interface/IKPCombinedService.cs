@@ -14,6 +14,7 @@ namespace KeyPhase.Service.Interface
         TaskDetailed TaskDetailed(int TaskID);
         TaskHistory AddTaskHistory(int TaskID, int UserID, string Value);
         ProjectDetailed CreateDefaultLayout(int ProjectID);
+        bool AddProject(int UserID, string Name, DateTime EstStartDT, DateTime EstEndDT, int PhaseID);
         //IEnumerable<Task> GetAll();
         //IEnumerable<Task> GetAllForProject(int ProjectID);
     }
