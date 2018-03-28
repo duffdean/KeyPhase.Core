@@ -37,5 +37,11 @@ namespace KeyPhase.Core.Controllers.Api
 
             _taskService.UpdateTaskPhase(PhaseID, TaskID);
         }
+
+        [HttpGet("GetMostRecent")]
+        public IEnumerable<KeyPhase.Models.Models.Task> GetMostRecent(int UserID)
+        {
+            return _taskService.GetMostRecent(UserID);
+        }
     }
 }

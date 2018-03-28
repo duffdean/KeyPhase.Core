@@ -48,8 +48,8 @@ app.View = app.View || {};
                     else {
                         return app.Controllers.Auth.Login(viewModel.email(), viewModel.password())
                             .done(function (obj) {
-                                debugger;
-                                window.location.href = "/kp";
+                                $.cookie('KPUser', JSON.stringify(obj), { expires: 1 });
+                                window.location.href = "kp";
                             })
                             .always(function () {
 

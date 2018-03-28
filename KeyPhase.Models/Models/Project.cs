@@ -15,6 +15,7 @@ namespace KeyPhase.Models.Models
         public DateTime? EstEndDate { get; set; }
         public DateTime? ActStartDate { get; set; }
         public DateTime? ActEndDate { get; set; }
+        public double? Budget { get; set; }
         public bool? Active { get; set; }
         public virtual Phase Phase { get; set; }
     }

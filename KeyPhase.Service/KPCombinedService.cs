@@ -22,12 +22,13 @@ namespace KeyPhase.Service
         private readonly IRepository<TaskHistory> _taskHistoryRepository;
         private readonly IRepository<User> _userRepository;
         private readonly IRepository<PhaseUser> _phaseUserRepository;
+        private readonly IRepository<UserTask> _userTaskRepository;
 
         public KPCombinedService(IRepository<Task> TaskRepository, IRepository<Project> ProjRepository, 
             IRepository<ProjectTask> ProjTaskRepository, IRepository<UserProject> userProjRepository, 
             IRepository<Phase> PhaseRepository, IRepository<ProjectTaskPhase> ProjTaskPhaseRepository,
             IRepository<ProjectHistory> ProjHistoryRepository, IRepository<TaskHistory> TaskHistoryRepository,
-            IRepository<User> UserRepository, IRepository<PhaseUser> PhaseUserRepository)
+            IRepository<User> UserRepository, IRepository<PhaseUser> PhaseUserRepository, IRepository<UserTask> UserTaskRepository)
         {
             _taskRepository = TaskRepository;
             _projTaskRepository = ProjTaskRepository;
@@ -39,7 +40,7 @@ namespace KeyPhase.Service
             _taskHistoryRepository = TaskHistoryRepository;
             _userRepository = UserRepository;
             _phaseUserRepository = PhaseUserRepository;
-
+            _userTaskRepository = UserTaskRepository;
         }
 
         public ProjectDetailed SelectedProject(int ProjectID)
@@ -120,6 +121,36 @@ namespace KeyPhase.Service
             return SelectedProject(ProjectID);
         }
 
+        public ProjectOverview CreateDefaultCoreLayout(int UserID)
+        {
+            Phase phase;
+
+            string[] phases = new string[] {
+                "New",
+                "In Progress",
+                "Complete",
+                "On-Hold"
+            };
+
+            for (int i = 0; i < phases.Length; i++)
+            {
+                phase = _phaseRepository.Add(new Phase
+                {
+                    Name = phases[i],
+                    Position = i + 1,
+                    Active = true
+                });
+
+                _phaseUserRepository.Add(new PhaseUser
+                {
+                    UserID = UserID,
+                    PhaseID = phase.ID,
+                });
+            }
+
+            return UserProjectsOverview(UserID);
+        }
+
         public ProjectOverview UserProjectsOverview(int UserID)
         {
             //IEnumerable<UserProject> userProjects = _userProjectRepository.FindAll(c => c.UserID == UserID);            
@@ -159,7 +190,7 @@ namespace KeyPhase.Service
             });
         }
 
-        public bool AddProject(int UserID, string Name, DateTime EstStartDT, DateTime EstEndDT, int PhaseID)
+        public ProjectOverview AddProject(int UserID, string Name, DateTime EstStartDT, DateTime EstEndDT, int PhaseID, double? Budget)
         {
             Project proj;
 
@@ -169,6 +200,7 @@ namespace KeyPhase.Service
                 PhaseID = PhaseID,
                 EstStartDate = EstStartDT,
                 EstEndDate = EstEndDT,
+                Budget = Budget,
                 Active = true
             });
 
@@ -178,8 +210,42 @@ namespace KeyPhase.Service
                 UserID = UserID
             });
 
-            return true;
+
+            return UserProjectsOverview(UserID);
         }
 
+        public ProjectDetailed AddTask(int UserID, string Name, DateTime EstStartDT, DateTime EstEndDT, 
+            int PhaseID, int ProjectID, double? Cost)
+        {
+            Task task;
+
+            task = _taskRepository.Add(new Task
+            {
+                Name = Name,
+                PhaseID = PhaseID,
+                EstStartDate = EstStartDT,
+                EstEndDate = EstEndDT,
+                Cost = Cost,
+                Complete = false,
+                CreatedOn = DateTime.Now,
+                Active = true
+            });
+
+            _projTaskRepository.Add(new ProjectTask
+            {
+                ProjectID = ProjectID,
+                TaskID = task.ID
+            });
+
+            _userTaskRepository.Add(new UserTask
+            {
+                UserID = UserID,
+                TaskID = task.ID
+            });
+
+            AddTaskHistory(task.ID, UserID, task.Name + " was created");
+
+            return SelectedProject(ProjectID);
+        }
     }
 }

@@ -16,16 +16,21 @@ app.View = app.View || {};
         vm.currentTask = ko.observable(null);
         vm.user = ko.observable(1);
 
+        //Dashboard Data
+        vm.dash_TaskMostRecent = ko.observable(null);
+
         vm.closePopup = page.helpers.ClosePopup;
         vm.taskPopup = page.helpers.TaskPopup;
         vm.dragPhase = page.events.DragPhase;
         vm.login = page.helpers.loginRedirect;
         vm.dashSideSlide = page.helpers.dashSideSlide;
         vm.updateUI = page.helpers.updateUI;
+        vm.toggleOverview = page.helpers.ToggleOverview;
         vm.loadProjectData = page.events.LoadProjectData;
         vm.postComment = page.helpers.PostComment;
         vm.createNew = page.helpers.CreateNew;
 
+        vm.createTask = page.events.CreateTask;
         vm.createProject = page.events.CreateProject;
         vm.createCustom = page.events.CreateCustomLayout;
         vm.createDefault = page.events.CreateDefaultLayout;
@@ -34,6 +39,22 @@ app.View = app.View || {};
         vm.currentPage = ko.observable('');
         vm.KPSettings = ko.observableArray();
         vm.contentLoading = ko.observable(false);
+
+        vm.profile = ko.computed(function () {
+            if (vm.user().FirstName) {
+                return {
+                    Avatar: vm.user().FirstName.charAt(0).toUpperCase() + vm.user().LastName.charAt(0).toUpperCase(),
+                    Name: vm.user().FirstName,
+                    BgColour: vm.user().BgColour
+                }
+            }
+            else {
+                return {
+                    Avatar: "",
+                    Name: ""
+                }
+            }
+        });
 
 
 
@@ -68,7 +89,13 @@ app.View = app.View || {};
 
             },
             GetDashboardData: function () {
+                var requests = [];
 
+                requests.push(page.getters.GetMostRecentTasks());
+
+                $.when.apply(undefined, requests).then(function () {
+                    viewModel.contentLoading(false);
+                });
             },
             UpdateTaskPhase: function (phaseID, taskID) {
                 app.Controllers.Tasks.UpdateTaskPhase(phaseID, taskID);
@@ -137,20 +164,64 @@ app.View = app.View || {};
         viewModel: null,
 
         events: {
-            CreateProject: function (a,b,c) {
-                var name, start, end, phase;
+            CreateTask: function (a, b, c) {
+                var name, start, end, phase, cost;
+
+                name = $('.popup-addTask').find('input').eq(0).val();
+                cost = $('.popup-addTask').find('input').eq(1).val();
+                start = $('.popup-addTask').find('input').eq(2).val();
+                end = $('.popup-addTask').find('input').eq(3).val();
+                phase = $('.popup-addTask').find(":selected").val();
+
+                if (name.length && start < end && phase.length) {
+
+                    return app.Controllers.Tasks.AddTask(viewModel.user().ID, name, start, end, phase, viewModel.currentProject().Project.ID(), cost)
+                        .done(function (obj) {
+
+                            if (viewModel.currentProject) {
+                                viewModel.projectOverview(null);
+                            }
+
+                            viewModel.currentProject(ko.mapping.fromJS(obj));
+
+                            page.helpers.ClosePopup();
+                        })
+                        .always(function () {
+
+                        });
+                }
+            },
+            CreateProject: function (a, b, c) {
+                var name, start, end, phase, budget;
 
                 name = $('.popup-addProject').find('input').eq(0).val();
-                start = $('.popup-addProject').find('input').eq(1).val();
-                end = $('.popup-addProject').find('input').eq(2).val();
+                budget = $('.popup-addProject').find('input').eq(1).val();
+                start = $('.popup-addProject').find('input').eq(2).val();
+                end = $('.popup-addProject').find('input').eq(3).val();
                 phase = $('.popup-addProject').find(":selected").val();
 
                 if (name.length && start < end && phase.length) {
 
-                    return app.Controllers.Projects.AddProject(viewModel.user, name, start, end, phase)
+                    return app.Controllers.Projects.AddProject(viewModel.user().ID, name, start, end, phase, budget)
                         .done(function (obj) {
+                            //page.getters.GetUserProjects();
+
+                            if (viewModel.projectOverview()) {
+                                viewModel.projectOverview(null);
+                            }
+
+                            viewModel.projectOverview(ko.mapping.fromJS(obj));
                             page.getters.GetUserProjects();
+                            //_(viewModel.projectOverview().ProjectPhases()).forEach(function (item) {
+                            //    if (item.ID() == phase) {
+                            //        item.Projects().push(ko.mapping.fromJS(obj))
+                            //    }
+                            //});
+
+
+                            //viewModel.projectOverview().Projects().push(ko.mapping.fromJS(obj));
                             page.helpers.ClosePopup();
+                            //viewModel.projectOverview(ko.mapping.fromJS(obj));  
                         })
                         .always(function () {
 
@@ -165,6 +236,7 @@ app.View = app.View || {};
                 var requests = [];
 
                 $('.proj-overview').fadeOut();
+                $('.proj-taskbar').fadeOut();
 
                 //show loader while getting data 
                 requests.push(page.getters.GetProjectData(proj.ID));
@@ -202,14 +274,34 @@ app.View = app.View || {};
                 });
                 $(".tester").sortable();
             },
-            CreateDefaultLayout: function (Proj) {
-                return app.Controllers.Projects.CreateDefaultLayout(Proj.Project.ID())
-                    .done(function (obj) {
-                        viewModel.currentProject(ko.mapping.fromJS(obj));
-                    })
-                    .always(function () {
+            CreateDefaultLayout: function (data, elem) {
+                var isProj = $(elem.currentTarget).hasClass('crtd-Task');
 
-                    });
+                if (isProj) {
+                    //CreateDefaultCoreLayout
+                    return app.Controllers.Projects.CreateDefaultCoreLayout(viewModel.user().ID)
+                        .done(function (obj) {
+                            debugger;
+                            if (viewModel.projectOverview()) {
+                                viewModel.projectOverview(null);
+                            }
+
+                            viewModel.projectOverview(ko.mapping.fromJS(obj));
+                        })
+                        .always(function () {
+
+                        });
+                }
+                else {
+                    return app.Controllers.Projects.CreateDefaultLayout(data.Project.ID())
+                        .done(function (obj) {
+                            viewModel.currentProject(ko.mapping.fromJS(obj));
+                        })
+                        .always(function () {
+
+                        });
+                }
+
             },
             CreateCustomLayout: function () {
                 debugger;
@@ -217,10 +309,28 @@ app.View = app.View || {};
         },
 
         getters: {
-            GetProjectsOverview: function () {
-                return app.Controllers.Projects.GetProjectsOverview(1) //replace with userid
+            GetMostRecentTasks: function () {
+                return app.Controllers.Tasks.GetMostRecent(viewModel.user().ID) //replace with userid
                     .done(function (obj) {
+                        viewModel.dash_TaskMostRecent(obj);
+                    })
+                    .always(function () {
+
+                    });
+            },
+            GetProjectsOverview: function () {
+                return app.Controllers.Projects.GetProjectsOverview(viewModel.user().ID) //replace with userid
+                    .done(function (obj) {
+
+
+                        if (viewModel.projectOverview()) {
+                            viewModel.projectOverview(null);
+                        }
+
                         viewModel.projectOverview(ko.mapping.fromJS(obj));
+
+
+                        //viewModel.projectOverview(ko.mapping.fromJS(obj));
                         //viewModel.currentProject(obj);
                     })
                     .always(function () {
@@ -240,15 +350,17 @@ app.View = app.View || {};
             },
             GetUserProjects: function () {
 
-                return app.Controllers.Projects.GetUserProjects(viewModel.user())
+                return app.Controllers.Projects.GetUserProjects(viewModel.user().ID)
                     .done(function (obj) {
                         if (viewModel.userProjects().length) {
-                            viewModel.userProjects([]);
+                            viewModel.userProjects(null);
                         }
 
-                        for (var i = 0; i < obj.length; i++) {
-                            viewModel.userProjects().push(ko.mapping.fromJS(obj[i]));
-                        }
+                        viewModel.userProjects(ko.mapping.fromJS(obj));
+
+                        //for (var i = 0; i < obj.length; i++) {
+                        //    viewModel.userProjects().push(ko.mapping.fromJS(obj[i]));
+                        //}
                         //viewModel.userProjects(ko.mapping.fromJS(obj));
                         //viewModel.userProjects(_.map(obj, vmFunctions.mappers.MapProject));
                     })
@@ -280,11 +392,33 @@ app.View = app.View || {};
         },
 
         helpers: {
+            ToggleOverview: function () {
+                
+                if (!$('.proj-overview').is(':visible')) {
+                    $('.proj-taskbar').fadeIn();
+                    $('.proj-detailed').fadeOut();
+                    $('.proj-overview').fadeIn();
+                    $('.task-taskbar').fadeOut();
+                }
+                else {
+                    $('.task-taskbar').fadeIn();
+                    $('.proj-overview').fadeOut();
+                    $('.proj-detailed').fadeIn();  
+                    $('.proj-taskbar').fadeOut();
+                }
+                
+            },
             CreateNew: function (vm, event) {
                 $('.bg-overlay').fadeIn();
                 switch ($(event.currentTarget).text().toLowerCase()) {
+                    case 'create project':
+                        $('.popup-addProject').fadeIn();
+                        break;
                     case 'project':
                         $('.popup-addProject').fadeIn();
+                        break;
+                    case 'create task':
+                        $('.popup-addTask').fadeIn();
                         break;
                     case 'task':
                         $('.popup-addTask').fadeIn();
@@ -430,7 +564,13 @@ app.View = app.View || {};
             $.when.apply(undefined, requests).then(function () {
                 page.helpers.removeLoader();
                 app.Global.DragScrollListener();
+
                 $('.kp-date').datepicker({ dateFormat: 'dd-mm-yy' });//strip out....
+                viewModel.user(JSON.parse($.cookie('KPUser'))); //This too...  Add a failsafe.
+
+                //add default page function. Also ensure user is loaded first...
+                vmFunctions.events.GetDashboardData();
+                viewModel.currentPage("dashboard");
             });
         }
     };

@@ -34,6 +34,12 @@ namespace KeyPhase.Core.Controllers.Api
             return _combinedService.CreateDefaultLayout(ProjectID);
         }
 
+        [HttpGet("CreateDefaultCoreLayout")]
+        public ProjectOverview CreateDefaultCoreLayout(int UserID)
+        {
+            return _combinedService.CreateDefaultCoreLayout(UserID);
+        }
+
         [HttpGet("GetProjectsOverview")]
         public ProjectOverview GetProjectsOverview(int UserID)
         {
@@ -53,9 +59,16 @@ namespace KeyPhase.Core.Controllers.Api
         }
 
         [HttpPost("AddProject")]
-        public bool AddProject(int UserID, string Name, DateTime EstStartDT, DateTime EstEndDT, int PhaseID)
+        public ProjectOverview AddProject(int UserID, string Name, DateTime EstStartDT, DateTime EstEndDT, int PhaseID, double? Budget)
         {
-            return _combinedService.AddProject(UserID, Name, EstStartDT, EstEndDT, PhaseID);
+            return _combinedService.AddProject(UserID, Name, EstStartDT, EstEndDT, PhaseID, Budget);
+        }
+
+        [HttpPost("AddTask")]
+        public ProjectDetailed AddTask(int UserID, string Name, DateTime EstStartDT, DateTime EstEndDT,
+            int PhaseID, int ProjectID, double? Cost)
+        {
+            return _combinedService.AddTask(UserID, Name, EstStartDT, EstEndDT, PhaseID, ProjectID, Cost);
         }
     }
 }

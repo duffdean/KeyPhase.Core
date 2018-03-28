@@ -5,12 +5,12 @@ app.Global = app.Global || {};
     'use strict';
 
     app.Global.BaseAddress = "http://localhost:61238/api/";
-    app.Global.AuthAddress = "http://localhost:62734/api/";
+    app.Global.AuthAddress = "http://18.221.239.64/KeyPhase.Users/api/"; //"http://localhost:62734/api/";
     app.Global.Controllers = {
-        Compound: "compound/",
-        Project: "projects/",
-        Task: "tasks/",
-        Auth: "auth/"
+        Compound: "Compound/",
+        Project: "Projects/",
+        Task: "Tasks/",
+        Auth: "Auth/"
     };
     app.Global.DragScrollListener = (function () {
         $(document).on('DOMNodeInserted', function (e) {

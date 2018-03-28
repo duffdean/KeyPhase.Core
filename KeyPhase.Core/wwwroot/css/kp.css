@@ -83,23 +83,36 @@
     margin: 15px;
 }
 .kp-profile-icon {
-    content: attr(data-letters);
-    display: inline-block;
-    font-size: 1em;
+    /* content: attr(data-letters); */
+    /* display: inline-block; */
+    /* font-size: 1em; */
     width: 2.5em;
     height: 2.5em;
     line-height: 2.5em;
     text-align: center;
     border-radius: 50%;
-    background: #d23b65;
-    /* vertical-align:middle; */
+    /*background: #d23b65;*/
+    /* vertical-align: middle; */
     /* margin-right: 1em; */
     color: white;
-    /* top: 0px; */
-    /* position: relative; */
+    bottom: 8px;
+    position: relative;
+    /* float: right; */
+    right: 10px;
+    /* padding: 0px; */
 }
 .kp-profile-name {
-    display: inline-block;
+    /* display: inline-block; */
+    max-width: 60%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* float: right; */
+    /* position: relative; */
+    /* right: 80px; */
+    float: right;
+    text-align: right;
+    min-width: 125px;
 }
 
 .contentLoader {
@@ -227,7 +240,7 @@
     width: 100px;
     background: #323641;
     top: 5px;
-    right: -90px;
+    right: 5px;
     box-shadow: -2px 8px 20px 2px #232323;
     z-index: 1055;
     display: none;
@@ -256,6 +269,7 @@
     cursor: pointer;
     height: 25px;
     line-height: 25px;
+    z-index: 1055;
 }
 .projSidebar {
     z-index: 99;
@@ -266,6 +280,8 @@
     border-right: #3a4258;
     border-right-width: 1px;
     border-right-style: solid;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 .projPhase {
     width: 275px;
@@ -397,4 +413,21 @@
     font-weight: 100;
     padding-top: 10px;
     display: block;
+}
+
+.viewType-tab {
+    width: 70px;
+    border-bottom: grey;
+    border-bottom-width: 1px;
+    /*border-bottom-style: solid;*/
+    color: grey;
+    display: inline-block;
+    text-align: center;
+    margin: 0px 10px 0px 10px;
+    height: 30px;
+    float: right;
+}
+
+.LH-15 {
+    line-height: 35px;
 }

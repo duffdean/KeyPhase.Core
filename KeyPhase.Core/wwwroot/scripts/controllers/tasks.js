@@ -3,8 +3,28 @@ app.Controllers = app.Controllers || {};
 
 (function () {
     'use strict';
-    
+
     app.Controllers.Tasks = {
+        AddTask: function (userID, name, estStartDT, estEndDT, phaseID, projectID, cost) {
+            return $.ajax({
+                url: app.Global.BaseAddress + app.Global.Controllers.Compound + "AddTask",
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    UserID: userID,
+                    Name: name,
+                    EstStartDT: estStartDT,
+                    EstEndDT: estEndDT,
+                    PhaseID: phaseID,
+                    ProjectID: projectID,
+                    Cost: cost
+                }
+            }).done(function (obj) {
+
+            }).fail(function (obj) {
+
+            });
+        },
         AddTaskHistory: function (userID, taskID, value) {
             return $.ajax({
                 url: app.Global.BaseAddress + app.Global.Controllers.Compound + "AddTaskHistory",
@@ -14,6 +34,19 @@ app.Controllers = app.Controllers || {};
                     UserID: userID,
                     TaskID: taskID,
                     Value: value
+                }
+            }).done(function (obj) {
+
+            }).fail(function (obj) {
+
+            });
+        },
+        GetMostRecent: function (userID) {
+            return $.ajax({
+                url: app.Global.BaseAddress + app.Global.Controllers.Task + "GetMostRecent",
+                type: "GET",
+                data: {
+                    UserID: userID
                 }
             }).done(function (obj) {
 

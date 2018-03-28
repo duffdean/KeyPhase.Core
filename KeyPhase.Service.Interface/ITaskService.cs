@@ -12,5 +12,6 @@ namespace KeyPhase.Service.Interface
         IEnumerable<Task> GetAll();
         IEnumerable<Task> GetAllForProject(int ProjectID);
         void UpdateTaskPhase(int PhaseID, int TaskID);
+        IEnumerable<Task> GetMostRecent(int UserID);
     }
 }

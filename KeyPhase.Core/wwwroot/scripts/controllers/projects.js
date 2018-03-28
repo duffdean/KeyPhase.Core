@@ -5,7 +5,7 @@ app.Controllers = app.Controllers || {};
     'use strict';
 
     app.Controllers.Projects = {
-        AddProject: function (userID, name, estStartDT, estEndDT, phaseID) {
+        AddProject: function (userID, name, estStartDT, estEndDT, phaseID, budget) {
             return $.ajax({
                 url: app.Global.BaseAddress + app.Global.Controllers.Compound + "AddProject",
                 type: "POST",
@@ -15,7 +15,23 @@ app.Controllers = app.Controllers || {};
                     Name: name,
                     EstStartDT: estStartDT,
                     EstEndDT: estEndDT,
-                    PhaseID: phaseID
+                    PhaseID: phaseID,
+                    Budget: budget
+                }
+            })
+                .done(function (obj) {
+                })
+                .fail(function (obj) {
+                });
+        },
+        CreateDefaultCoreLayout: function (id) {
+            return $.ajax({
+                url: app.Global.BaseAddress + app.Global.Controllers.Compound + "CreateDefaultCoreLayout",
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: {
+                    UserID: id,
                 }
             })
                 .done(function (obj) {
@@ -71,7 +87,7 @@ app.Controllers = app.Controllers || {};
 
         GetUserProjects: function (id) {
             return $.ajax({
-                url: app.Global.BaseAddress + "projects/",
+                url: app.Global.BaseAddress + app.Global.Controllers.Project + "GetUserProjects",
                 type: "GET",
                 data: {
                     UserID: id,

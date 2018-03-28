@@ -16,6 +16,7 @@ namespace KeyPhase.Models.Models
         public DateTime? ActStartDate { get; set; }
         public DateTime? ActEndDate { get; set; }
         public double? Cost { get; set; }
+        public DateTime? CreatedOn { get; set; }
         public bool? Complete { get; set; }
         public bool? Active { get; set; }
         //public virtual Phase Phase { get; set; }

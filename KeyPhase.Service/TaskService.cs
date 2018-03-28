@@ -13,11 +13,16 @@ namespace KeyPhase.Service
     {
         private readonly IRepository<Task> _taskRepository;
         private readonly IRepository<ProjectTask> _projTaskRepository;
+        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<UserTask> _userTaskRepository;
 
-        public TaskService(IRepository<Task> TaskRepository, IRepository<ProjectTask> ProjTaskRepository)
+        public TaskService(IRepository<Task> TaskRepository, IRepository<ProjectTask> ProjTaskRepository,
+            IRepository<User> UserRepository, IRepository<UserTask> UserTaskRepository)
         {
             _taskRepository = TaskRepository;
             _projTaskRepository = ProjTaskRepository;
+            _userRepository = UserRepository;
+            _userTaskRepository = UserTaskRepository;
         }
 
         public Task GetTask(int TaskID)
@@ -46,6 +51,14 @@ namespace KeyPhase.Service
             Task task = _taskRepository.Get(TaskID);
             task.PhaseID = PhaseID;
             _taskRepository.Update(task, TaskID);
+        }
+
+        public IEnumerable<Task> GetMostRecent(int UserID)
+        {
+            var userTasks = _userTaskRepository.FindAll(c => c.UserID == UserID);
+            IEnumerable<Task> tasks = _taskRepository.GetAll().Where(t => userTasks.Any(ut => ut.TaskID == t.ID));
+
+            return tasks.OrderByDescending(t => t.CreatedOn).Take(10);
         }
     }
 }

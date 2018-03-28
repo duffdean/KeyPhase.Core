@@ -21,6 +21,19 @@ namespace KeyPhase.Service
             return projDetailed;
         }
 
+        public static ProjectDetailed MapCorePhases(IEnumerable<Project> projects, List<Phase> phases)
+        {
+            //ProjectOverview projOverview = new ProjectOverview();
+
+            //phases.Sort((x, y) => x.Position.CompareTo(y.Position));
+
+            //projOverview.Projects = projects;
+            //projOverview.ProjectPhases = phases;
+
+            //return projOverview;
+            return null;
+        }
+
         public static ProjectOverview MapProjectOverview(List<Project> projects, List<Phase> phases)
         {
             ProjectOverview projOverview = new ProjectOverview();

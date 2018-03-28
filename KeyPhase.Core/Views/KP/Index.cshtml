@@ -2,6 +2,10 @@
     Layout = "~/Views/Shared/_KP.cshtml";
 }
 <link href="~/css/kp.css" rel="stylesheet" />
+
+<div class="bg-overlay" data-bind="click: $root.closePopup">
+</div>
+
 <div class="container-fluid kp">
     <div class="row">
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -23,9 +27,11 @@
                     <li><a data-bind="click: updateUI">Reports</a></li>
                     <li><a data-bind="click: updateUI">Stream</a></li>
                 </ul>
-                <div class="hidden-xs kp-profile">
-                    <div class="kp-profile-icon">DD</div>
-                    <div class="kp-profile-name">Dean</div>
+                <div class="row hidden-xs kp-profile" style="padding: 0px;">
+                    <div class="col-md-10">
+                        <div class="kp-profile-name" data-bind="text: profile().Name"></div>
+                    </div>
+                    <div class="col-md-2"><div class="kp-profile-icon" data-bind="text: profile().Avatar, style: { background: profile().BgColour }"></div></div>
                 </div>
             </div>
         </nav>
@@ -49,6 +55,24 @@
         <div class="row mrg-LR-0">
             <div class="col-xs-12 mrg-TB-10">
                 <input type="text" name="projFilter" placeholder="Project name" style="
+    margin: 0;
+    padding: 0;
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: text;
+    position: relative;
+    box-sizing: border-box;
+    background-color: transparent;
+    /* border: none; */
+    /* border-bottom: 1px solid rgba(255,255,255,.5); */
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,.5);
+    height: 35px;">
+            </div>
+            <div class="col-xs-12 mrg-TB-10">
+                <input type="text" placeholder="Budget" style="
     margin: 0;
     padding: 0;
     display: table-cell;
@@ -166,8 +190,26 @@
     height: 35px;">
             </div>
             <div class="col-xs-12 mrg-TB-10">
-                <!--ko with: projectOverview()-->
-                <select data-bind="options: $root.projectOverview().ProjectPhases(), optionsText: 'Name', optionsValue: 'ID', optionsCaption: 'Select Task'" style="    background: #3e424d;
+                <input type="text" placeholder="Budget" style="
+    margin: 0;
+    padding: 0;
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: text;
+    position: relative;
+    box-sizing: border-box;
+    background-color: transparent;
+    /* border: none; */
+    /* border-bottom: 1px solid rgba(255,255,255,.5); */
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,.5);
+    height: 35px;">
+            </div>
+            <div class="col-xs-12 mrg-TB-10">
+                <!--ko with: currentProject()-->
+                <select data-bind="options: $root.currentProject().PhaseTasks(), optionsText: 'Name', optionsValue: 'ID', optionsCaption: 'Select Task'" style="    background: #3e424d;
     font-weight: 100;
     width: 46%;"></select>
                 <!-- /ko -->
@@ -222,17 +264,10 @@
         <div class="col-xs-6 col-xs-offset-4 mrg-TB-10">
             <button style="
     border-radius: 3px;
-    /* text-align: center; */
     display: inline-block;
-    /* margin: auto; */
     background-color: #1e8ab7;
     border: none;
     color: white;
-    /* padding: 4px 33px; */
-    /* text-align: center; */
-    /* text-decoration: none; */
-    /* display: inline-block; */
-    /* font-size: 16px; */
     height: 30px;
     padding: 0px 15px 0px 15px;
     margin: 0px 10px 0px 0px;
@@ -368,9 +403,9 @@
                             </div>
                         </div>
                     </div>
-                    <!-- ko foreach: { data: userProjects, as: 'userProjects' } -->
+                    <!-- ko foreach: { data: $root.userProjects(), as: 'a' } -->
                     <div class="col-xs-11 nopadding project-title">
-                        <span class="projSidebar-itemName" data-bind="text: userProjects.Name, click: $root.loadProjectData"></span>
+                        <span class="projSidebar-itemName" data-bind="text: a.Name, click: $root.loadProjectData"></span>
                         <span class="lnr lnr-star-empty project-fav"></span>
                     </div>
                     <!-- /ko -->
@@ -378,102 +413,96 @@
             </div>
         </div>
         <div class="col-xs-2 ca ca-dash-spacer"></div>
-        <div class="dragscroll col-xs-10 ca ca-dash-content" style="
-    top: 0px;
-    height: 100%;
-    border-right: #3a4258;
-    border-right-width: 1px;
-    border-right-style: solid;
-    overflow: auto;">
-            <div class="row" style="
-    height: 51px;
-">cvbnvn</div>
+        <div class="dragscroll col-xs-10 ca ca-dash-content" style=" top: 0px;height: 100%; border-right: #3a4258; border-right-width: 1px; border-right-style: solid; overflow: auto;">
+            <div class="row" style=" height: 51px;">cvbnvn</div>
+
 
             <!--ko with: projectOverview()-->
-            @*<div class="proj-overview" style="    margin-left: 5px;">*@
-            <div class="proj-overview" style="display: flex;
-                flex-direction: column;
-                flex-wrap: wrap;
-                height: 100px;">
+            <div class="row proj-taskbar" style=" height: 51px; margin-bottom: -25px;">
+                <div class="col-xs-2"></div>
+            </div>
 
+            <div class="proj-overview" style="display: flex; flex-direction: column; flex-wrap: wrap; height: 100px;">
+                <!--ko ifnot: $data.ProjectPhases().length -->
+                <div class="row">
+                    <div class="col-xs-4 crtd-Task" style="margin-left: 25%" data-bind="click: $root.createDefault">
+                        <div style=" height: 75vh; position: absolute;">
+                            <i class="material-icons" style="font-size: 158px;top: 89px;left: 8px;z-index: 2;color: #1e8ab7;position: absolute;">desktop_windows</i>
+                            <i class="material-icons" style="font-size: 170px;color: #1bb9e1;position: absolute;top: 75px;left: -1px;z-index: 1;">view_quilt</i>
+                            <i class="material-icons" style="position: absolute;top: 114px;left: 49px;font-size: 75px;z-index: 3;">grade</i>
+                        </div>
+                        <span style=" position: absolute; top: 250px; font-size: 18px; font-weight: bold; left: 35px;">Default Layout</span>
+                    </div>
+                    <div class="col-xs-4 crtc-Task" data-bind="click: $root.createCustom">
+                        <div style=" height: 75vh; position: absolute;">
+                            <i class="material-icons" style="font-size: 158px;top: 89px;left: 8px;z-index: 2;color: #1e8ab7;position: absolute;">desktop_windows</i>
+                            <i class="material-icons" style="font-size: 170px;color: #1bb9e1;position: absolute;top: 75px;left: -1px;z-index: 1;">view_quilt</i>
+                            <i class="material-icons" style="position: absolute;top: 114px;left: 49px;font-size: 75px;z-index: 3;">build</i>
+                        </div>
+                        <span style=" position: absolute; top: 250px; font-size: 18px; font-weight: bold; left: 35px;">Custom Layout</span>
+                    </div>
+                </div>
+                <!-- /ko -->
                 <!-- ko foreach: { data: $data.ProjectPhases, as: 'p' } -->
                 <div class="tester projPhase">
-                    <span style="cursor: pointer;" data-bind="text: p.Name">
+                    <span style="cursor: pointer;font-size: 18px;font-weight: 100;" data-bind="text: p.Name">
                     </span>
-                    @*<span data-bind="text: '(' + p.Projects().length + ')'">
-                        </span>*@
-                    <div style="    max-height: 515px;
-    overflow-y: auto;">
+                    <div style="max-height: 515px; overflow-y: auto;">
                         <!-- ko foreach: { data: p.Projects, as: 'projects' } -->
-                        <div class="tasktest projPhase-item" data-bind="text: projects.Name"></div>
+                        <div class="tasktest projPhase-item" data-bind="text: projects.Name, click: $root.loadProjectData"></div>
                         <!-- /ko -->
                     </div>
-
-                    <div style="
-    padding: 0px 0px 0px 10px;
-    font-size: 12px;
-    font-weight: 100;
-    color: #1bb9e1;
-    /* bottom: 10px; */
-    /* position: relative; */
-    height: 40px;
-    line-height: 40px;
-">Create Task</div>
+                    <div style="padding: 0px 0px 0px 10px;font-size: 12px;font-weight: 100;color: #1bb9e1; height: 40px; line-height: 40px;" data-bind="click: $root.createNew">Create Project</div>
                 </div>
                 <!-- /ko -->
             </div>
             <!-- /ko -->
+
             <!--ko with: currentProject()-->
-            <div class="row proj-detailed">
+            <div class="row task-taskbar" style=" height: 45px;">
+                <div class="col-xs-5">
+                    <div style="font-size: 20px;" data-bind="text: $root.currentProject().Project.Name()"></div>
+                    <div style="font-size: 10px;" data-bind="click: $root.toggleOverview"><< Back to overview</div>
+                </div>
+                @*<div class="col-xs-3 LH-15" data-bind="text: $root.currentProject().Project.Name()"></div>*@
+                <div class="col-xs-7 LH-15">
+                    @*<div>View Type:</div>*@
+                    <div class="viewType-tab">KanBan</div>
+                    <div class="viewType-tab">Gantt</div>
+                    <div class="viewType-tab">List</div>
+                    <div class="viewType-tab">Table</div>
+                </div>
+            </div>
+
+            <div class="row proj-detailed" style="display: flex; flex-direction: column; flex-wrap: wrap; height: 100px;">
                 <!--ko ifnot: $data.PhaseTasks().length -->
                 <div class="col-xs-4" style="margin-left: 25%" data-bind="click: $root.createDefault">
-                    <div style="
-    height: 75vh;
-    position: absolute;
-">
+                    <div style=" height: 75vh; position: absolute;">
                         <i class="material-icons" style="font-size: 158px;top: 89px;left: 8px;z-index: 2;color: #1e8ab7;position: absolute;">desktop_windows</i>
-
                         <i class="material-icons" style="font-size: 170px;color: #1bb9e1;position: absolute;top: 75px;left: -1px;z-index: 1;">view_quilt</i>
                         <i class="material-icons" style="position: absolute;top: 114px;left: 49px;font-size: 75px;z-index: 3;">grade</i>
-
                     </div>
-
-                    <span style="
-    position: absolute;
-    top: 250px;
-    font-size: 18px;
-    font-weight: bold;
-    left: 35px;
-">Default Layout</span>
+                    <span style="position: absolute; top: 250px;font-size: 18px; font-weight: bold; left: 35px;">Default Layout</span>
                 </div>
                 <div class="col-xs-4" data-bind="click: $root.createCustom">
-                    <div style="
-    height: 75vh;
-    position: absolute;
-">
+                    <div style=" height: 75vh; position: absolute;">
                         <i class="material-icons" style="font-size: 158px;top: 89px;left: 8px;z-index: 2;color: #1e8ab7;position: absolute;">desktop_windows</i>
-
                         <i class="material-icons" style="font-size: 170px;color: #1bb9e1;position: absolute;top: 75px;left: -1px;z-index: 1;">view_quilt</i>
                         <i class="material-icons" style="position: absolute;top: 114px;left: 49px;font-size: 75px;z-index: 3;">build</i>
-
                     </div>
-
-                    <span style="
-    position: absolute;
-    top: 250px;
-    font-size: 18px;
-    font-weight: bold;
-    left: 35px;
-">Custom Layout</span>
+                    <span style=" position: absolute; top: 250px; font-size: 18px; font-weight: bold; left: 35px;">Custom Layout</span>
                 </div>
                 <!-- /ko -->
                 <!-- ko foreach: { data: $data.PhaseTasks, as: 's' } -->
                 <div class="tester projPhase">
-                    <div style="cursor: pointer;" data-bind="text: s.Name">
+                    <span style="cursor: pointer;font-size: 18px;font-weight: 100;" data-bind="text: s.Name">
+                    </span>
+                    <div style="max-height: 515px; overflow-y: auto;">
+                        <!-- ko foreach: { data: s.Tasks, as: 'tasks' } -->
+                        <div class="tasktest projPhase-item" data-bind="text: tasks.Name, click: $root.taskPopup"></div>
+                        <!-- /ko -->
                     </div>
-                    <!-- ko foreach: { data: s.Tasks, as: 'tasks' } -->
-                    <div class="tasktest projPhase-item" data-bind="text: tasks.Name, click: $root.taskPopup"></div>
-                    <!-- /ko -->
+                    <div style="padding: 0px 0px 0px 10px;font-size: 12px;font-weight: 100;color: #1bb9e1; height: 40px; line-height: 40px;" data-bind="click: $root.createNew">Create Task</div>
                 </div>
                 <!-- /ko -->
             </div>
@@ -482,24 +511,16 @@
     </div>
     <!--/ko-->
     <!--/ko-->
+
     <!--ko if: currentPage() == 'dashboard' -->
     <div class="row contentArea ca ca-dash" style="    background-color: #1b1e23;
     height: 100%;">
         @*dash-sidebar*@
         <div class="col-xs-2 ca ca-dash-spacer"></div>
-        <div class="col-xs-10 ca ca-dash-content" style="
-    top: 0px;
-    height: 100%;
-    border-right: #3a4258;
-    border-right-width: 1px;
-    border-right-style: solid;
-    overflow: auto;">
-            <div class="row" style="
-    height: 52px;
-">cvbnvn</div>
+        <div class="col-xs-10 ca ca-dash-content" style="top: 0px;height: 100%;border-right: #3a4258;border-right-width: 1px;border-right-style: solid;overflow: auto;">
+            <div class="row" style="height: 52px;">cvbnvn</div>
 
             <div class="row">
-
             </div>
         </div>
 
@@ -507,8 +528,6 @@
     <!--/ko-->
 </div>
 
-<div class="bg-overlay" data-bind="click: $root.closePopup">
-</div>
 
 <!--ko with: currentTask-->
 <div class="col-xs-8 popup-task" style="
