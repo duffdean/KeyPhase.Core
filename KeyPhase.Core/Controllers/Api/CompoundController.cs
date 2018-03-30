@@ -70,5 +70,11 @@ namespace KeyPhase.Core.Controllers.Api
         {
             return _combinedService.AddTask(UserID, Name, EstStartDT, EstEndDT, PhaseID, ProjectID, Cost);
         }
+
+        [HttpGet("GetTaskPerProject")]
+        public List<DashTaskPerProject> GetTaskPerProject(int UserID)
+        {
+            return _combinedService.GetTasksPerProject(UserID);
+        }
     }
 }

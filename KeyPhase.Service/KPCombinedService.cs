@@ -247,5 +247,14 @@ namespace KeyPhase.Service
 
             return SelectedProject(ProjectID);
         }
+
+        public List<DashTaskPerProject> GetTasksPerProject(int UserID)
+        {
+            IEnumerable<UserProject> userProjects = _userProjectRepository.FindAll(c => c.UserID == UserID);
+            List<Project> projects = _projRepository.GetAll().Where(p => userProjects.Any(cb => cb.ProjectID == p.ID)).ToList();
+            List<ProjectTask> projTasks = _projTaskRepository.GetAll().Where(t => projects.Any(ut => ut.ID == t.ProjectID)).ToList();
+
+            return Mapper.GetTasksPerProject(projects, projTasks);
+        }
     }
 }

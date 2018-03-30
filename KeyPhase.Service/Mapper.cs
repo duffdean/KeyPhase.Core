@@ -16,7 +16,7 @@ namespace KeyPhase.Service
             phases.Sort((x, y) => x.Position.CompareTo(y.Position));
 
             projDetailed.Project = project;
-            projDetailed.PhaseTasks = phases;            
+            projDetailed.PhaseTasks = phases;
 
             return projDetailed;
         }
@@ -48,10 +48,40 @@ namespace KeyPhase.Service
 
         public static TaskDetailed MapTaskDetailed(Task task, List<TaskHistory> taskHistory)
         {
-            return new TaskDetailed(){
+            return new TaskDetailed()
+            {
                 Task = task,
                 TaskHistory = taskHistory
-            };  
+            };
+        }
+
+        public static List<DashTaskPerProject> GetTasksPerProject(IEnumerable<Project> Projects, List<ProjectTask> ProjectTasks)
+        {
+            List<DashTaskPerProject> dttp = new List<DashTaskPerProject>();
+            string projName = "";
+            int tasks = 0;
+
+            foreach (Project p in Projects)
+            {
+                projName = p.Name;
+                tasks = 0;
+
+                foreach (ProjectTask pt in ProjectTasks)
+                {
+                    if(pt.ProjectID == p.ID)
+                    {
+                        tasks++;
+                    }
+                }
+
+                dttp.Add(new DashTaskPerProject()
+                {
+                    ProjectName = projName,
+                    TotalTasks = tasks
+                });
+            }
+
+            return dttp;
         }
     }
 }

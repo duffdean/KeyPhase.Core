@@ -431,3 +431,20 @@
 .LH-15 {
     line-height: 35px;
 }
+
+.dash-card-title {
+    font-size: 16px;
+    font-weight: 100;
+    text-align: center;
+    padding-top: 10px;
+}
+
+tr:nth-child(even) {
+    background-color: #4c515f;
+}
+
+
+.flot-text {
+    color: white !important;
+    font-weight: 100;
+}
