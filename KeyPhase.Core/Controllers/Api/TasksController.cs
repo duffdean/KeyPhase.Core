@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using KeyPhase.Models;
 using KeyPhase.Models.Models;
 using KeyPhase.Service.Interface;
+using KeyPhase.Models.DTO.Dash;
 
 namespace KeyPhase.Core.Controllers.Api
 {
@@ -39,9 +40,15 @@ namespace KeyPhase.Core.Controllers.Api
         }
 
         [HttpGet("GetMostRecent")]
-        public IEnumerable<KeyPhase.Models.Models.Task> GetMostRecent(int UserID)
+        public List<DashMostRecentTasks> GetMostRecent(int UserID)
         {
             return _taskService.GetMostRecent(UserID);
+        }
+
+        [HttpGet("GetActiveVsComplete")]
+        public List<DashActiveVsComplete> GetActiveVsComplete(int ProjectID)
+        {
+            return _taskService.GetActiveVsComplete(ProjectID);
         }
     }
 }

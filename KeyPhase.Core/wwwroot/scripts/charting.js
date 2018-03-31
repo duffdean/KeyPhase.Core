@@ -217,4 +217,39 @@ app.Charting = app.Charting || {};
     });
 
     app.Charting.Table = (function () { });
+
+    app.Charting.TaskPerProject = (function (obj) {
+        var chartData = [];
+
+        $.each(obj, function (i, bar) { chartData.push([bar.ProjectName, bar.TotalTasks]); });
+
+        $.plot("#dash-bar", [chartData], {
+            series: {
+                bars: {
+                    show: true,
+                    barWidth: 0.8,
+                    align: "center",
+                    fillColor: 'rgb(27, 185, 225)',
+                    lineWidth: 0,
+                }
+            },
+            xaxis: {
+                mode: "categories",
+                tickLength: 0
+            }
+        });
+    });
+
+    app.Charting.MostRecentTaskTable = (function (obj) {
+        var table = $('.dash-mostRecent').find('tbody');
+
+        _.each(obj, function (item) {
+            table.append(
+                '<tr>' +
+                '<td>' + item.TaskName + '</td>' +
+                '<td>' + item.ProjectName + '</td>' +
+                '<td>' + item.Cost + '</td>' +
+                '</tr>');
+        });
+    })
 })();

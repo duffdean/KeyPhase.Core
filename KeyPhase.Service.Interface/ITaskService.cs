@@ -1,4 +1,5 @@
-﻿using KeyPhase.Models.Models;
+﻿using KeyPhase.Models.DTO.Dash;
+using KeyPhase.Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -12,6 +13,7 @@ namespace KeyPhase.Service.Interface
         IEnumerable<Task> GetAll();
         IEnumerable<Task> GetAllForProject(int ProjectID);
         void UpdateTaskPhase(int PhaseID, int TaskID);
-        IEnumerable<Task> GetMostRecent(int UserID);
+        List<DashMostRecentTasks> GetMostRecent(int UserID);
+        List<DashActiveVsComplete> GetActiveVsComplete(int ProjectID);
     }
 }

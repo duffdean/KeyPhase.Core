@@ -16,8 +16,7 @@ app.View = app.View || {};
         vm.currentTask = ko.observable(null);
         vm.user = ko.observable(1);
 
-        //Dashboard Data
-        vm.dash_TaskMostRecent = ko.observable(null);
+        
 
         vm.closePopup = page.helpers.ClosePopup;
         vm.taskPopup = page.helpers.TaskPopup;
@@ -91,7 +90,10 @@ app.View = app.View || {};
             GetDashboardData: function () {
                 var requests = [];
 
+                viewModel.contentLoading(true);
+
                 requests.push(page.getters.GetMostRecentTasks());
+                requests.push(page.getters.GetTaskPerProject());
 
                 $.when.apply(undefined, requests).then(function () {
                     viewModel.contentLoading(false);
@@ -309,10 +311,19 @@ app.View = app.View || {};
         },
 
         getters: {
-            GetMostRecentTasks: function () {
-                return app.Controllers.Tasks.GetMostRecent(viewModel.user().ID) //replace with userid
+            GetTaskPerProject: function () {
+                return app.Controllers.Tasks.GetTaskPerProject(viewModel.user().ID)
                     .done(function (obj) {
-                        viewModel.dash_TaskMostRecent(obj);
+                        app.Charting.TaskPerProject(obj);
+                    })
+                    .always(function () {
+
+                    });
+            },
+            GetMostRecentTasks: function () {
+                return app.Controllers.Tasks.GetMostRecent(viewModel.user().ID)
+                    .done(function (obj) {
+                        app.Charting.MostRecentTaskTable(obj);
                     })
                     .always(function () {
 

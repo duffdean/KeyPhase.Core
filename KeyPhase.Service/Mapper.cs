@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KeyPhase.Models.DTO;
+using KeyPhase.Models.DTO.Dash;
 using KeyPhase.Models.Models;
 using System;
 using System.Collections.Generic;
@@ -68,7 +69,7 @@ namespace KeyPhase.Service
 
                 foreach (ProjectTask pt in ProjectTasks)
                 {
-                    if(pt.ProjectID == p.ID)
+                    if (pt.ProjectID == p.ID)
                     {
                         tasks++;
                     }
@@ -82,6 +83,59 @@ namespace KeyPhase.Service
             }
 
             return dttp;
+        }
+
+        public static List<DashMostRecentTasks> MapRecentTasks(List<Project> Projects, List<ProjectTask> ProjTasks, IEnumerable<Task> Tasks)
+        {
+            List<DashMostRecentTasks> recentTasks = new List<DashMostRecentTasks>();
+
+            foreach (Task t in Tasks)
+            {
+                foreach (ProjectTask pt in ProjTasks)
+                {
+                    if (pt.TaskID == t.ID)
+                    {
+                        foreach (Project p in Projects)
+                        {
+                            if(pt.ProjectID == p.ID)
+                            {
+                                recentTasks.Add(new DashMostRecentTasks()
+                                {
+                                    TaskName = t.Name,
+                                    ProjectName = p.Name,
+                                    Cost = t.Cost
+                                });
+                            }
+                        }
+                    }
+
+                }
+            }
+            return recentTasks;
+        }
+
+        public static List<DashActiveVsComplete> MapActiveVsComplete(List<Task> Tasks)
+        {
+            List<DashActiveVsComplete> avc = new List<DashActiveVsComplete>();
+            DashActiveVsComplete complete = new DashActiveVsComplete() { Series = "Complete", Total = 0 };
+            DashActiveVsComplete active = new DashActiveVsComplete() { Series = "Active", Total = 0 };
+
+            foreach (Task t in Tasks)
+            {
+                if((bool)t.Complete)
+                {
+                    complete.Total++;
+                }
+                else
+                {
+                    active.Total++;
+                }
+            }
+
+            avc.Add(complete);
+            avc.Add(active);
+
+            return avc;
         }
     }
 }
