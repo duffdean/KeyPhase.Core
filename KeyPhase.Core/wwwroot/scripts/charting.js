@@ -198,7 +198,7 @@ app.Charting = app.Charting || {};
                     align: "center",
                     fillColor: 'rgb(27, 185, 225)',
                     lineWidth: 0,
-                }                
+                }
             },
             xaxis: {
                 mode: "categories",
@@ -240,6 +240,49 @@ app.Charting = app.Charting || {};
         });
     });
 
+    app.Charting.ActiveVsComplete = (function (obj) {
+        var data = [{ "Series": "Complete", "Total": 2 }, { "Series": "Active", "Total": 5 }];
+        var chartData = [];
+        var colour;
+        //var data = [
+        //	{ label: "Series1",  data: 10},
+        //	{ label: "Series2",  data: 30}
+        //];
+
+
+        $.each(data, function (i, bar) {
+            if (bar.Series.toLowerCase() == "complete") {
+                colour = "#2e86de";
+            }
+            else {
+                colour = "#ee5253";
+            }
+            chartData.push({ label: bar.Series, data: bar.Total, color: colour   })
+        });
+
+        function labelFormatter(label, series) {
+            return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" + label + "<br/>" + Math.round(series.percent) + "%</div>";
+        }
+
+        $.plot('#dash-avsc', chartData, {
+            series: {
+                pie: {
+                    show: true,
+                    radius: 1,
+                    label: {
+                        show: true,
+                        radius: 2 / 3,
+                        threshold: 0.1,
+                        formatter: labelFormatter,
+                    }
+                }
+            },
+            legend: {
+                show: false
+            }
+        });
+    });
+
     app.Charting.MostRecentTaskTable = (function (obj) {
         var table = $('.dash-mostRecent').find('tbody');
 
@@ -252,4 +295,38 @@ app.Charting = app.Charting || {};
                 '</tr>');
         });
     })
+
+    app.Charting.CurrentProjectGantt = (function (projData) {
+        var ganttData = [], currValues;
+
+        _.each(projData.PhaseTasks(), function (item) {
+            currValues = [];
+
+            _.each(item.Tasks(), function (task) {
+                currValues.push({
+                    from: task.EstStartDate(),
+                    to: task.EstEndDate(),
+                    label: task.Name(),
+                    dataObj: item
+                })
+            });
+
+            ganttData.push({
+                name: item.Name(),
+                desc: '',
+                values: currValues
+            })
+        });
+
+        $(".proj-gantt").gantt({
+            source: ganttData,
+            scale: "weeks",
+            minScale: "hours",
+            navigate: "scroll",
+            onItemClick: function (data) {
+                app.View.Home.viewModel.taskPopup(data.Tasks()[0].ID());
+            },
+        });
+    });
+
 })();

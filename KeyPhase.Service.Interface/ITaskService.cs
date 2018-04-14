@@ -14,6 +14,6 @@ namespace KeyPhase.Service.Interface
         IEnumerable<Task> GetAllForProject(int ProjectID);
         void UpdateTaskPhase(int PhaseID, int TaskID);
         List<DashMostRecentTasks> GetMostRecent(int UserID);
-        List<DashActiveVsComplete> GetActiveVsComplete(int ProjectID);
+        List<DashActiveVsComplete> GetActiveVsComplete(int? ProjectID, int UserID);
     }
 }

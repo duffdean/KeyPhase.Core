@@ -15,17 +15,20 @@ namespace KeyPhase.Service
         private readonly IRepository<Task> _taskRepository;
         private readonly IRepository<Project> _projectRepository;
         private readonly IRepository<ProjectTask> _projTaskRepository;
+        private readonly IRepository<UserProject> _userProjRepository;
         private readonly IRepository<User> _userRepository;
         private readonly IRepository<UserTask> _userTaskRepository;
 
         public TaskService(IRepository<Task> TaskRepository, IRepository<ProjectTask> ProjTaskRepository,
-            IRepository<User> UserRepository, IRepository<UserTask> UserTaskRepository, IRepository<Project> ProjectRepository)
+            IRepository<User> UserRepository, IRepository<UserTask> UserTaskRepository, IRepository<Project> ProjectRepository,
+            IRepository<UserProject> UserProjectRepository)
         {
             _taskRepository = TaskRepository;
             _projTaskRepository = ProjTaskRepository;
             _userRepository = UserRepository;
             _userTaskRepository = UserTaskRepository;
             _projectRepository = ProjectRepository;
+            _userProjRepository = UserProjectRepository;
         }
 
         public Task GetTask(int TaskID)
@@ -67,12 +70,25 @@ namespace KeyPhase.Service
             return Mapper.MapRecentTasks(projects, projTasks, tasks);
         }
 
-        public List<DashActiveVsComplete> GetActiveVsComplete(int ProjectID)
+        public List<DashActiveVsComplete> GetActiveVsComplete(int? ProjectID, int UserID)
         {
-            List<ProjectTask> projTasks = _projTaskRepository.GetAll().Where(pt => pt.ProjectID == ProjectID).ToList();
-            List<Task> tasks = _taskRepository.GetAll().Where(t => projTasks.Any(ut => ut.TaskID == t.ID)).ToList();
+            if(ProjectID == null)
+            {
+                IEnumerable<UserProject> userProjects = _userProjRepository.FindAll(c => c.UserID == UserID);
+                Project project = _projectRepository.GetAll().Where(p => userProjects.Any(cb => cb.ProjectID == p.ID)).FirstOrDefault();
 
-            return Mapper.MapActiveVsComplete(tasks);
+                List<ProjectTask> projTasks = _projTaskRepository.GetAll().Where(pt => pt.ProjectID == project.ID).ToList();
+                List<Task> tasks = _taskRepository.GetAll().Where(t => projTasks.Any(ut => ut.TaskID == t.ID)).ToList();
+
+                return Mapper.MapActiveVsComplete(tasks);
+            }
+            else
+            {
+                List<ProjectTask> projTasks = _projTaskRepository.GetAll().Where(pt => pt.ProjectID == ProjectID).ToList();
+                List<Task> tasks = _taskRepository.GetAll().Where(t => projTasks.Any(ut => ut.TaskID == t.ID)).ToList();
+
+                return Mapper.MapActiveVsComplete(tasks);
+            }
         }
     }
 }

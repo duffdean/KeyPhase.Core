@@ -42,7 +42,7 @@
         <div class="contentLoader-container">
             <div class="contentLoader-container-fixed">
                 <div class="contentLoader-container-spinner">
-                    <div class="loader contentloader-spinner"></div><img class="contentLoader-logo" src="/images/Untitled-3.png">
+                    <div class="loader contentloader-spinner"></div><img class="contentLoader-logo" src="~/images/Untitled-3.png">
                 </div>
             </div>
         </div>
@@ -457,7 +457,6 @@
                 <!-- /ko -->
             </div>
             <!-- /ko -->
-
             <!--ko with: currentProject()-->
             <div class="row task-taskbar" style=" height: 45px;">
                 <div class="col-xs-5">
@@ -467,13 +466,15 @@
                 @*<div class="col-xs-3 LH-15" data-bind="text: $root.currentProject().Project.Name()"></div>*@
                 <div class="col-xs-7 LH-15">
                     @*<div>View Type:</div>*@
-                    <div class="viewType-tab">KanBan</div>
-                    <div class="viewType-tab">Gantt</div>
-                    <div class="viewType-tab">List</div>
-                    <div class="viewType-tab">Table</div>
+                    <div class="viewType-tab" data-bind="click: $root.changeView">KanBan</div>
+                    <div class="viewType-tab" data-bind="click: $root.changeView">Gantt</div>
+                    <div class="viewType-tab" data-bind="click: $root.changeView">List</div>
+                    <div class="viewType-tab" data-bind="click: $root.changeView">Table</div>
                 </div>
             </div>
 
+
+            <!--ko if: $root.currentView() == 'kanban'-->
             <div class="row proj-detailed" style="display: flex; flex-direction: column; flex-wrap: wrap; height: 100px;">
                 <!--ko ifnot: $data.PhaseTasks().length -->
                 <div class="col-xs-4" style="margin-left: 25%" data-bind="click: $root.createDefault">
@@ -507,6 +508,22 @@
                 <!-- /ko -->
             </div>
             <!-- /ko -->
+            <!--ko if: $root.currentView() == 'gantt'-->
+            <div class="row"">
+                <div class="col-xs-12 proj-gantt" style="margin-top:15px;"></div>
+            </div>
+            <!-- /ko -->
+            <!--ko if: $root.currentView() == 'list'-->
+            <div class="row">
+
+            </div>
+            <!-- /ko -->
+            <!--ko if: $root.currentView() == 'table'-->
+            <div class="row">
+
+            </div>
+            <!-- /ko -->
+            <!-- /ko -->
         </div>
     </div>
     <!--/ko-->
@@ -519,7 +536,11 @@
         <div class="col-xs-12 ca ca-dash-content" style="top: 0px;height: 100%;border-right: #3a4258;border-right-width: 1px;border-right-style: solid;overflow: auto;">
             <div class="row" style="height: 52px;"></div>
             <div class="row">
-                <div style="text-align: center; font-size: 30px;  font-weight: 100; padding-top: 15px;" data-bind="text: $root.user().FirstName + '\'s' + ' Dashboard'"></div>
+                <div style="    text-align: center;
+    font-size: 30px;
+    font-weight: 100;
+    padding-top: 10px;
+    padding-bottom: 10px;" data-bind="text: $root.user().FirstName + '\'s' + ' Dashboard'"></div>
             </div>
             <div class="row">
                 <div class="col-xs-7">
@@ -534,16 +555,9 @@
                     <div style="background: #323641;
     height: 33vh;">
                         <div class="dash-card-title">Most Recent Tasks</div>
-                        <div style="
-    height: 85%;
-    overflow: auto;
-">
-                            <table class="table dash-mostRecent" style="
-    font-size: 12px;
-    font-weight: 100;
-    /* height: 254px; */
-    /* overflow: auto; */
-">
+                        <div style="height: 85%; overflow: auto;">
+                            <table class="table dash-mostRecent" style=" font-size: 12px; font-weight: 100;  /* height: 254px; */
+    /* overflow: auto; */">                    
                                 <thead>
                                     <tr>
                                         <th scope="col">Task</th>
@@ -556,6 +570,41 @@
                             </table>
 
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 15px;margin-bottom: 10px;">
+                <div class="col-xs-3">
+                    <div style="background: #323641;     height: 50vh;">
+                        <div class="dash-card-title">Active Vs Complete Tasks</div>
+                        <div>
+                            <select style="width: 70%;
+    /* margin: auto; */
+    /* text-align: center; */
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;     margin-bottom: 10px;">
+                                <option value="">Proj1</option>
+                                <option value="">Proj1</option>
+                                <option value="">Proj1</option>
+                                <option value="">Proj1</option>
+                            </select>
+                        </div>
+                        <div id="dash-avsc" style="height: 75%;"></div>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div style="background: #323641;     height: 50vh;">
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div style="background: #323641;     height: 50vh;">
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="chatContainer">
+                        @*<iframe src="http://localhost:1240/" frameborder="0" class="chatContainer-frame"></iframe>*@
+
                     </div>
                 </div>
             </div>
@@ -577,19 +626,21 @@
         border-radius: 5px
 ">
     <div style="
-    position: relative;
+     position: relative;
     float: right;
     top: -7px;
     right: -23px;
     width: 20px;
-    height: 21px;
+    height: 20px;
     background: #3a4258;
     /* box-shadow: -3px 3px 8px #636363; */
     border-radius: 5px;
-    border-color: white;
+    border-color: #676767;
     border-style: solid;
     border-width: 1px;
     padding-left: 5px;
+    font-weight: 900;
+    line-height: 15px
 " data-bind="click: $root.closePopup">X</div>
     <div class="row" style="    background: #3a4258;
     margin: 10px 10px 10px 10px;
@@ -645,6 +696,6 @@
 <div id="kploader" class="kp-loader">
 
     <div class="kp-loader-container">
-        <div class="loader kp-loader-spinner"></div><img class="kp-loader-logo" src="/images/Untitled-3.png">
+        <div class="loader kp-loader-spinner"></div><img class="kp-loader-logo" src="~/images/Untitled-3.png">
     </div>
 </div>

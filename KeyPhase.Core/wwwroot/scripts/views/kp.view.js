@@ -28,13 +28,14 @@ app.View = app.View || {};
         vm.loadProjectData = page.events.LoadProjectData;
         vm.postComment = page.helpers.PostComment;
         vm.createNew = page.helpers.CreateNew;
+        vm.changeView = page.helpers.ChangeView;
 
         vm.createTask = page.events.CreateTask;
         vm.createProject = page.events.CreateProject;
         vm.createCustom = page.events.CreateCustomLayout;
         vm.createDefault = page.events.CreateDefaultLayout;
 
-
+        vm.currentView = ko.observable('');
         vm.currentPage = ko.observable('');
         vm.KPSettings = ko.observableArray();
         vm.contentLoading = ko.observable(false);
@@ -94,6 +95,7 @@ app.View = app.View || {};
 
                 requests.push(page.getters.GetMostRecentTasks());
                 requests.push(page.getters.GetTaskPerProject());
+                requests.push(page.getters.GetActiveVsComplete());
 
                 $.when.apply(undefined, requests).then(function () {
                     viewModel.contentLoading(false);
@@ -311,6 +313,15 @@ app.View = app.View || {};
         },
 
         getters: {
+            GetActiveVsComplete: function (projID) {
+                return app.Controllers.Tasks.GetActiveVsComplete(projID, viewModel.user().ID)
+                    .done(function (obj) {
+                        app.Charting.ActiveVsComplete(obj);
+                    })
+                    .always(function () {
+
+                    });
+            },
             GetTaskPerProject: function () {
                 return app.Controllers.Tasks.GetTaskPerProject(viewModel.user().ID)
                     .done(function (obj) {
@@ -403,6 +414,23 @@ app.View = app.View || {};
         },
 
         helpers: {
+            ChangeView: function (proj, elem) {
+                var view = $(elem.currentTarget).text().toLowerCase();
+
+                viewModel.currentView(view);
+
+                switch (view) {
+                    case 'gantt':
+                        app.Charting.CurrentProjectGantt(viewModel.currentProject());
+                        break;
+                    case 'kanban':
+                        break;
+                    case 'list':
+                        break;
+                    case 'table':
+                        break;
+                }
+            },
             ToggleOverview: function () {
                 
                 if (!$('.proj-overview').is(':visible')) {
@@ -506,11 +534,18 @@ app.View = app.View || {};
                     }
                 }
             },
-            TaskPopup: function () {
+            TaskPopup: function (taskID) {
                 //var page, taskPop;
 
                 //viewModel.currentTask(this);
-                page.getters.GetTaskDetailed(this.ID);
+
+                if ($.isNumeric(taskID)) {
+                    page.getters.GetTaskDetailed(taskID);
+                }
+                else {
+                    page.getters.GetTaskDetailed(this.ID());
+                }
+
                 $('.bg-overlay').fadeIn();
                 $('.popup-task').fadeIn();
                 //page = $('.kp');
@@ -573,6 +608,7 @@ app.View = app.View || {};
             //requests.push(page.getters.GetUserProjects());
             //requests.push(gets.GetProjects());
             $.when.apply(undefined, requests).then(function () {
+                viewModel.currentView('kanban');
                 page.helpers.removeLoader();
                 app.Global.DragScrollListener();
 
@@ -582,6 +618,8 @@ app.View = app.View || {};
                 //add default page function. Also ensure user is loaded first...
                 vmFunctions.events.GetDashboardData();
                 viewModel.currentPage("dashboard");
+                app.Global.InitChatService();
+
             });
         }
     };

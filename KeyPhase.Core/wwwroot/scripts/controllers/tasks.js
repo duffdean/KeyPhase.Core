@@ -1,10 +1,24 @@
 ﻿var app = app || {};
 app.Controllers = app.Controllers || {};
-
+// CORS https://stackoverflow.com/questions/47523265/jquery-ajax-no-access-control-allow-origin-header-is-present-on-the-requested
 (function () {
     'use strict';
 
     app.Controllers.Tasks = {
+        GetActiveVsComplete: function (projID, userID) {
+            return $.ajax({
+                url: app.Global.BaseAddress + app.Global.Controllers.Task + "GetActiveVsComplete",
+                type: "GET",
+                data: {
+                    ProjectID: projID,
+                    UserID: userID
+                }
+            }).done(function (obj) {
+
+            }).fail(function (obj) {
+
+            });
+        },
         GetTaskPerProject: function (userID) {
             return $.ajax({
                 url: app.Global.BaseAddress + app.Global.Controllers.Compound + "GetTaskPerProject",

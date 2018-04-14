@@ -9,6 +9,7 @@ namespace KeyPhase.Service.Interface
     public interface IProjectService
     {
         IEnumerable<Project> GetAll();
-        IEnumerable<Project> GetAllForUser(int UserID);
+        List<Project> GetAllForUser(int UserID);
+        List<Project> GetAllForTeam(int UserID);
     }
 }

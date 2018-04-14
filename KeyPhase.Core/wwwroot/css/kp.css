@@ -448,3 +448,30 @@ tr:nth-child(even) {
     color: white !important;
     font-weight: 100;
 }
+
+.chatContainer {
+    background: #323641;
+    height: 50vh;
+}
+
+.chatContainer-frame {
+    width: 95%;
+    /* margin: auto; */
+    height: 95%;
+    /* position: relative; */
+    /* margin: 0; */
+    margin: 2% 0% 0% 3%;
+}
+
+.chatContainer-unavailable {
+    text-align: center;
+}
+.chatContainer-unavailableIcon {
+    font-size: 75px;
+    color: #4c515f;
+    margin-top: 25%;
+}
+.chatContainer-unavailableTxt {
+    color: #4c515f;
+    font-weight: 700;
+}

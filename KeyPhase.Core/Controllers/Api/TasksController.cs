@@ -46,9 +46,9 @@ namespace KeyPhase.Core.Controllers.Api
         }
 
         [HttpGet("GetActiveVsComplete")]
-        public List<DashActiveVsComplete> GetActiveVsComplete(int ProjectID)
+        public List<DashActiveVsComplete> GetActiveVsComplete(int? ProjectID, int UserID)
         {
-            return _taskService.GetActiveVsComplete(ProjectID);
+            return _taskService.GetActiveVsComplete(ProjectID, UserID);
         }
     }
 }
