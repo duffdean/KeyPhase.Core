@@ -50,5 +50,11 @@ namespace KeyPhase.Core.Controllers.Api
         {
             return _taskService.GetActiveVsComplete(ProjectID, UserID);
         }
+
+        [HttpGet("GetOverdueTasks")]
+        public List<DashOverdueTasks> GetOverdueTasks(int UserID)
+        {
+            return _taskService.GetOverdueTasks(UserID);
+        }
     }
 }

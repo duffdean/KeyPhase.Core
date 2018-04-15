@@ -96,6 +96,7 @@ app.View = app.View || {};
                 requests.push(page.getters.GetMostRecentTasks());
                 requests.push(page.getters.GetTaskPerProject());
                 requests.push(page.getters.GetActiveVsComplete());
+                requests.push(page.getters.GetOverdueTasks());
 
                 $.when.apply(undefined, requests).then(function () {
                     viewModel.contentLoading(false);
@@ -276,6 +277,7 @@ app.View = app.View || {};
                         $(this).removeClass("over");
                     }
                 });
+
                 $(".tester").sortable();
             },
             CreateDefaultLayout: function (data, elem) {
@@ -313,6 +315,15 @@ app.View = app.View || {};
         },
 
         getters: {
+            GetOverdueTasks: function (userID) {
+                return app.Controllers.Tasks.GetOverdueTasks(viewModel.user().ID)
+                    .done(function (obj) {
+                        app.Charting.OverdueTasks(obj);
+                    })
+                    .always(function () {
+
+                    });
+            },
             GetActiveVsComplete: function (projID) {
                 return app.Controllers.Tasks.GetActiveVsComplete(projID, viewModel.user().ID)
                     .done(function (obj) {
@@ -618,7 +629,7 @@ app.View = app.View || {};
                 //add default page function. Also ensure user is loaded first...
                 vmFunctions.events.GetDashboardData();
                 viewModel.currentPage("dashboard");
-                app.Global.InitChatService();
+                app.Global.InitChatService(viewModel.user().ID);
 
             });
         }

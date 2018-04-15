@@ -97,7 +97,7 @@ namespace KeyPhase.Service
                     {
                         foreach (Project p in Projects)
                         {
-                            if(pt.ProjectID == p.ID)
+                            if (pt.ProjectID == p.ID)
                             {
                                 recentTasks.Add(new DashMostRecentTasks()
                                 {
@@ -122,7 +122,7 @@ namespace KeyPhase.Service
 
             foreach (Task t in Tasks)
             {
-                if((bool)t.Complete)
+                if ((bool)t.Complete)
                 {
                     complete.Total++;
                 }
@@ -136,6 +136,40 @@ namespace KeyPhase.Service
             avc.Add(active);
 
             return avc;
+        }
+
+        public static List<DashOverdueTasks> MapOverdueTasks(List<Task> Tasks)
+        {
+            List<DashOverdueTasks> OverdueTasks = new List<DashOverdueTasks>();
+            DateTime taskDate;
+            DateTime todayDate = DateTime.Now;
+
+            foreach (Task task in Tasks)
+            {
+
+                if (task.ActEndDate != null)
+                {
+                    taskDate = Convert.ToDateTime(task.ActEndDate);
+
+                    OverdueTasks.Add(new DashOverdueTasks()
+                    {
+                        DaysOverdue = (taskDate - todayDate).Days,
+                        TaskName = task.Name
+                    });
+                }
+                else if (task.EstEndDate != null)
+                {
+                    taskDate = Convert.ToDateTime(task.EstEndDate);
+
+                    OverdueTasks.Add(new DashOverdueTasks()
+                    {
+                        DaysOverdue = (todayDate - taskDate).Days,
+                        TaskName = task.Name
+                    });
+                }
+            }
+
+            return OverdueTasks;
         }
     }
 }

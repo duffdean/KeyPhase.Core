@@ -5,6 +5,19 @@ app.Controllers = app.Controllers || {};
     'use strict';
 
     app.Controllers.Tasks = {
+        GetOverdueTasks: function (userID) {
+            return $.ajax({
+                url: app.Global.BaseAddress + app.Global.Controllers.Task + "GetOverdueTasks",
+                type: "GET",
+                data: {
+                    UserID: userID
+                }
+            }).done(function (obj) {
+
+            }).fail(function (obj) {
+
+            });
+        },
         GetActiveVsComplete: function (projID, userID) {
             return $.ajax({
                 url: app.Global.BaseAddress + app.Global.Controllers.Task + "GetActiveVsComplete",

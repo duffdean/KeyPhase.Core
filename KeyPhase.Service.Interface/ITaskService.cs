@@ -15,5 +15,6 @@ namespace KeyPhase.Service.Interface
         void UpdateTaskPhase(int PhaseID, int TaskID);
         List<DashMostRecentTasks> GetMostRecent(int UserID);
         List<DashActiveVsComplete> GetActiveVsComplete(int? ProjectID, int UserID);
+        List<DashOverdueTasks> GetOverdueTasks(int UserID);
     }
 }

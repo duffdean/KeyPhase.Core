@@ -23,12 +23,12 @@ app.Global = app.Global || {};
     app.Global.Popup = function (a,b) {
         debugger
     };
-    app.Global.InitChatService = function () {
+    app.Global.InitChatService = function (userID) {
         $.ajax({
             url: app.Global.ChatAddress + "api/service",
             type: "GET"
         }).done(function (obj) {
-            var html = '<iframe src="' + app.Global.ChatAddress + '" frameborder="0" class="chatContainer-frame"></iframe>';
+            var html = '<iframe src="' + app.Global.ChatAddress + '?UserID=' + userID +'" frameborder="0" class="chatContainer-frame"></iframe>';
 
             $('.chatContainer').append(html);
         }).fail(function (obj) {

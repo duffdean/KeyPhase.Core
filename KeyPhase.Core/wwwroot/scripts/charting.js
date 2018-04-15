@@ -283,6 +283,116 @@ app.Charting = app.Charting || {};
         });
     });
 
+    app.Charting.OverdueTasks = (function (obj) {
+        //var chartData = [];
+
+        //$.each(obj, function (i, bar) { chartData.push([bar.DaysOverdue, bar.TaskName]); });
+
+
+        var rawData = [];
+        var ticks = [];
+        var max = 0;
+
+        for (var i = 0; i < obj.length; i++) {
+            if (max < obj[i].DaysOverdue) {
+                max = obj[i].DaysOverdue + 5;
+            }
+            rawData.push([obj[i].DaysOverdue, i]);
+            ticks.push([i, obj[i].TaskName]);
+        }
+        
+        var dataSet = [{ label: "Days Overdue", data: rawData, color: "#1bb9e1" }];
+
+        
+
+        var options = {
+            series: {
+                bars: {
+                    show: true
+                }
+            },
+            bars: {
+                align: "center",
+                barWidth: 0.8,
+                horizontal: true,
+                fillColor: 'rgb(27, 185, 225)',
+                lineWidth: 0
+            },
+            xaxis: {
+                axisLabel: "Days Overdue",
+                //axisLabelUseCanvas: true,
+                //axisLabelFontSizePixels: 12,
+                //axisLabelFontFamily: 'Verdana, Arial',
+                //axisLabelPadding: 10,
+                max: max
+                //tickColor: "#5E5E5E",
+                //color: "black"
+            },
+            yaxis: {
+                axisLabel: "Task Name",
+                //axisLabelUseCanvas: true,
+                //axisLabelFontSizePixels: 12,
+                //axisLabelFontFamily: 'Verdana, Arial',
+                //axisLabelPadding: 3,
+                //tickColor: "#5E5E5E",
+                ticks: ticks//,
+                //color: "black"
+            },
+            legend: {
+                noColumns: 0,
+                //labelBoxBorderColor: "#858585",
+                position: "ne"
+            },
+            grid: {
+               // hoverable: true,
+                //borderWidth: 2,
+                //backgroundColor: { colors: ["#171717", "#4F4F4F"] }
+            }
+        };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $.plot($("#dash-bar-overdue"), dataSet, options);
+
+
+
+
+        //$.plot("#dash-bar-overdue", [chartData], {
+        //    series: {
+        //        bars: {
+        //            align: "center",
+        //            barWidth: 0.5,
+        //            horizontal: true,
+        //            fillColor: { colors: [{ opacity: 0.5 }, { opacity: 1 }] },
+        //            lineWidth: 1
+        //        }
+        //    },
+        //    xaxis: {
+        //        mode: "categories",
+        //        tickLength: 0
+        //    }
+        //});
+    });
+
     app.Charting.MostRecentTaskTable = (function (obj) {
         var table = $('.dash-mostRecent').find('tbody');
 
@@ -294,7 +404,7 @@ app.Charting = app.Charting || {};
                 '<td>' + item.Cost + '</td>' +
                 '</tr>');
         });
-    })
+    });
 
     app.Charting.CurrentProjectGantt = (function (projData) {
         var ganttData = [], currValues;

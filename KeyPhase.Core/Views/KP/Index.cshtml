@@ -31,7 +31,13 @@
                     <div class="col-md-10">
                         <div class="kp-profile-name" data-bind="text: profile().Name"></div>
                     </div>
-                    <div class="col-md-2"><div class="kp-profile-icon" data-bind="text: profile().Avatar, style: { background: profile().BgColour }"></div></div>
+                    <div class="col-md-2">
+                        <div class="kp-profile-icon" data-bind="style: { background: profile().BgColour }">
+                            <div data-bind="text: profile().Avatar"></div>
+                            <div class="kp-profile-icon-menu"><div class="menu-item">View Profile</div><div class="menu-item">Sign out</div></div>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
         </nav>
@@ -397,9 +403,9 @@
                         <span class="projSiderbar-headerTitle">Projects</span>
                         <div class="lnr lnr-plus-circle projectSidebar-headerAdd">
                             <div class="projectSidebar-headerAdd-content">
-                                <p style="padding: 10px 0px 0px 25px;" data-bind="click :$root.createNew">Project</p>
-                                <p style="padding: 10px 0px 0px 25px;" data-bind="click :$root.createNew">Phase</p>
-                                <p style="padding: 10px 0px 0px 25px;" data-bind="click :$root.createNew">Task</p>
+                                <div class="menu-item" data-bind="click :$root.createNew">Project</div>
+                                <div class="menu-item" data-bind="click :$root.createNew">Phase</div>
+                                <div class="menu-item" data-bind="click :$root.createNew">Task</div>
                             </div>
                         </div>
                     </div>
@@ -418,8 +424,12 @@
 
 
             <!--ko with: projectOverview()-->
-            <div class="row proj-taskbar" style=" height: 51px; margin-bottom: -25px;">
-                <div class="col-xs-2"></div>
+            <div class="row proj-taskbar">
+                @*style=" height: 51px; margin-bottom: -25px;*@
+                <div class="col-xs-12" style="text-align: center;
+    font-size: 24px;
+    font-weight: 100;
+    padding-top: 5px;">Projects Overview</div>
             </div>
 
             <div class="proj-overview" style="display: flex; flex-direction: column; flex-wrap: wrap; height: 100px;">
@@ -458,7 +468,7 @@
             </div>
             <!-- /ko -->
             <!--ko with: currentProject()-->
-            <div class="row task-taskbar" style=" height: 45px;">
+            <div class="row task-taskbar" style=" height: 45px;     margin-top: 5px;">
                 <div class="col-xs-5">
                     <div style="font-size: 20px;" data-bind="text: $root.currentProject().Project.Name()"></div>
                     <div style="font-size: 10px;" data-bind="click: $root.toggleOverview"><< Back to overview</div>
@@ -593,14 +603,17 @@
                         <div id="dash-avsc" style="height: 75%;"></div>
                     </div>
                 </div>
-                <div class="col-xs-3">
+                <div class="col-xs-6">
                     <div style="background: #323641;     height: 50vh;">
+                        <div class="dash-card-title">Overdue Tasks</div>
+                        <div class="col-xs-12" id="dash-bar-overdue" style="height: 90%; width: 98% !important"></div>
                     </div>
                 </div>
-                <div class="col-xs-3">
+                @*<div class="col-xs-3">
                     <div style="background: #323641;     height: 50vh;">
+                        <div class="dash-card-title"></div>
                     </div>
-                </div>
+                </div>*@
                 <div class="col-xs-3">
                     <div class="chatContainer">
                         @*<iframe src="http://localhost:1240/" frameborder="0" class="chatContainer-frame"></iframe>*@

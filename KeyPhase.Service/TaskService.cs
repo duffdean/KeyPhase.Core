@@ -90,5 +90,15 @@ namespace KeyPhase.Service
                 return Mapper.MapActiveVsComplete(tasks);
             }
         }
+
+        public List<DashOverdueTasks> GetOverdueTasks(int UserID)
+        {
+            var userTasks = _userTaskRepository.FindAll(c => c.UserID == UserID);
+            List<Task> tasks = _taskRepository.GetAll()
+                .Where(t => userTasks.Any(ut => ut.TaskID == t.ID))
+                .Where(t => t.EstEndDate < DateTime.Now).ToList();
+
+            return Mapper.MapOverdueTasks(tasks);
+        }
     }
 }
