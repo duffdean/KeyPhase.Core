@@ -395,13 +395,20 @@ app.Charting = app.Charting || {};
 
     app.Charting.MostRecentTaskTable = (function (obj) {
         var table = $('.dash-mostRecent').find('tbody');
-
+        var cost;
         _.each(obj, function (item) {
+            if (item.Cost >= 0) {
+                cost = '£' + item.Cost;
+            }
+            else {
+                cost = '£0.00'
+            }
+
             table.append(
                 '<tr>' +
                 '<td>' + item.TaskName + '</td>' +
                 '<td>' + item.ProjectName + '</td>' +
-                '<td>' + item.Cost + '</td>' +
+                '<td>' + cost + '</td>' +
                 '</tr>');
         });
     });
@@ -436,6 +443,55 @@ app.Charting = app.Charting || {};
             onItemClick: function (data) {
                 app.View.Home.viewModel.taskPopup(data.Tasks()[0].ID());
             },
+        });
+    });
+
+    app.Charting.CurrentProjectTable = (function (projData) {
+        var currPhase, html = $('.projectTable');
+
+
+        _.each(projData.PhaseTasks(), function (item, index) {
+            
+            html.append(
+                '<div class="col-xs-11" style="margin-left: 5px; font-size: 25px;">' + item.Name() + '</div>' + 
+                '<div class="col-xs-11" style="background: #323641;     margin: 10px 10px 25px 20px;">' + 
+                '<table class="table tbl' + index + '" style="font-size: 14px; font-weight: 100;">' +
+                '<thead>' + 
+                '<tr>' + 
+                '<th scope="col">Task Name</th>' + 
+                '<th scope="col">Cost</th>' + 
+                '<th scope="col">Start Date</th>' + 
+                '<th scope="col">End Date</th>' + 
+                '<th scope="col">Created On</th>' + 
+                '</tr>' + 
+                '</thead >' + 
+                '<tbody style=""></tbody>' + 
+                '</table >' + 
+                '' + 
+                '' + 
+                '' + 
+                '' + 
+                '' + 
+                ''
+               );
+        });
+
+        _.each(projData.PhaseTasks(), function (item, index) {
+            currPhase = $('.' + 'tbl' + index + '').find('tbody');
+
+            _.each(item.Tasks(), function (item, index) {
+
+                currPhase.append(
+                    '<tr>' +
+                    '<td>' + item.Name() + '</td>' +
+                    '<td>£ ' + item.Cost() + '</td>' +
+                    '<td>' + moment(item.ActStartDate()).format('YYYY-MMM-DD') + '</td>' +
+                    '<td>' + moment(item.ActEndDate()).format('YYYY-MMM-DD') + '</td>' +
+                    '<td>' + moment(item.CreatedOn()).format('YYYY-MMM-DD') + '</td>' +
+                    '</tr>');
+
+            });
+
         });
     });
 

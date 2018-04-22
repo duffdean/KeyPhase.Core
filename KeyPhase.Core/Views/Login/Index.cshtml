@@ -13,13 +13,15 @@
             <input type="password" id="inputPassword" class="form-control" placeholder="Password" data-bind="value: password, click: clearError" required>
 
             <!-- ko if: register -->
+            <input type="email" id="inputEmail" class="form-control" placeholder="First Name" data-bind="value: firstName, click: clearError" required>
+            <input type="email" id="inputEmail" class="form-control" placeholder="Surname" data-bind="value: lastName, click: clearError" required>
             <input type="password" class="form-control" id="repeatPassword" placeholder="Repeat Password" data-bind="value: repeatPassword, click: clearError" required>
             <!-- /ko -->
 
             <div id="remember" class="checkbox">
                 @*<label>
-                        <input type="checkbox" value="remember-me"> Remember me
-                    </label>*@
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>*@
             </div>
             <!-- ko ifnot: register -->
             <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" data-bind="click: login">Sign in</button>
@@ -29,7 +31,7 @@
             <!-- /ko -->
         </form><!-- /form -->
         <!-- ko ifnot: register -->
-        <div>
+        <div style="color: black; text-align: center;">
             Not registered?
             <a href="#" class="forgot-password" data-bind="click: registerToggle">
                 Create an account
@@ -37,7 +39,7 @@
         </div>
         <!-- /ko -->
         <!-- ko if: register -->
-        <div>
+        <div style="color: black; text-align: center;">
             Already have an account?
             <a href="#" class="forgot-password" data-bind="click: registerToggle">
                 Sign in

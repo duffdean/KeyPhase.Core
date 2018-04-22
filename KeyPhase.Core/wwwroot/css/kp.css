@@ -313,14 +313,15 @@
     /*min-height: 150px;*/
     float: left;
     margin: 15px;
+    border-radius: 5px;
 }
 .projPhase-item {
     height: 45px;
-    background: #3e424d;
+    background: #454e67;
     border-radius: 5px;
     width: 95%;
     margin: auto;
-    box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.12);
+    /* box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.12); */
     margin-bottom: 10px;
     border: 2px solid transparent;
     transition: border 0.4s;
@@ -330,6 +331,8 @@
         border: 2px solid #474d5d;
     }
 .popup-task-title {
+    width: 97%;
+    text-align: center;
     border: none;
     margin: 3px 0px 0px 10px;
     padding: 0px 0px 0px 1px;
@@ -361,7 +364,7 @@
     margin: 5px 8px 0px 0px;
     padding: 0;
     display: table-cell;
-    width: 80%;
+    width: 100%;
     /* vertical-align: middle; */
     white-space: nowrap;
     cursor: text;
@@ -507,4 +510,37 @@ tr:nth-child(even) {
     font-family: "Open Sans";
     cursor: pointer;
     font-size: 14px;
+}
+
+.main-tab {
+cursor:pointer;
+}
+.main-tab-active {
+    cursor: pointer;
+    border-bottom-color: #ffffff;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    color: white;
+}
+
+.card-avatar {
+    content: attr(data-letters);
+    */
+    /* display: inline-block; */
+    /* font-size: 1em; */
+    width: 2.5em;
+    height: 2.5em;
+    line-height: 2.5em;
+    text-align: center;
+    border-radius: 50%;
+    background: #d23b65;
+    /* vertical-align: middle; */
+    /* margin-right: 1em; */
+    color: white;
+    bottom: -2px;
+    position: relative;
+    /* float: right; */
+    right: 10px;
+    /* padding: 0px; */
+    width: 35px;
 }

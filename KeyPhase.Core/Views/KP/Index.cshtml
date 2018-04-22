@@ -21,11 +21,11 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a data-bind="click: updateUI">Dashboard</a></li>
-                    <li><a data-bind="click: updateUI">Projects</a></li>
-                    <li><a data-bind="click: updateUI">Workload</a></li>
-                    <li><a data-bind="click: updateUI">Reports</a></li>
-                    <li><a data-bind="click: updateUI">Stream</a></li>
+                    <li class="main-tab main-tab-active"><a data-bind="click: updateUI">Dashboard</a></li>
+                    <li class="main-tab"><a data-bind="click: updateUI">Projects</a></li>
+                    <li class="main-tab"><a data-bind="click: updateUI">Workload</a></li>
+                    <li class="main-tab"><a data-bind="click: updateUI">Reports</a></li>
+                    <li class="main-tab"><a data-bind="click: updateUI">Stream</a></li>
                 </ul>
                 <div class="row hidden-xs kp-profile" style="padding: 0px;">
                     <div class="col-md-10">
@@ -34,9 +34,9 @@
                     <div class="col-md-2">
                         <div class="kp-profile-icon" data-bind="style: { background: profile().BgColour }">
                             <div data-bind="text: profile().Avatar"></div>
-                            <div class="kp-profile-icon-menu"><div class="menu-item">View Profile</div><div class="menu-item">Sign out</div></div>
+                            <div class="kp-profile-icon-menu"><div class="menu-item">View Profile</div><div class="menu-item" data-bind="click: signout">Sign out</div></div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -505,10 +505,10 @@
                 </div>
                 <!-- /ko -->
                 <!-- ko foreach: { data: $data.PhaseTasks, as: 's' } -->
-                <div class="tester projPhase">
-                    <span style="cursor: pointer;font-size: 18px;font-weight: 100;" data-bind="text: s.Name">
-                    </span>
-                    <div style="max-height: 515px; overflow-y: auto;">
+                <div class="projPhase">
+                    <div style="cursor: pointer;font-size: 18px;font-weight: 100;    text-align: center;  padding: 5px 0px 10px 0px;" data-bind="text: s.Name">
+                    </div>
+                    <div class="tester" style="max-height: 515px; overflow-y: auto; min-height: 25px;">
                         <!-- ko foreach: { data: s.Tasks, as: 'tasks' } -->
                         <div class="tasktest projPhase-item" data-bind="text: tasks.Name, click: $root.taskPopup"></div>
                         <!-- /ko -->
@@ -519,7 +519,7 @@
             </div>
             <!-- /ko -->
             <!--ko if: $root.currentView() == 'gantt'-->
-            <div class="row"">
+            <div class="row" ">
                 <div class="col-xs-12 proj-gantt" style="margin-top:15px;"></div>
             </div>
             <!-- /ko -->
@@ -529,8 +529,7 @@
             </div>
             <!-- /ko -->
             <!--ko if: $root.currentView() == 'table'-->
-            <div class="row">
-
+            <div class="row projectTable">               
             </div>
             <!-- /ko -->
             <!-- /ko -->
@@ -538,7 +537,6 @@
     </div>
     <!--/ko-->
     <!--/ko-->
-
     @*May switch this to an iframe?*@
     <!--ko if: currentPage() == 'dashboard' -->
     <div class="row contentArea ca ca-dash" style="    background-color: #1b1e23;
@@ -554,20 +552,20 @@
             </div>
             <div class="row">
                 <div class="col-xs-7">
-                    
+
                     <div style="background: #323641;
     height: 33vh;">
                         <div class="dash-card-title">Tasks per Project</div>
                         <div id="dash-bar" style="height: 85%; margin-left: 20px;"></div>
                     </div>
-                </div>                
+                </div>
                 <div class="col-xs-5">
                     <div style="background: #323641;
     height: 33vh;">
                         <div class="dash-card-title">Most Recent Tasks</div>
                         <div style="height: 85%; overflow: auto;">
                             <table class="table dash-mostRecent" style=" font-size: 12px; font-weight: 100;  /* height: 254px; */
-    /* overflow: auto; */">                    
+    /* overflow: auto; */">
                                 <thead>
                                     <tr>
                                         <th scope="col">Task</th>
@@ -575,8 +573,7 @@
                                         <th scope="col">Cost</th>
                                     </tr>
                                 </thead>
-                                <tbody style=" height: 248px;  overflow: auto;">                                    
-                                </tbody>
+                                <tbody style=" height: 248px;  overflow: auto;"></tbody>
                             </table>
 
                         </div>
@@ -610,10 +607,10 @@
                     </div>
                 </div>
                 @*<div class="col-xs-3">
-                    <div style="background: #323641;     height: 50vh;">
-                        <div class="dash-card-title"></div>
-                    </div>
-                </div>*@
+                        <div style="background: #323641;     height: 50vh;">
+                            <div class="dash-card-title"></div>
+                        </div>
+                    </div>*@
                 <div class="col-xs-3">
                     <div class="chatContainer">
                         @*<iframe src="http://localhost:1240/" frameborder="0" class="chatContainer-frame"></iframe>*@
@@ -634,9 +631,9 @@
     top: 10%;
     left: 20%;
     height: 80%;
-    background: rgb(58, 66, 88);
+    background: rgb(50, 54, 65);
     z-index: 1051;
-        border-radius: 5px
+    border-radius: 5px
 ">
     <div style="
      position: relative;
@@ -655,13 +652,13 @@
     font-weight: 900;
     line-height: 15px
 " data-bind="click: $root.closePopup">X</div>
-    <div class="row" style="    background: #3a4258;
+    <div class="row" style="    background: rgb(50, 54, 65);
     margin: 10px 10px 10px 10px;
     border-radius: 5px;
     height: 30px;">
-        <input class="col-xs-8 popup-task-title" type="text" name="taskChat" data-bind="value: $data.Task.Name" />
+        <input class="popup-task-title" type="text" name="taskChat" data-bind="value: $data.Task.Name" />
         @*<div class="col-xs-2" data-bind="text: $data.Task.Name"></div>*@
-        <div class="col-xs-3">OTHER STUFF HERE</div>
+        @*<div class="col-xs-3">OTHER STUFF HERE</div>*@
     </div>
     <span class="popup-task-split"></span>
     <div class="row" style="    background: #3a4258;
@@ -671,37 +668,60 @@
         <span data-bind="text: $data.Task.Complete"></span>
         <span data-bind="text: $data.Task.ActEndDate"></span>
     </div>
-    <span class="popup-task-split"></span>
-    <div class="row popup-task-history" style="    background: #3a4258;
-    margin: 10px 10px 10px 10px;border-radius: 5px; overflow-y: auto;     height: 350px;">
-        <!-- ko foreach: { data: $data.TaskHistory, as: 'history' } -->
-        <div class="tasktest projPhase-item" data-bind="text: history.User.FirstName"></div>
-        <div class="tasktest projPhase-item" data-bind="text: history.Value"></div>
-        <!-- /ko -->
-    </div>
-    <span class="popup-task-split"></span>
-    <div class="row" style="    background: #3a4258;
-    margin: 10px 10px 10px 10px;border-radius: 5px; height: 40px;">
-        <span class="col-xs-1 lnr lnr-paperclip" style="font-size: 28px;
-    line-height: 38px;"></span>
-        <input class="col-xs-10 popup-task-chat" type="text" name="taskChat" placeholder="Add Comment" />
-        <span class="col-xs-1" style="height: 30px;
-    line-height: 30px;
-    border-radius: 2px;
-    background-color: #2f5aa5;
-    font-size: 14px;
-    /* font-weight: 600; */
-    /* letter-spacing: .5px; */
+    @*<span class="popup-task-split"></span>*@
+    <div class="row">
+        <div class="col-xs-6">
+            <div style="text-align: center; font-weight: 100;">Task History</div>
+            <div class="popup-task-history" style="background: #3a4258; margin: 10px 10px 10px 10px;border-radius: 5px; overflow-y: auto; height: 350px" ;>
+                <div style="overflow-y: auto; height: 300px;     padding-top: 10px;">
+                    <!-- ko foreach: { data: $data.TaskHistory, as: 'history' } -->
+                    <div class="tasktest projPhase-item" >
+                        <div class="col-xs-1">
+                            <div class="card-avatar"> <div data-bind="text: history.User.FullName()"></div></div>
+                        </div>
+                        <div class="col-xs-11" style=" height: 100%; ">
+                            <div style=" height: 30px; line-height: 35px; font-weight: 100; font-size: 14px;" data-bind="text: history.Value()"></div>
+                            <div style="height: 12px; font-size: 10px; float: right; line-height: 5px;" data-bind="text: history.DateFormatted()"></div>
+                        </div>
+                    </div>
+                    @*<div class="tasktest projPhase-item" data-bind="text: history.Value"></div>*@
+                    <!-- /ko -->
+                </div>
+                <div style="
+    height: 45px;
+    margin: 0px 0px 0px 0px;
+    position: absolute;
+    bottom: 10px;
+    z-index: 99999999;
+    width: 89%;
+">
+                    <div class="col-xs-9">
+                        <input class="col-xs-10 popup-task-chat" type="text" name="taskChat" placeholder="Add Comment">
+                    </div><div class="col-xs-3">
+                        <div class="col-xs-1" style=" height: 30px;line-height: 30px;border-radius: 2px; background-color: #2f5aa5; font-size: 14px;
     color: #fff;
-    /* padding: 0 16px; */
-    /* display: block; */
     cursor: pointer;
-    /* opacity: 1; */
-    /* box-sizing: border-box; */
-    /* white-space: nowrap; */
     text-align: center;
-    margin: 5px 0px 0px 5px;" data-bind="click: $root.postComment">Send</span>
+    margin: 5px 0px 0px 5px;
+    width: 100%;
+    " data-bind="click: $root.postComment">Send</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-xs-6">
+            <div style="text-align: center; font-weight: 100;">Attached Files</div>
+            <div class="popup-task-file" style="background: #3a4258; margin: 10px 10px 10px 10px;border-radius: 5px; overflow-y: auto; height: 350px" ;>
+                
+            </div>
+        </div>
     </div>
+
+
+    <span class="popup-task-split"></span>
+
 
 </div>
 <!--/ko-->
@@ -709,6 +729,6 @@
 <div id="kploader" class="kp-loader">
 
     <div class="kp-loader-container">
-        <div class="loader kp-loader-spinner"></div><img class="kp-loader-logo" src="~/images/Untitled-3.png">
+        <div class="loader kp-loader-spinner"></div>@*<img class="kp-loader-logo" src="/images/Untitled-3.png">*@
     </div>
 </div>

@@ -15,6 +15,8 @@ app.View = app.View || {};
         vm.registerToggle = vmFunctions.events.registerToggle;
         vm.email = ko.observable("");
         vm.password = ko.observable("");
+        vm.firstName = ko.observable("");
+        vm.lastName = ko.observable("");
         vm.repeatPassword = ko.observable("");
         vm.errorMessage = ko.observable("");
         vm.clearError = vmFunctions.events.clearError;
@@ -32,8 +34,18 @@ app.View = app.View || {};
                     if (viewModel.password().length <= 0) {
                         viewModel.errorMessage("Please enter a password")
                     }
-                    if (viewModel.password() != viewModel.repeatPassword()) {
+                    else if (viewModel.password() != viewModel.repeatPassword()) {
                         viewModel.errorMessage("Passwords do not match");
+                    }
+                    else {
+                        return app.Controllers.Auth.Register(viewModel.email(), viewModel.password(), viewModel.firstName(), viewModel.lastName())
+                            .done(function (obj) {
+                                $.cookie('KPUser', JSON.stringify(obj), { expires: 1 });
+                                window.location.href = app.Global.AppMain;
+                            })
+                            .always(function () {
+
+                            });
                     }
                 }
                 else {
@@ -49,7 +61,7 @@ app.View = app.View || {};
                         return app.Controllers.Auth.Login(viewModel.email(), viewModel.password())
                             .done(function (obj) {
                                 $.cookie('KPUser', JSON.stringify(obj), { expires: 1 });
-                                window.location.href = "kp";
+                                window.location.href = app.Global.AppMain;
                             })
                             .always(function () {
 

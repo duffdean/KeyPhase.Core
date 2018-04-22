@@ -15,9 +15,10 @@ app.View = app.View || {};
         vm.currentProject = ko.observable(null);
         vm.currentTask = ko.observable(null);
         vm.user = ko.observable(1);
-
         
 
+        
+        vm.signout = page.helpers.Signout;
         vm.closePopup = page.helpers.ClosePopup;
         vm.taskPopup = page.helpers.TaskPopup;
         vm.dragPhase = page.events.DragPhase;
@@ -39,6 +40,10 @@ app.View = app.View || {};
         vm.currentPage = ko.observable('');
         vm.KPSettings = ko.observableArray();
         vm.contentLoading = ko.observable(false);
+
+        vm.userAvatar = ko.pureComputed(function (a,b,c) {
+            return this + ' something'
+        })
 
         vm.profile = ko.computed(function () {
             if (vm.user().FirstName) {
@@ -415,7 +420,17 @@ app.View = app.View || {};
 
                 return app.Controllers.Tasks.GetTaskDetailed(taskID)
                     .done(function (obj) {
-                        viewModel.currentTask(ko.mapping.fromJS(obj));
+                        if (obj != null) {      
+                            for (var i = 0; i < obj.TaskHistory.length; i++) {
+                                obj.TaskHistory[i].User.FullName = obj.TaskHistory[i].User.FirstName.charAt(0).toUpperCase() + obj.TaskHistory[0].User.LastName.charAt(0).toUpperCase();
+                                //obj.TaskHistory[0].DateFormatted = moment(obj.TaskHistory[0].DateSubmitted).format('DD-MMM-YYYY');     
+                                obj.TaskHistory[i].DateFormatted = moment(obj.TaskHistory[i].DateSubmitted).fromNow();
+                            }
+
+                            viewModel.currentTask(ko.mapping.fromJS(obj));
+                            app.Global.InitFileService(viewModel.currentTask().Task.ID(), viewModel.user().ID);
+                        }
+                       
                         //viewModel.currentTask(_.map(obj, vmFunctions.mappers.MapTask));
                     })
                     .always(function () {
@@ -425,6 +440,10 @@ app.View = app.View || {};
         },
 
         helpers: {
+            Signout: function () {
+                $.removeCookie('KPUser');
+                window.location = "http://www.keyphase.net"
+            },
             ChangeView: function (proj, elem) {
                 var view = $(elem.currentTarget).text().toLowerCase();
 
@@ -437,18 +456,22 @@ app.View = app.View || {};
                     case 'kanban':
                         break;
                     case 'list':
+
                         break;
                     case 'table':
+                        app.Charting.CurrentProjectTable(viewModel.currentProject());
                         break;
                 }
             },
             ToggleOverview: function () {
-                
                 if (!$('.proj-overview').is(':visible')) {
                     $('.proj-taskbar').fadeIn();
                     $('.proj-detailed').fadeOut();
                     $('.proj-overview').fadeIn();
                     $('.task-taskbar').fadeOut();
+
+                    //empty table
+                    $('.projectTable').empty();
                 }
                 else {
                     $('.task-taskbar').fadeIn();
@@ -618,6 +641,18 @@ app.View = app.View || {};
             page.helpers.KPSettings()
             //requests.push(page.getters.GetUserProjects());
             //requests.push(gets.GetProjects());
+
+            if (!$.cookie('KPUser')) {
+                window.location = "http://app.keyphase.net/login";
+            }
+
+            //strip out...
+            $('.main-tab').click(function () {
+                $('.main-tab').removeClass('main-tab-active');
+                $(this).addClass('main-tab-active');
+            });
+
+
             $.when.apply(undefined, requests).then(function () {
                 viewModel.currentView('kanban');
                 page.helpers.removeLoader();
@@ -630,6 +665,8 @@ app.View = app.View || {};
                 vmFunctions.events.GetDashboardData();
                 viewModel.currentPage("dashboard");
                 app.Global.InitChatService(viewModel.user().ID);
+
+
 
             });
         }

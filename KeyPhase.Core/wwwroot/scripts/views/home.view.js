@@ -39,7 +39,7 @@ app.View = app.View || {};
 
         helpers: {
             loginRedirect: function () {
-                window.location.href = "/login";
+                window.location.href = "http://keyphase.net/login";
             }
         },
 
