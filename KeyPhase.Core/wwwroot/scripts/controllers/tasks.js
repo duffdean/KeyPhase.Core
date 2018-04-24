@@ -5,6 +5,60 @@ app.Controllers = app.Controllers || {};
     'use strict';
 
     app.Controllers.Tasks = {
+        GetReportingDataOverview: function (userID) {
+            return $.ajax({
+                url: app.Global.BaseAddress + app.Global.Controllers.Compound + "GetReportingDataOverview",
+                type: "GET",
+                data: {
+                    UserID: userID
+                }
+            }).done(function (obj) {
+
+            }).fail(function (obj) {
+
+            });
+        },
+        GetTaskReportingData: function (taskData) {
+            return $.ajax({
+                url: app.Global.BaseAddress + app.Global.Controllers.Compound + "GetTaskReportingData",
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    TaskData: taskData
+                }
+            }).done(function (obj) {
+
+            }).fail(function (obj) {
+
+            });
+        },
+        GetProjectReportingData: function (projData) {
+            return $.ajax({
+                url: app.Global.BaseAddress + app.Global.Controllers.Compound + "GetProjectReportingData",
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    ProjData: projData
+                }
+            }).done(function (obj) {
+
+            }).fail(function (obj) {
+
+            });
+        },
+        GetReportingData: function (userID) {
+            return $.ajax({
+                url: app.Global.BaseAddress + app.Global.Controllers.Compound + "GetReportingData",
+                type: "GET",
+                data: {
+                    UserID: userID
+                }
+            }).done(function (obj) {
+
+            }).fail(function (obj) {
+
+            });
+        }, 
         GetOverdueTasks: function (userID) {
             return $.ajax({
                 url: app.Global.BaseAddress + app.Global.Controllers.Task + "GetOverdueTasks",

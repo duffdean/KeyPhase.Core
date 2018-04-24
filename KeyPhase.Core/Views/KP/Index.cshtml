@@ -455,8 +455,7 @@
                 <!-- /ko -->
                 <!-- ko foreach: { data: $data.ProjectPhases, as: 'p' } -->
                 <div class="tester projPhase">
-                    <span style="cursor: pointer;font-size: 18px;font-weight: 100;" data-bind="text: p.Name">
-                    </span>
+                    <div style="cursor: pointer;font-size: 18px;font-weight: 100;    text-align: center;  padding: 5px 0px 10px 0px;" data-bind="text: p.Name"></div>
                     <div style="max-height: 515px; overflow-y: auto;">
                         <!-- ko foreach: { data: p.Projects, as: 'projects' } -->
                         <div class="tasktest projPhase-item" data-bind="text: projects.Name, click: $root.loadProjectData"></div>
@@ -529,7 +528,7 @@
             </div>
             <!-- /ko -->
             <!--ko if: $root.currentView() == 'table'-->
-            <div class="row projectTable">               
+            <div class="row projectTable">
             </div>
             <!-- /ko -->
             <!-- /ko -->
@@ -537,96 +536,388 @@
     </div>
     <!--/ko-->
     <!--/ko-->
-    @*May switch this to an iframe?*@
-    <!--ko if: currentPage() == 'dashboard' -->
-    <div class="row contentArea ca ca-dash" style="    background-color: #1b1e23;
+
+    <!--ko if: currentPage() == 'workload'-->
+    <!--/ko-->
+
+    <!--ko if: currentPage() == 'reports'-->
+    <div class="row ca ca-dash">
+        <div style="
+    text-align: center;
+    font-size: 30px;
+    font-weight: 100;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 52px;
+    ">Reports</div>
+        <div class="viewReport "></div>
+        <div class="genReport ">
+            <div class="wizcontainer">
+                <ul class="progressbar">
+                    <li class="active">
+                        <span class="lnr lnr-database wizIcon"></span><div>Source</div>
+                    </li>
+                    <li>
+                        <span class="lnr lnr-list wizIcon"></span><div>Data</div>
+                    </li>
+                    <li><span class="lnr lnr-funnel wizIcon"></span><div>Filters</div></li>
+                    <li><span class="lnr lnr-thumbs-up wizIcon"></span><div>Generate</div></li>
+                </ul>
+            </div>
+            <div class="wiz">
+                <div class="col-xs-2 wiz-col wiz-col-active col-xs-offset-2" id="1"  style="padding-top: 25px;">
+                    <div class="wiz-source" data-bind="click: reportWizard">
+                        <span class="col-xs-2 lnr lnr-list" style="line-height:40px"></span>
+                        <div class="col-xs-10">Projects</div>
+                    </div>
+                    
+                    <div class="wiz-source" data-bind="click: reportWizard">
+                        <span class="col-xs-2 lnr lnr-list" style="line-height:40px"></span>
+                        <div class="col-xs-10">Tasks</div>
+                    </div>
+                </div>
+
+                <div class="col-xs-2 wiz-col wiz-datacol" id="2" style="overflow-y:auto;">                   
+                    <div class="col-xs-12 ">
+                        <div style="margin: 5px 0px 10px 0px;text-align: center;">
+                            <span class="wiz-checkall">Check All</span> 
+                            <span class="wiz-checkall">Uncheck All</span>
+                        </div>
+
+                        <!--ko with: reportingData-->
+                        <div class="wiz-data-proj">
+                            <!-- ko foreach: { data: $data.Projects(), as: 'p' } -->
+                            <label style="font-size: 12px; font-weight: 100; display: block;">
+                                <input type="checkbox" data-bind="attr: { id: p.ID() }" />
+                                <!-- ko text: p.Name() --><!-- /ko -->
+                            </label>
+                            <!--/ko-->
+                        </div>
+                        <div class="wiz-data-task">
+                            <!-- ko foreach: { data: $data.Tasks(), as: 't' } -->
+                            <label style="font-size: 12px; font-weight: 100; display: block;">
+                                <input type="checkbox" data-bind="attr: { id: t.ID() }"/>
+                                <!-- ko text: t.Name() --><!-- /ko -->
+                            </label>
+                            <!--/ko-->
+                        </div>
+                        <!--/ko-->
+                    </div>
+                </div>
+                <div class="col-xs-2 wiz-col" id="3" >
+                    <div class="col-xs-12" style="    margin: 5px 0px 0px 0px;">
+                        <details style="padding-top: 10px;">
+                            <summary style="    padding-bottom: 10px;">Date Range</summary>
+                            <div style="padding-top: 10px;">
+                                <span style="font-weight: 100;">Start date</span>
+                                <i class="glyphicon glyphicon-calendar" style="float: right;
+    top: 30px;
+    padding-right: 10px;"></i>
+                                <input type="text" class="kp-date" style="border: none;
+    padding: 0;
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: text;
+    position: relative;
+    box-sizing: border-box;
+    background-color: transparent;
+    /* border: none; */
+    /* border-bottom: 1px solid rgba(255,255,255,.5); */
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,.5);
+    height: 35px;
+    padding-left: 10px;
+    font-weight: 100;">
+                            </div>
+                            <div style="padding-top: 10px;">
+                                    <span style="font-weight: 100;">End date</span>
+                                    <i class="glyphicon glyphicon-calendar" style="float: right;
+        top: 30px;
+        padding-right: 10px;"></i>
+                                    <input type="text" class="kp-date" style="border: none;
+        padding: 0;
+        display: table-cell;
+        width: 100%;
+        vertical-align: middle;
+        white-space: nowrap;
+        cursor: text;
+        position: relative;
+        box-sizing: border-box;
+        background-color: transparent;
+        /* border: none; */
+        /* border-bottom: 1px solid rgba(255,255,255,.5); */
+        font-size: 15px;
+        border: 1px solid rgba(255,255,255,.5);
+        height: 35px;
+        padding-left: 10px;
+        font-weight: 100;">
+                            </div>
+                        </details>
+
+                        <details style="padding-top: 10px;">
+                            <summary style="    padding-bottom: 10px;">Task Status</summary>
+                            <label style="font-size: 12px; font-weight: 100; display: block;">
+                                <input type="checkbox" />
+                                Overdue
+                            </label>
+                            <label style="font-size: 12px; font-weight: 100; display: block;">
+                                <input type="checkbox" />
+                                Due today
+                            </label>
+                            <label style="font-size: 12px; font-weight: 100; display: block;">
+                                <input type="checkbox" />
+                                Due this week
+                            </label>
+                            <label style="font-size: 12px; font-weight: 100; display: block;">
+                                <input type="checkbox" />
+                                Due this month
+                            </label>
+                        </details>
+
+                        <details style="padding-top: 10px;">
+                            <summary style="    padding-bottom: 10px;">Cost Range</summary>
+                            <span style="font-weight: 100;">Min Cost</span>
+                            <i class="glyphicon glyphicon-calendar" style="float: right;
+    top: 30px;
+    padding-right: 10px;"></i>
+                            <input type="text" class="" style="border: none;
+    padding: 0;
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: text;
+    position: relative;
+    box-sizing: border-box;
+    background-color: transparent;
+    /* border: none; */
+    /* border-bottom: 1px solid rgba(255,255,255,.5); */
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,.5);
+    height: 35px;
+    padding-left: 10px;
+    font-weight: 100;">
+                            <span style="font-weight: 100;">Max Cost</span>
+                            <i class="glyphicon glyphicon-calendar" style="float: right;
+    top: 30px;
+    padding-right: 10px;"></i>
+                            <input type="text" class="" style="border: none;
+    padding: 0;
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: text;
+    position: relative;
+    box-sizing: border-box;
+    background-color: transparent;
+    /* border: none; */
+    /* border-bottom: 1px solid rgba(255,255,255,.5); */
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,.5);
+    height: 35px;
+    padding-left: 10px;
+    font-weight: 100;">
+                        </details>
+
+                    </div>
+                </div>
+                <div class="col-xs-2 wiz-col" id="4">
+                    <div style="
+    margin-top: 110px;
+    text-align: center;
+">
+                        <span class="lnr lnr-chart-bars" style="
+    /* position: absolute; */
+    font-size: 65px;
+    "></span>
+                    </div><div class="col-xs-12">
+                        <div style="
+    /* width: 65px; */
+    height: 25px;
+    margin: 25px;
+    text-align: center;
+    background: #323641;
+    line-height: 24px;
+    font-size: 14px;
+    font-weight: 100;
+    border-radius: 3px;
+    color: white;
+" data-bind="click: reportWizard">Generate</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-8 col-xs-offset-2" style="
+    height: 50px;
+                                             ">
+                <div style="
+        float: right;
+    width: 65px;
+    height: 25px;
+    margin: 5px;
+    text-align: center;
+    background: #454e67;
+    line-height: 24px;
+    font-size: 14px;
+    font-weight: 100;
+    border-radius: 3px;
+" data-bind="click: reportWizard">Next</div><div style="
+        float: right;
+    width: 65px;
+    height: 25px;
+    margin: 5px;
+    text-align: center;
+    background: #454e67;
+    line-height: 24px;
+    font-size: 14px;
+    font-weight: 100;
+    border-radius: 3px;
+" data-bind="click: reportWizard">Previous</div>
+            </div>
+        </div>
+        <div class="mainReport" style="margin-top: 30px;">
+            <div class="col-xs-4 col-xs-offset-2" style="
+    text-align: center;
+">
+                <div class="lnr lnr-magic-wand" style="
+    margin: auto;
+    font-size: 85px;
+    background: #1e8ab7;
+    width: 110px;
+    height: 110px;
+    line-height: 110px;
+    border-radius: 5px;
+    padding-left: 5px;
+    cursor: pointer;
+" data-bind="click: reportCreate"></div>
+                <div style="
+    font-size: 22px;
+    font-weight: 100;
+    padding-top: 5px;
+    cursor: pointer;
+" data-bind="click: reportCreate">Create Report</div>
+            </div>
+            <div class="col-xs-4" style="
+    text-align: center;
+    margin: auto;
+    font-size: 85px;
+">
+                <div class="lnr lnr-chart-bars" style="
+    margin: auto;
+    font-size: 85px;
+    background: #1e8ab7;
+    width: 110px;
+    height: 110px;
+    line-height: 110px;
+    border-radius: 5px;
+    padding-left: 5px;
+    cursor: pointer;
+" data-bind="click: reportView"></div>
+                <div style="
+    font-size: 22px;
+    font-weight: 100;
+    padding-top: 5px;
+    cursor: pointer;
+" data-bind="click: reportView">View Reports</div>
+            </div>
+        </div>
+    </div>
+        <!--/ko-->
+
+
+        @*May switch this to an iframe?*@
+        <!--ko if: currentPage() == 'dashboard' -->
+        <div class="row contentArea ca ca-dash" style="    background-color: #1b1e23;
     height: 100%;">
-        <div class="col-xs-12 ca ca-dash-content" style="top: 0px;height: 100%;border-right: #3a4258;border-right-width: 1px;border-right-style: solid;overflow: auto;">
-            <div class="row" style="height: 52px;"></div>
-            <div class="row">
-                <div style="    text-align: center;
+            <div class="col-xs-12 ca ca-dash-content" style="top: 0px;height: 100%;border-right: #3a4258;border-right-width: 1px;border-right-style: solid;overflow: auto;">
+                <div class="row" style="height: 52px;"></div>
+                <div class="row">
+                    <div style="    text-align: center;
     font-size: 30px;
     font-weight: 100;
     padding-top: 10px;
     padding-bottom: 10px;" data-bind="text: $root.user().FirstName + '\'s' + ' Dashboard'"></div>
-            </div>
-            <div class="row">
-                <div class="col-xs-7">
-
-                    <div style="background: #323641;
-    height: 33vh;">
-                        <div class="dash-card-title">Tasks per Project</div>
-                        <div id="dash-bar" style="height: 85%; margin-left: 20px;"></div>
-                    </div>
                 </div>
-                <div class="col-xs-5">
-                    <div style="background: #323641;
-    height: 33vh;">
-                        <div class="dash-card-title">Most Recent Tasks</div>
-                        <div style="height: 85%; overflow: auto;">
-                            <table class="table dash-mostRecent" style=" font-size: 12px; font-weight: 100;  /* height: 254px; */
-    /* overflow: auto; */">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Task</th>
-                                        <th scope="col">Project</th>
-                                        <th scope="col">Cost</th>
-                                    </tr>
-                                </thead>
-                                <tbody style=" height: 248px;  overflow: auto;"></tbody>
-                            </table>
+                <div class="row">
+                    <div class="col-xs-7">
 
+                        <div style="background: #323641;
+    height: 33vh;">
+                            <div class="dash-card-title">Tasks per Project</div>
+                            <div id="dash-bar" style="height: 85%; margin-left: 20px;"></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-5">
+                        <div style="background: #323641;
+    height: 33vh;">
+                            <div class="dash-card-title">Most Recent Tasks</div>
+                            <div style="height: 85%; overflow: auto;">
+                                <table class="table dash-mostRecent" style=" font-size: 12px; font-weight: 100;  /* height: 254px; */
+    /* overflow: auto; */">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Task</th>
+                                            <th scope="col">Project</th>
+                                            <th scope="col">Cost</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style=" height: 248px;  overflow: auto;"></tbody>
+                                </table>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row" style="margin-top: 15px;margin-bottom: 10px;">
-                <div class="col-xs-3">
-                    <div style="background: #323641;     height: 50vh;">
-                        <div class="dash-card-title">Active Vs Complete Tasks</div>
-                        <div>
-                            <select style="width: 70%;
+                <div class="row" style="margin-top: 15px;margin-bottom: 10px;">
+                    <div class="col-xs-3">
+                        <div style="background: #323641;     height: 50vh;">
+                            <div class="dash-card-title">Active Vs Complete Tasks</div>
+                            <div>
+                                <select style="width: 70%;
     /* margin: auto; */
     /* text-align: center; */
     display: block;
     margin: 0 auto;
     margin-top: 10px;     margin-bottom: 10px;">
-                                <option value="">Proj1</option>
-                                <option value="">Proj1</option>
-                                <option value="">Proj1</option>
-                                <option value="">Proj1</option>
-                            </select>
+                                    <option value="">Proj1</option>
+                                    <option value="">Proj1</option>
+                                    <option value="">Proj1</option>
+                                    <option value="">Proj1</option>
+                                </select>
+                            </div>
+                            <div id="dash-avsc" style="height: 75%;"></div>
                         </div>
-                        <div id="dash-avsc" style="height: 75%;"></div>
                     </div>
-                </div>
-                <div class="col-xs-6">
-                    <div style="background: #323641;     height: 50vh;">
-                        <div class="dash-card-title">Overdue Tasks</div>
-                        <div class="col-xs-12" id="dash-bar-overdue" style="height: 90%; width: 98% !important"></div>
+                    <div class="col-xs-6">
+                        <div style="background: #323641;     height: 50vh;">
+                            <div class="dash-card-title">Overdue Tasks</div>
+                            <div class="col-xs-12" id="dash-bar-overdue" style="height: 90%; width: 98% !important"></div>
+                        </div>
                     </div>
-                </div>
-                @*<div class="col-xs-3">
+                    @*<div class="col-xs-3">
                         <div style="background: #323641;     height: 50vh;">
                             <div class="dash-card-title"></div>
                         </div>
                     </div>*@
-                <div class="col-xs-3">
-                    <div class="chatContainer">
-                        @*<iframe src="http://localhost:1240/" frameborder="0" class="chatContainer-frame"></iframe>*@
+                    <div class="col-xs-3">
+                        <div class="chatContainer">
+                            @*<iframe src="http://localhost:1240/" frameborder="0" class="chatContainer-frame"></iframe>*@
 
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
-
+        <!--/ko-->
     </div>
-    <!--/ko-->
-</div>
 
 
-<!--ko with: currentTask-->
-<div class="col-xs-8 popup-task" style="
+
+    <!--ko with: currentTask-->
+    <div class="col-xs-8 popup-task" style="
     position: absolute;
     top: 10%;
     left: 20%;
@@ -635,7 +926,7 @@
     z-index: 1051;
     border-radius: 5px
 ">
-    <div style="
+        <div style="
      position: relative;
     float: right;
     top: -7px;
@@ -652,42 +943,42 @@
     font-weight: 900;
     line-height: 15px
 " data-bind="click: $root.closePopup">X</div>
-    <div class="row" style="    background: rgb(50, 54, 65);
+        <div class="row" style="    background: rgb(50, 54, 65);
     margin: 10px 10px 10px 10px;
     border-radius: 5px;
     height: 30px;">
-        <input class="popup-task-title" type="text" name="taskChat" data-bind="value: $data.Task.Name" />
-        @*<div class="col-xs-2" data-bind="text: $data.Task.Name"></div>*@
-        @*<div class="col-xs-3">OTHER STUFF HERE</div>*@
-    </div>
-    <span class="popup-task-split"></span>
-    <div class="row" style="    background: #3a4258;
+            <input class="popup-task-title" type="text" name="taskChat" data-bind="value: $data.Task.Name" />
+            @*<div class="col-xs-2" data-bind="text: $data.Task.Name"></div>*@
+            @*<div class="col-xs-3">OTHER STUFF HERE</div>*@
+        </div>
+        <span class="popup-task-split"></span>
+        <div class="row" style="    background: #3a4258;
     margin: 10px 10px 10px 10px;border-radius: 5px; height:60px">
-        <span data-bind="text: $data.Task.Name"></span>
-        <span data-bind="text: $data.Task.Cost"></span>
-        <span data-bind="text: $data.Task.Complete"></span>
-        <span data-bind="text: $data.Task.ActEndDate"></span>
-    </div>
-    @*<span class="popup-task-split"></span>*@
-    <div class="row">
-        <div class="col-xs-6">
-            <div style="text-align: center; font-weight: 100;">Task History</div>
-            <div class="popup-task-history" style="background: #3a4258; margin: 10px 10px 10px 10px;border-radius: 5px; overflow-y: auto; height: 350px" ;>
-                <div style="overflow-y: auto; height: 300px;     padding-top: 10px;">
-                    <!-- ko foreach: { data: $data.TaskHistory, as: 'history' } -->
-                    <div class="tasktest projPhase-item" >
-                        <div class="col-xs-1">
-                            <div class="card-avatar"> <div data-bind="text: history.User.FullName()"></div></div>
+            <span data-bind="text: $data.Task.Name"></span>
+            <span data-bind="text: $data.Task.Cost"></span>
+            <span data-bind="text: $data.Task.Complete"></span>
+            <span data-bind="text: $data.Task.ActEndDate"></span>
+        </div>
+        @*<span class="popup-task-split"></span>*@
+        <div class="row">
+            <div class="col-xs-6">
+                <div style="text-align: center; font-weight: 100;">Task History</div>
+                <div class="popup-task-history" style="background: #3a4258; margin: 10px 10px 10px 10px;border-radius: 5px; overflow-y: auto; height: 350px" ;>
+                    <div style="overflow-y: auto; height: 300px;     padding-top: 10px;">
+                        <!-- ko foreach: { data: $data.TaskHistory, as: 'history' } -->
+                        <div class="tasktest projPhase-item">
+                            <div class="col-xs-1">
+                                <div class="card-avatar"> <div data-bind="text: history.User.FullName()"></div></div>
+                            </div>
+                            <div class="col-xs-11" style=" height: 100%; ">
+                                <div style=" height: 30px; line-height: 35px; font-weight: 100; font-size: 14px;" data-bind="text: history.Value()"></div>
+                                <div style="height: 12px; font-size: 10px; float: right; line-height: 5px;" data-bind="text: history.DateFormatted()"></div>
+                            </div>
                         </div>
-                        <div class="col-xs-11" style=" height: 100%; ">
-                            <div style=" height: 30px; line-height: 35px; font-weight: 100; font-size: 14px;" data-bind="text: history.Value()"></div>
-                            <div style="height: 12px; font-size: 10px; float: right; line-height: 5px;" data-bind="text: history.DateFormatted()"></div>
-                        </div>
+                        @*<div class="tasktest projPhase-item" data-bind="text: history.Value"></div>*@
+                        <!-- /ko -->
                     </div>
-                    @*<div class="tasktest projPhase-item" data-bind="text: history.Value"></div>*@
-                    <!-- /ko -->
-                </div>
-                <div style="
+                    <div style="
     height: 45px;
     margin: 0px 0px 0px 0px;
     position: absolute;
@@ -695,40 +986,40 @@
     z-index: 99999999;
     width: 89%;
 ">
-                    <div class="col-xs-9">
-                        <input class="col-xs-10 popup-task-chat" type="text" name="taskChat" placeholder="Add Comment">
-                    </div><div class="col-xs-3">
-                        <div class="col-xs-1" style=" height: 30px;line-height: 30px;border-radius: 2px; background-color: #2f5aa5; font-size: 14px;
+                        <div class="col-xs-9">
+                            <input class="col-xs-10 popup-task-chat" type="text" name="taskChat" placeholder="Add Comment">
+                        </div><div class="col-xs-3">
+                            <div class="col-xs-1" style=" height: 30px;line-height: 30px;border-radius: 2px; background-color: #2f5aa5; font-size: 14px;
     color: #fff;
     cursor: pointer;
     text-align: center;
     margin: 5px 0px 0px 5px;
     width: 100%;
     " data-bind="click: $root.postComment">Send</div>
+                        </div>
                     </div>
+
                 </div>
 
             </div>
+            <div class="col-xs-6">
+                <div style="text-align: center; font-weight: 100;">Attached Files</div>
+                <div class="popup-task-file" style="background: #3a4258; margin: 10px 10px 10px 10px;border-radius: 5px; overflow-y: auto; height: 350px" ;>
 
-        </div>
-        <div class="col-xs-6">
-            <div style="text-align: center; font-weight: 100;">Attached Files</div>
-            <div class="popup-task-file" style="background: #3a4258; margin: 10px 10px 10px 10px;border-radius: 5px; overflow-y: auto; height: 350px" ;>
-                
+                </div>
             </div>
         </div>
+
+
+        <span class="popup-task-split"></span>
+
+
     </div>
+    <!--/ko-->
 
+    <div id="kploader" class="kp-loader">
 
-    <span class="popup-task-split"></span>
-
-
-</div>
-<!--/ko-->
-
-<div id="kploader" class="kp-loader">
-
-    <div class="kp-loader-container">
-        <div class="loader kp-loader-spinner"></div>@*<img class="kp-loader-logo" src="/images/Untitled-3.png">*@
+        <div class="kp-loader-container">
+            <div class="loader kp-loader-spinner"></div>@*<img class="kp-loader-logo" src="/images/Untitled-3.png">*@
+        </div>
     </div>
-</div>

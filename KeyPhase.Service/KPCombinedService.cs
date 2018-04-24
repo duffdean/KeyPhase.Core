@@ -256,5 +256,19 @@ namespace KeyPhase.Service
 
             return Mapper.GetTasksPerProject(projects, projTasks);
         }
+
+        public ReportingData GetReportingData(int UserID)
+        {
+            IEnumerable<UserProject> userProjects = _userProjectRepository.FindAll(c => c.UserID == UserID);
+            List<Project> projects = _projRepository.GetAll().Where(p => userProjects.Any(cb => cb.ProjectID == p.ID)).ToList();
+            List<ProjectTask> projTasks = _projTaskRepository.GetAll().Where(t => projects.Any(ut => ut.ID == t.ProjectID)).ToList();
+            List<Task> tasks = _taskRepository.GetAll().Where(p => projTasks.Any(cb => cb.TaskID == p.ID)).ToList();
+
+            return Mapper.MapReportingData(projects, tasks);
+        }
+
+        public ReportingData GetProjectReportingData(ReportingDataTask TaskData) { return null; }
+        public ReportingData GetTaskReportingData(ReportingDataProject ProjData) { return null; }
+        public ReportingData GetReportingDataOverview(int UserID) { return null; }
     }
 }

@@ -485,9 +485,9 @@ app.Charting = app.Charting || {};
                     '<tr>' +
                     '<td>' + item.Name() + '</td>' +
                     '<td>£ ' + item.Cost() + '</td>' +
-                    '<td>' + moment(item.ActStartDate()).format('YYYY-MMM-DD') + '</td>' +
-                    '<td>' + moment(item.ActEndDate()).format('YYYY-MMM-DD') + '</td>' +
-                    '<td>' + moment(item.CreatedOn()).format('YYYY-MMM-DD') + '</td>' +
+                    '<td>' + moment(item.ActStartDate()).format('DD-MMM-YYYY') + '</td>' +
+                    '<td>' + moment(item.ActEndDate()).format('DD-MMM-YYYY') + '</td>' +
+                    '<td>' + moment(item.CreatedOn()).format('DD-MMM-YYYY') + '</td>' +
                     '</tr>');
 
             });

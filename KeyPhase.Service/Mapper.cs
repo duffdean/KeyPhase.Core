@@ -171,5 +171,32 @@ namespace KeyPhase.Service
 
             return OverdueTasks;
         }
+
+        public static ReportingData MapReportingData(List<Project> Projects, List<Task> Tasks)
+        {
+            ReportingData data = new ReportingData() {
+                Projects = new List<BasicItem>(),
+                Tasks = new List<BasicItem>()
+            };
+
+            foreach (Project proj in Projects)
+            {
+                data.Projects.Add(new BasicItem() {
+                    ID = proj.ID,
+                    Name = proj.Name
+                });
+            }
+
+            foreach (Task task in Tasks)
+            {
+                data.Tasks.Add(new BasicItem()
+                {
+                    ID = task.ID,
+                    Name = task.Name
+                });
+            }
+
+            return data;
+        }
     }
 }

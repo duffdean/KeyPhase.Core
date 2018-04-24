@@ -15,6 +15,7 @@ app.View = app.View || {};
         vm.currentProject = ko.observable(null);
         vm.currentTask = ko.observable(null);
         vm.user = ko.observable(1);
+        vm.reportingData = ko.observable(null);
         
 
         
@@ -30,6 +31,10 @@ app.View = app.View || {};
         vm.postComment = page.helpers.PostComment;
         vm.createNew = page.helpers.CreateNew;
         vm.changeView = page.helpers.ChangeView;
+
+        vm.reportView = page.events.ReportView;
+        vm.reportCreate = page.events.ReportCreate;
+        vm.reportWizard = page.events.ReportsWizard;
 
         vm.createTask = page.events.CreateTask;
         vm.createProject = page.events.CreateProject;
@@ -174,6 +179,115 @@ app.View = app.View || {};
         viewModel: null,
 
         events: {
+            ReportsWizard: function (vm, elem) {
+                var currStep = $(elem.currentTarget), currCol, prog, params = {};
+
+                prog = $('.progressbar').find('li');
+
+                //currCol = currStep.closest('.wiz-col').attr('id');
+                //currCol++;
+
+                //$('#' + currCol + '').addClass('wiz-col-active');
+                
+                switch (currStep.text().trim().toLowerCase()) {
+                    case 'projects':
+                        prog.eq(1).addClass('active');
+                        $('.wiz-datacol').css("color", "white");
+                        $('.wiz-data-proj').fadeIn();
+                        $('.wiz').find('.wiz-col').eq(1).addClass('wiz-col-active');
+                        $('.wiz-data-task').hide();
+                        $('.wiz-source').eq(0).addClass('wiz-source-active');
+                        $('.wiz-source').eq(1).removeClass('wiz-source-active');
+                        break;
+                    case 'tasks':
+                        prog.eq(1).addClass('active');
+                        $('.wiz-datacol').css("color", "white");
+                        $('.wiz-data-proj').hide();
+                        $('.wiz').find('.wiz-col').eq(1).addClass('wiz-col-active')
+                        $('.wiz-data-task').fadeIn();
+                        $('.wiz-source').eq(1).addClass('wiz-source-active');
+                        $('.wiz-source').eq(0).removeClass('wiz-source-active');
+                        break;
+                    case 'next':
+                        if ($('.wiz').find('.wiz-col').eq(1).hasClass('wiz-col-active')) {
+                            if ($('.wiz').find('.wiz-col').eq(2).hasClass('wiz-col-active')) {
+                                $('.wiz').find('.wiz-col').eq(3).addClass('wiz-col-active');
+                                prog.eq(2).addClass('active');
+                            }
+                            else {
+                                if ($('#2').find('input:checked').length) {
+                                    prog.eq(2).addClass('active');
+                                    $('.wiz').find('.wiz-col').eq(2).addClass('wiz-col-active')
+                                }
+                            }
+                        }                        
+                        break;
+                    case 'previous':
+                        break;
+                    case 'generate':
+                        prog.eq(3).addClass('active');
+                        $('.wiz').find('.wiz-col').eq(3).addClass('wiz-col-active');
+
+                        params.StartDate = $('details').eq(0).find('input').eq(0).val();
+                        params.EndDate = $('details').eq(0).find('input').eq(1).val();                         
+                        params.MaxCost = $('details').eq(2).find('input').eq(1).val();
+                        params.MinCost = $('details').eq(2).find('input').eq(0).val();
+
+                        switch ($('.wiz-source-active').text().trim().toLowerCase()) {
+                            case 'projects':
+                                params.Projects = [];
+                                $('.wiz-data-proj').find('input:checked').each(function (i, item) {
+                                    params.Projects.push($(item).attr('id'));
+                                });
+                            
+                                 //projParams
+                                break;
+                            case 'tasks':
+                                params.Tasks = [];
+                                $('.wiz-data-task').find('input:checked').each(function (i, item) {
+                                    params.Tasks.push($(item).attr('id'));
+                                });
+
+                                $('.wiz-col').eq(2).find('input:checked').each(function (i, item) {
+                                    if (i == 0) {
+                                        $(item).is(':checked') ? params.Overdue = true : params.Overdue = false;
+                                    }
+                                    if (i == 1) {
+                                        params.DueIn = 1;
+                                    }
+                                    if (i == 2) {
+                                        params.DueIn = 7;
+                                    }
+                                    if (i == 3) {
+                                        params.DueIn = 30;
+                                    }
+                                });
+                                //taskParams
+                                break;
+                        }
+                        
+                        break;
+                }
+            },
+            ReportView: function (a, b, c) {
+                $('.viewReport').fadeIn();
+                $('.mainReport').fadeOut();
+            },
+            ReportCreate: function (a, b, c) {
+                viewModel.contentLoading(true);
+
+                return app.Controllers.Tasks.GetReportingData(viewModel.user().ID)
+                    .done(function (obj) {
+                        viewModel.reportingData(ko.mapping.fromJS(obj));
+                        $('.genReport').fadeIn();
+                        $('.mainReport').fadeOut();
+                        viewModel.contentLoading(false);
+                    })
+                    .always(function () {
+
+                    });
+               
+            },
             CreateTask: function (a, b, c) {
                 var name, start, end, phase, cost;
 
@@ -257,7 +371,9 @@ app.View = app.View || {};
                 });
             },
             DragDrop: function () {
-                $(".tasktest").draggable({ cursor: "crosshair", revert: "invalid" });
+                $(".tester").sortable();
+
+                $(".tasktest").draggable({ helper: "clone" /*cursor: "crosshair", revert: "invalid" */});
 
                 $(".tester").droppable({
                     accept: ".tasktest",
@@ -282,8 +398,6 @@ app.View = app.View || {};
                         $(this).removeClass("over");
                     }
                 });
-
-                $(".tester").sortable();
             },
             CreateDefaultLayout: function (data, elem) {
                 var isProj = $(elem.currentTarget).hasClass('crtd-Task');
@@ -564,6 +678,7 @@ app.View = app.View || {};
                         case viewModel.KPSettings().Pages.Stream:
                             break;
                         case viewModel.KPSettings().Pages.Reports:
+                            viewModel.contentLoading(false);
                             break;
                     }
                 }

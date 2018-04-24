@@ -319,7 +319,10 @@
     height: 45px;
     background: #454e67;
     border-radius: 5px;
-    width: 95%;
+    margin-left: 10px;
+    margin-right: 10px;
+    min-width: 250px;
+    max-width: 260px;
     margin: auto;
     /* box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.12); */
     margin-bottom: 10px;
@@ -543,4 +546,124 @@ cursor:pointer;
     right: 10px;
     /* padding: 0px; */
     width: 35px;
+}
+
+.wizcontainer {
+    width: 600px;
+    margin: 35px auto;
+    display: grid;
+}
+
+.progressbar {
+    counter-reset: step;
+}
+
+    .progressbar li {
+        list-style-type: none;
+        width: 25%;
+        float: left;
+        font-size: 12px;
+        position: relative;
+        text-align: center;
+        text-transform: uppercase;
+        color: #7d7d7d;
+    }
+
+        .progressbar li:before {
+            width: 30px;
+            height: 30px;
+            content: '';
+            counter-increment: step;
+            line-height: 30px;
+            border: 2px solid #7d7d7d;
+            display: block;
+            text-align: center;
+            margin: 0 auto 10px auto;
+            border-radius: 50%;
+            background-color: white;
+        }
+
+        .progressbar li:after {
+            width: 100%;
+            height: 2px;
+            content: '';
+            position: absolute;
+            background-color: #7d7d7d;
+            top: 15px;
+            left: -50%;
+            z-index: -1;
+        }
+
+        .progressbar li:first-child:after {
+            content: none;
+        }
+
+        .progressbar li.active {
+            color: #1bb9e1;
+        }
+
+            .progressbar li.active:before {
+                border-color: #1bb9e1;
+            }
+
+            .progressbar li.active + li:after {
+                background-color: #1bb9e1;
+            }
+
+.viewReport {
+display:none;
+}
+.genReport {
+    display: none;
+}
+.mrgTopBar {
+    margin-top: 52px;
+}
+
+.wizIcon {
+    position: absolute;
+    top: 7px;
+    left: 62px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.wiz-datacol {
+    color: #6161614a;
+}
+.wiz-data-proj {
+    display:none;
+}
+.wiz-data-task {
+    display: none;
+}
+.wiz-source {
+    height: 45px;
+    font-size: 16px;
+    font-weight: 100;
+    line-height: 40px;
+}
+.wiz-col {
+    height: 300px;
+    background: #3236415c;
+    border-style: dashed;
+    border-width: 1px;
+    border-color: grey;
+    color: #6161614a;
+    overflow-y: auto;
+    padding-bottom: 10px;
+}
+.wiz-col-active {
+    background: #454e67 !important;
+    color: white !important;
+}
+.wiz-source-active {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #8c8989;
+    border-radius: 5px;
+}
+.wiz-checkall {
+    font-size: 12px;
+    padding: 0px 10px 0px 0px;
 }

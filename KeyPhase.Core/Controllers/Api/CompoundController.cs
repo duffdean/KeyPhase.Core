@@ -76,5 +76,29 @@ namespace KeyPhase.Core.Controllers.Api
         {
             return _combinedService.GetTasksPerProject(UserID);
         }
+
+        [HttpGet("GetReportingData")]
+        public ReportingData GetReportingData(int UserID)
+        {
+            return _combinedService.GetReportingData(UserID);
+        }
+
+        [HttpPost("GetProjectReportingData")]
+        public ReportingData GetProjectReportingData(ReportingDataTask TaskData)
+        {
+            return _combinedService.GetProjectReportingData(TaskData);
+        }
+
+        [HttpPost("GetTaskReportingData")]
+        public ReportingData GetTaskReportingData(ReportingDataProject ProjData)
+        {
+            return _combinedService.GetTaskReportingData(ProjData);
+        }
+
+        [HttpGet("GetReportingDataOverview")]
+        public ReportingData GetReportingDataOverview(int UserID)
+        {
+            return _combinedService.GetReportingDataOverview(UserID);
+        }
     }
 }

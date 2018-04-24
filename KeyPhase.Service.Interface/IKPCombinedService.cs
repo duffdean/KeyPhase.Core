@@ -18,6 +18,10 @@ namespace KeyPhase.Service.Interface
         ProjectDetailed AddTask(int UserID, string Name, DateTime EstStartDT, DateTime EstEndDT, int PhaseID, int ProjectID, double? Budget);
         ProjectOverview CreateDefaultCoreLayout(int UserID);
         List<DashTaskPerProject> GetTasksPerProject(int UserID);
+        ReportingData GetReportingData(int UserID);
+        ReportingData GetProjectReportingData(ReportingDataTask TaskData);
+        ReportingData GetTaskReportingData(ReportingDataProject ProjData);
+        ReportingData GetReportingDataOverview(int UserID);
         //IEnumerable<Task> GetAll();
         //IEnumerable<Task> GetAllForProject(int ProjectID);
     }
