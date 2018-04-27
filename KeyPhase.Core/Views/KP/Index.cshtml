@@ -504,7 +504,7 @@
                 </div>
                 <!-- /ko -->
                 <!-- ko foreach: { data: $data.PhaseTasks, as: 's' } -->
-                <div class="projPhase">
+                <div class="projPhase" data-bind="attr: { 'data-projID': s.ID() }">
                     <div style="cursor: pointer;font-size: 18px;font-weight: 100;    text-align: center;  padding: 5px 0px 10px 0px;" data-bind="text: s.Name">
                     </div>
                     <div class="tester" style="max-height: 515px; overflow-y: auto; min-height: 25px;">
@@ -518,7 +518,7 @@
             </div>
             <!-- /ko -->
             <!--ko if: $root.currentView() == 'gantt'-->
-            <div class="row" ">
+            <div class="row">
                 <div class="col-xs-12 proj-gantt" style="margin-top:15px;"></div>
             </div>
             <!-- /ko -->
@@ -541,7 +541,12 @@
     <!--/ko-->
 
     <!--ko if: currentPage() == 'reports'-->
-    <div class="row ca ca-dash">
+    <div class="row" style="    background-color: #1b1e23;">
+        <div style="
+    position: absolute;
+    top: 70px;
+    left: 5%;
+">CREATE NEW</div>
         <div style="
     text-align: center;
     font-size: 30px;
@@ -550,7 +555,48 @@
     padding-bottom: 10px;
     margin-top: 52px;
     ">Reports</div>
-        <div class="viewReport "></div>
+        <div class="viewReport " style="display: block;">
+
+            <div class="row" style="margin: 0px;">
+                <div class="col-xs-8">
+                    <!--ko with: currentReport-->
+                    <div class="dash-card-title" data-bind="text: $data.Title"></div>
+                    <div id="currentReport" style="height: 510px; padding: 0px; padding: 15px 15px 15px 15px;"></div>
+                    <!--/ko-->
+
+                </div>
+                <!--ko with : reportsOverview-->
+                <div class="col-xs-4">
+                    <div style=" overflow-y: auto;
+    height: 510px;
+">
+                        <div class="dash-card-title">Available Reports</div>
+                        <table class="table" style=" font-size: 12px; font-weight: 100; width:98%">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Report</th>
+                                    <th scope="col">Created On</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody style=" height: 248px;  overflow: auto;">
+                                <!-- ko foreach: { data: $data, as: 'r' } -->
+                                <tr>
+                                    <td data-bind="text: r.Name"></td>
+                                    <td data-bind="text: r.CreatedOn"></td>
+                                    <td data-bind="click: $root.loadNewReport">Load Chart</td>
+                                </tr>
+                                <!--/ko-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--/ko-->
+                <div></div>
+            </div>
+
+
+        </div>
         <div class="genReport ">
             <div class="wizcontainer">
                 <ul class="progressbar">
@@ -565,22 +611,22 @@
                 </ul>
             </div>
             <div class="wiz">
-                <div class="col-xs-2 wiz-col wiz-col-active col-xs-offset-2" id="1"  style="padding-top: 25px;">
+                <div class="col-xs-2 wiz-col wiz-col-active col-xs-offset-2" id="1" style="padding-top: 25px;">
                     <div class="wiz-source" data-bind="click: reportWizard">
                         <span class="col-xs-2 lnr lnr-list" style="line-height:40px"></span>
                         <div class="col-xs-10">Projects</div>
                     </div>
-                    
+
                     <div class="wiz-source" data-bind="click: reportWizard">
                         <span class="col-xs-2 lnr lnr-list" style="line-height:40px"></span>
                         <div class="col-xs-10">Tasks</div>
                     </div>
                 </div>
 
-                <div class="col-xs-2 wiz-col wiz-datacol" id="2" style="overflow-y:auto;">                   
+                <div class="col-xs-2 wiz-col wiz-datacol" id="2" style="overflow-y:auto;">
                     <div class="col-xs-12 ">
                         <div style="margin: 5px 0px 10px 0px;text-align: center;">
-                            <span class="wiz-checkall">Check All</span> 
+                            <span class="wiz-checkall">Check All</span>
                             <span class="wiz-checkall">Uncheck All</span>
                         </div>
 
@@ -596,7 +642,7 @@
                         <div class="wiz-data-task">
                             <!-- ko foreach: { data: $data.Tasks(), as: 't' } -->
                             <label style="font-size: 12px; font-weight: 100; display: block;">
-                                <input type="checkbox" data-bind="attr: { id: t.ID() }"/>
+                                <input type="checkbox" data-bind="attr: { id: t.ID() }" />
                                 <!-- ko text: t.Name() --><!-- /ko -->
                             </label>
                             <!--/ko-->
@@ -604,7 +650,7 @@
                         <!--/ko-->
                     </div>
                 </div>
-                <div class="col-xs-2 wiz-col" id="3" >
+                <div class="col-xs-2 wiz-col" id="3">
                     <div class="col-xs-12" style="    margin: 5px 0px 0px 0px;">
                         <details style="padding-top: 10px;">
                             <summary style="    padding-bottom: 10px;">Date Range</summary>
@@ -632,11 +678,11 @@
     font-weight: 100;">
                             </div>
                             <div style="padding-top: 10px;">
-                                    <span style="font-weight: 100;">End date</span>
-                                    <i class="glyphicon glyphicon-calendar" style="float: right;
+                                <span style="font-weight: 100;">End date</span>
+                                <i class="glyphicon glyphicon-calendar" style="float: right;
         top: 30px;
         padding-right: 10px;"></i>
-                                    <input type="text" class="kp-date" style="border: none;
+                                <input type="text" class="kp-date" style="border: none;
         padding: 0;
         display: table-cell;
         width: 100%;
@@ -726,7 +772,28 @@
                 </div>
                 <div class="col-xs-2 wiz-col" id="4">
                     <div style="
-    margin-top: 110px;
+    margin-top: 25px;
+">
+                        <span style="font-weight: 100;">Report Name</span>
+                        <input type="text" class="kp-date" style="border: none;
+    padding: 0;
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: text;
+    position: relative;
+    box-sizing: border-box;
+    background-color: transparent;
+    /* border: none; */
+    /* border-bottom: 1px solid rgba(255,255,255,.5); */
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,.5);
+    height: 35px;
+    padding-left: 10px;
+    font-weight: 100;">
+                    </div><div style="
+    margin-top: 50px;
     text-align: center;
 ">
                         <span class="lnr lnr-chart-bars" style="
@@ -966,11 +1033,11 @@
                 <div class="popup-task-history" style="background: #3a4258; margin: 10px 10px 10px 10px;border-radius: 5px; overflow-y: auto; height: 350px" ;>
                     <div style="overflow-y: auto; height: 300px;     padding-top: 10px;">
                         <!-- ko foreach: { data: $data.TaskHistory, as: 'history' } -->
-                        <div class="tasktest projPhase-item">
+                        <div class="tasktest hist-item">
                             <div class="col-xs-1">
                                 <div class="card-avatar"> <div data-bind="text: history.User.FullName()"></div></div>
                             </div>
-                            <div class="col-xs-11" style=" height: 100%; ">
+                            <div class="col-xs-10" style=" height: 100%; ">
                                 <div style=" height: 30px; line-height: 35px; font-weight: 100; font-size: 14px;" data-bind="text: history.Value()"></div>
                                 <div style="height: 12px; font-size: 10px; float: right; line-height: 5px;" data-bind="text: history.DateFormatted()"></div>
                             </div>

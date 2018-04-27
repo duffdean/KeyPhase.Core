@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KeyPhase.Models.DTO;
+using KeyPhase.Models.DTO.Reports;
 using KeyPhase.Models.Models;
 using KeyPhase.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -84,21 +85,34 @@ namespace KeyPhase.Core.Controllers.Api
         }
 
         [HttpPost("GetProjectReportingData")]
-        public ReportingData GetProjectReportingData(ReportingDataTask TaskData)
+        public ReportingData GetProjectReportingData(ReportingDataProject ProjData)
         {
-            return _combinedService.GetProjectReportingData(TaskData);
+            return _combinedService.GetProjectReportingData(ProjData);
         }
 
         [HttpPost("GetTaskReportingData")]
-        public ReportingData GetTaskReportingData(ReportingDataProject ProjData)
+        public ChartData GetTaskReportingData(int[] Tasks, DateTime StartDate, DateTime EndDate, double MinCost, 
+            double MaxCost, bool Overdue, int DueIn, string ReportName, int UserID)
         {
-            return _combinedService.GetTaskReportingData(ProjData);
+            return _combinedService.GetTaskReportingData(Tasks, StartDate, EndDate, MinCost, MaxCost, Overdue, DueIn, ReportName, UserID);
         }
 
         [HttpGet("GetReportingDataOverview")]
-        public ReportingData GetReportingDataOverview(int UserID)
+        public List<ReportOverview> GetReportingDataOverview(int UserID)
         {
             return _combinedService.GetReportingDataOverview(UserID);
+        }
+
+        [HttpGet("GetReportByID")]
+        public ChartData GetReportByID(int ReportID)
+        {
+            return _combinedService.GetReportByID(ReportID);
+        }
+
+        [HttpGet("TaskPhaseHistory")]
+        public void TaskPhaseHistory(int PrevPhase, int CurrPhase, int TaskID, int UserID)
+        {
+            _combinedService.TaskPhaseHistory(PrevPhase, CurrPhase, TaskID, UserID);
         }
     }
 }

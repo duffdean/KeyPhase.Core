@@ -19,7 +19,8 @@
 
 .kp {
     position: absolute;
-    background-color: rgb(50, 54, 65);
+    background-color: rgb(27, 30, 35);
+    /*background-color: rgb(50, 54, 65);*/
     top: 0;
     left: 0;
     height: 100vh;
@@ -83,15 +84,14 @@
     margin: 15px;
 }
 .kp-profile-icon {
-    /* content: attr(data-letters); */
     /* display: inline-block; */
     /* font-size: 1em; */
-    width: 2.5em;
-    height: 2.5em;
-    line-height: 2.5em;
+    width: 37px;
+    height: 37px;
+    line-height: 36px;
     text-align: center;
-    border-radius: 50%;
-    /*background: #d23b65;*/
+    border-radius: 25px;
+    /* background: #d23b65; */
     /* vertical-align: middle; */
     /* margin-right: 1em; */
     color: white;
@@ -287,7 +287,7 @@
     position: sticky;
     float: right;
     padding-right: 5px;
-    top: 50vh;
+    top: 335px;
     font-size: 10px;
     cursor: pointer;
     height: 25px;
@@ -333,6 +333,27 @@
     .projPhase-item:hover {
         border: 2px solid #474d5d;
     }
+
+.hist-item {
+    height: 45px;
+    background: #454e67;
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    min-width: 250px;
+    max-width: 390px;
+    margin: auto;
+    /* box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.12); */
+    margin-bottom: 10px;
+    border: 2px solid transparent;
+    transition: border 0.4s;
+    /* padding: 15px !important; */
+}
+
+    .hist-item:hover {
+        border: 2px solid #474d5d;
+    }
+
 .popup-task-title {
     width: 97%;
     text-align: center;
@@ -480,7 +501,7 @@ tr:nth-child(even) {
 
 .chatContainer {
     background: #323641;
-    height: 50vh;
+    height: 335px;
 }
 
 .chatContainer-frame {

@@ -5,6 +5,35 @@ app.Controllers = app.Controllers || {};
     'use strict';
 
     app.Controllers.Tasks = {
+        TaskPhaseHistory: function (prevPhase, currPhase, taskID, userID) {
+            return $.ajax({
+                url: app.Global.BaseAddress + app.Global.Controllers.Compound + "TaskPhaseHistory",
+                type: "GET",
+                data: {
+                    PrevPhase: prevPhase,
+                    CurrPhase: currPhase,
+                    TaskID: taskID,
+                    UserID: userID
+                }
+            }).done(function (obj) {
+
+            }).fail(function (obj) {
+
+            });
+        },
+        GetReportByID: function (reportID) {
+            return $.ajax({
+                url: app.Global.BaseAddress + app.Global.Controllers.Compound + "GetReportByID",
+                type: "GET",
+                data: {
+                    ReportID: reportID
+                }
+            }).done(function (obj) {
+
+            }).fail(function (obj) {
+
+            });
+        },
         GetReportingDataOverview: function (userID) {
             return $.ajax({
                 url: app.Global.BaseAddress + app.Global.Controllers.Compound + "GetReportingDataOverview",
@@ -17,14 +46,22 @@ app.Controllers = app.Controllers || {};
             }).fail(function (obj) {
 
             });
-        },
-        GetTaskReportingData: function (taskData) {
+        },//string Tasks, DateTime StartDate, DateTime EndDate, double MinCost, double MaxCost, bool Overdue, int DueIn
+        GetTaskReportingData: function (tasks, startDT, endDT, minCost, maxCost, overdue, dueIn, reportName, userID) {
             return $.ajax({
                 url: app.Global.BaseAddress + app.Global.Controllers.Compound + "GetTaskReportingData",
                 type: "POST",
                 dataType: 'json',
                 data: {
-                    TaskData: taskData
+                    "Tasks": tasks,
+                    "StartDate": startDT,
+                    "EndDate": endDT,
+                    "MinCost": minCost,
+                    "MaxCost": maxCost,
+                    "Overdue": overdue,
+                    "DueIn": dueIn,
+                    "ReportName": reportName,
+                    "UserID": userID
                 }
             }).done(function (obj) {
 

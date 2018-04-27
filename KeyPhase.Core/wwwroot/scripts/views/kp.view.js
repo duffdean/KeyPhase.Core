@@ -16,9 +16,12 @@ app.View = app.View || {};
         vm.currentTask = ko.observable(null);
         vm.user = ko.observable(1);
         vm.reportingData = ko.observable(null);
-        
+        vm.currentReport = ko.observable(null);
+        vm.reportsOverview = ko.observable(null);
+        vm.previousPhase = ko.observable(null);
 
-        
+
+        vm.loadNewReport = page.helpers.LoadNewReport;
         vm.signout = page.helpers.Signout;
         vm.closePopup = page.helpers.ClosePopup;
         vm.taskPopup = page.helpers.TaskPopup;
@@ -31,6 +34,7 @@ app.View = app.View || {};
         vm.postComment = page.helpers.PostComment;
         vm.createNew = page.helpers.CreateNew;
         vm.changeView = page.helpers.ChangeView;
+
 
         vm.reportView = page.events.ReportView;
         vm.reportCreate = page.events.ReportCreate;
@@ -114,6 +118,7 @@ app.View = app.View || {};
             },
             UpdateTaskPhase: function (phaseID, taskID) {
                 app.Controllers.Tasks.UpdateTaskPhase(phaseID, taskID);
+                app.Controllers.Tasks.TaskPhaseHistory(viewModel.previousPhase(), phaseID, taskID, viewModel.user().ID);
             }
         },
         //May not need any mappers now, as data is retruned as json by default. So can probably get away with ko.fromJS mapping.
@@ -232,6 +237,7 @@ app.View = app.View || {};
                         params.EndDate = $('details').eq(0).find('input').eq(1).val();                         
                         params.MaxCost = $('details').eq(2).find('input').eq(1).val();
                         params.MinCost = $('details').eq(2).find('input').eq(0).val();
+                        params.ReportName = $('.wiz-col').eq(3).find('input').val();
 
                         switch ($('.wiz-source-active').text().trim().toLowerCase()) {
                             case 'projects':
@@ -262,6 +268,30 @@ app.View = app.View || {};
                                         params.DueIn = 30;
                                     }
                                 });
+
+                                viewModel.contentLoading(true);
+
+                                return app.Controllers.Tasks.GetTaskReportingData(params.Tasks, params.StartDate, params.EndDate,
+                                    params.MinCost, params.MaxCost, params.Overdue, params.DueIn, params.ReportName, viewModel.user().ID)
+                                    .done(function (obj) {
+                                        viewModel.currentReport(obj);
+                                        $('.viewReport ').show();
+                                        $('.genReport ').fadeOut();
+                                        app.Charting.ReportingPageCurrent(obj);
+                                        
+                                        app.Controllers.Tasks.GetReportingDataOverview(viewModel.user().ID)
+                                            .done(function (obj) {
+                                                viewModel.reportsOverview(obj);
+                                                viewModel.contentLoading(false);
+                                            })
+                                            .always(function () {
+                                            });
+
+                                        viewModel.contentLoading(false);
+                                    })
+                                    .always(function () {
+                                    });
+                                //
                                 //taskParams
                                 break;
                         }
@@ -270,6 +300,32 @@ app.View = app.View || {};
                 }
             },
             ReportView: function (a, b, c) {
+                viewModel.contentLoading(true);
+
+                app.Controllers.Tasks.GetReportingDataOverview(viewModel.user().ID)
+                    .done(function (obj) {
+                        viewModel.reportsOverview(obj);
+
+                        if (viewModel.reportsOverview().length) {
+                            return app.Controllers.Tasks.GetReportByID(viewModel.reportsOverview()[0].ID)  //viewModel.reportsOverview()[viewModel.reportsOverview().length - 1].ID
+                                .done(function (obj) {
+                                    viewModel.currentReport(obj);
+                                    app.Charting.ReportingPageCurrent(obj);
+                                    viewModel.contentLoading(false);
+                                })
+                                .always(function () {
+                                });
+                        }
+                        else {
+                            $('.genReport').fadeIn();
+                            $('.mainReport').fadeOut();
+                        }
+
+                        viewModel.contentLoading(false);
+                    })
+                    .always(function () {
+                    });
+
                 $('.viewReport').fadeIn();
                 $('.mainReport').fadeOut();
             },
@@ -373,12 +429,19 @@ app.View = app.View || {};
             DragDrop: function () {
                 $(".tester").sortable();
 
-                $(".tasktest").draggable({ helper: "clone" /*cursor: "crosshair", revert: "invalid" */});
+                $(".tasktest").draggable({
+                    helper: "clone",
+                    start: function (event, ui) {
+                        viewModel.previousPhase($(this).closest('.projPhase').attr('data-projid'));
+                    }
+                    /*cursor: "crosshair", revert: "invalid" */
+});
 
                 $(".tester").droppable({
                     accept: ".tasktest",
                     drop: function (event, ui, a, b) {
                         //Figure out what is being dropped first then perform some actions
+                        debugger;
                         vmFunctions.events.UpdateTaskPhase(ko.dataFor(event.target).ID(), ko.dataFor(ui.draggable[0]).ID());
                         ko.dataFor(ui.draggable[0]).ID(); //ID of dropped task.
                         ko.dataFor(event.target).ID(); //ID of the location task was dropped.
@@ -554,6 +617,17 @@ app.View = app.View || {};
         },
 
         helpers: {
+            LoadNewReport: function (vm) {
+                viewModel.contentLoading(true);
+                return app.Controllers.Tasks.GetReportByID(vm.ID)
+                    .done(function (obj) {
+                        viewModel.currentReport(obj);
+                        app.Charting.ReportingPageCurrent(obj);
+                        viewModel.contentLoading(false);
+                    })
+                    .always(function () {
+                    });
+            },
             Signout: function () {
                 $.removeCookie('KPUser');
                 window.location = "http://www.keyphase.net"
@@ -678,6 +752,8 @@ app.View = app.View || {};
                         case viewModel.KPSettings().Pages.Stream:
                             break;
                         case viewModel.KPSettings().Pages.Reports:
+                            $('.viewReport').hide();
+                            $('.genReport').hide();
                             viewModel.contentLoading(false);
                             break;
                     }

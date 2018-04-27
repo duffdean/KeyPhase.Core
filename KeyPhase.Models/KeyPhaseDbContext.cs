@@ -24,6 +24,8 @@ namespace KeyPhase.Models
         public virtual DbSet<Team> Team{ get; set; }
         public virtual DbSet<TeamProject> TeamProject{ get; set; }
         public virtual DbSet<TeamUser> TeamUser{ get; set; }
+        public virtual DbSet<Report> Report { get; set; }
+        public virtual DbSet<UserReport> UserReport{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -68,6 +70,12 @@ namespace KeyPhase.Models
 
             modelBuilder.Entity<TeamUser>()
                 .HasKey(x => new { x.TeamID, x.UserID });
+
+            modelBuilder.Entity<Report>()
+                .HasKey(b => b.ID);
+
+            modelBuilder.Entity<UserReport>()
+                .HasKey(x => new { x.UserID, x.ReportID});
         }
     }
 }
